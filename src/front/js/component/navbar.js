@@ -8,7 +8,9 @@ import LinkContainer from "react-bootstrap/Nav";
 export default function Mynavbar() {
 	return (
 		<Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-			<Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
+			<Navbar.Brand href="#home">
+				<Link to="/">Ipadel</Link>
+			</Navbar.Brand>
 			<Navbar.Toggle aria-controls="responsive-navbar-nav" />
 			<Navbar.Collapse id="responsive-navbar-nav">
 				<Nav className="mr-auto">
@@ -24,7 +26,7 @@ export default function Mynavbar() {
 
 					<Nav.Link href="#deets">More deets</Nav.Link>
 					<Link to="/singUpForm">
-						<button className="btn btn-primary">Sing Up</button>
+						<button className="btn btn-primary align-self: flex-end">Sing Up</button>
 					</Link>
 				</Nav>
 			</Navbar.Collapse>
