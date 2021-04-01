@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import ScrollToTop from "./component/scrollToTop";
-
+import Sign from "./pages/sign";
 import { Home } from "./pages/home";
 import SingUpForm from "./pages/singUpForm";
 import { Demo } from "./pages/demo";
@@ -21,16 +21,23 @@ const Layout = () => {
 		<div className="d-flex flex-column h-100">
 			<BrowserRouter basename={basename}>
 				<ScrollToTop>
-					<Mynavbar />
 					<Switch>
 						<Route exact path="/">
+							<Mynavbar />
+							<Home />
+						</Route>
+						<Route exact path="/sign">
+							<Sign />
+						</Route>
+						<Route exact path="/home">
+							<Mynavbar />
 							<Home />
 						</Route>
 						<Route exact path="/demo">
 							<Demo />
 						</Route>
-						<Route exact path="/singUpForm">
-							<SingUpForm />
+						<Route exact path="/sing">
+							<Sign />
 						</Route>
 						<Route exact path="/single/:theid">
 							<Single />

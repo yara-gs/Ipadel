@@ -4,12 +4,19 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Nav from "react-bootstrap/Nav";
 import LinkContainer from "react-bootstrap/Nav";
+import "../../styles/navbar.scss";
+import LogoiPadel from "../component/logoiPadel.jsx";
 
 export default function Mynavbar() {
 	return (
 		<Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
 			<Navbar.Brand href="#home">
-				<Link to="/">Ipadel</Link>
+				<Link to="/">
+					<span className="iPadel ">
+						<LogoiPadel />
+					</span>
+					<p className="slogan">padel social network </p>
+				</Link>
 			</Navbar.Brand>
 			<Navbar.Toggle aria-controls="responsive-navbar-nav" />
 			<Navbar.Collapse id="responsive-navbar-nav">
@@ -25,7 +32,7 @@ export default function Mynavbar() {
 					</NavDropdown>
 
 					<Nav.Link href="#deets">More deets</Nav.Link>
-					<Link to="/singUpForm">
+					<Link to="/sign">
 						<button className="btn btn-primary align-self: flex-end">Sing Up</button>
 					</Link>
 				</Nav>
