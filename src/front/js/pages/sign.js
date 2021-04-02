@@ -9,6 +9,18 @@ import TennisBall from "../../img/tennisball.png";
 export default function Sign() {
 	const [signUpMode, setSignUpMode] = useState(false);
 
+	fetch("https://3001-apricot-panther-h75j6m3a.ws-eu03.gitpod.io/api/sign", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify({
+			username: username,
+			email: email,
+			password: password
+		})
+	});
+
 	return (
 		<div className={signUpMode ? "containertest sign-up-mode" : "containertest"}>
 			<div className="forms-container">
