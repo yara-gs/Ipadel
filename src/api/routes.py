@@ -20,5 +20,5 @@ def handle_hello():
 @api.route('/sign', methods = ['POST'])
 def sign():
     body = request.get_json()
-    User.create_user(body ["username"], body ["email"], body ["password"])
+    User.create_user(body["username"], body["email"], body["password"])
     return jsonify({}), 200
