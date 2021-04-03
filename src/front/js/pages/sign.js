@@ -8,18 +8,9 @@ import TennisBall from "../../img/tennisball.png";
 
 export default function Sign() {
 	const [signUpMode, setSignUpMode] = useState(false);
-
-	fetch("https://3001-apricot-panther-h75j6m3a.ws-eu03.gitpod.io/api/sign", {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json"
-		},
-		body: JSON.stringify({
-			username: username,
-			email: email,
-			password: password
-		})
-	});
+	const [username, setUsername] = useState("");
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
 
 	return (
 		<div className={signUpMode ? "containertest sign-up-mode" : "containertest"}>
@@ -56,17 +47,52 @@ export default function Sign() {
 						<h2 className="title">Crear cuenta</h2>
 						<div className="input-field">
 							<i className="fas fa-user" />
-							<input type="text" placeholder="Username" />
+							<input
+								type="text"
+								placeholder="Username"
+								onChange={event => {
+									setUsername(event.target.value);
+								}}
+							/>
 						</div>
 						<div className="input-field">
 							<i className="fas fa-envelope" />
-							<input type="email" placeholder="Email" />
+							<input
+								type="email"
+								placeholder="Email"
+								onChange={event => {
+									setEmail(event.target.value);
+								}}
+							/>
 						</div>
 						<div className="input-field">
 							<i className="fas fa-lock" />
-							<input type="password" placeholder="Password" />
+							<input
+								type="password"
+								placeholder="Password"
+								onChange={event => {
+									setPassword(event.target.value);
+								}}
+							/>
 						</div>
-						<input type="submit" className="btn" value="Sign up" />
+						<input
+							type="submit"
+							className="btn"
+							value="Sign up"
+							onClick={() => {
+								fetch("https://3001-apricot-panther-h75j6m3a.ws-eu03.gitpod.io/api/sign", {
+									method: "POST",
+									headers: {
+										"Content-Type": "application/json"
+									},
+									body: JSON.stringify({
+										username: username,
+										email: email,
+										password: password
+									})
+								});
+							}}
+						/>
 						<p className="social-text">Or Sign up with social platforms</p>
 						<div className="social-media">
 							<a href="#" className="social-icon">
