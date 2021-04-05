@@ -19,16 +19,12 @@ export default function Sign() {
 			email: email,
 			password: password
 		};
-		fetch(process.env.BACKEND_URL + "api/sign", {
+		fetch(process.env.BACKEND_URL + "/api/sign", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json"
 			},
-			body: JSON.stringify({
-				username: username,
-				email: email,
-				password: password
-			})
+			body: JSON.stringify(body)
 		});
 	}
 
