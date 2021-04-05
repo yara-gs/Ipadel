@@ -12,6 +12,26 @@ export default function Sign() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
+	//POST TODO
+	function createUser() {
+		let body = {
+			username: username,
+			email: email,
+			password: password
+		};
+		fetch(process.env.BACKEND_URL + "api/sign", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify({
+				username: username,
+				email: email,
+				password: password
+			})
+		});
+	}
+
 	return (
 		<div className={signUpMode ? "containertest sign-up-mode" : "containertest"}>
 			<div className="forms-container">
@@ -75,24 +95,7 @@ export default function Sign() {
 								}}
 							/>
 						</div>
-						<input
-							type="submit"
-							className="btn"
-							value="Sign up"
-							onClick={() => {
-								fetch("https://3001-apricot-panther-h75j6m3a.ws-eu03.gitpod.io/api/sign", {
-									method: "POST",
-									headers: {
-										"Content-Type": "application/json"
-									},
-									body: JSON.stringify({
-										username: username,
-										email: email,
-										password: password
-									})
-								});
-							}}
-						/>
+						<input type="submit" className="btn" value="Sign up" onClick={() => createUser()} />
 						<p className="social-text">Or Sign up with social platforms</p>
 						<div className="social-media">
 							<a href="#" className="social-icon">
