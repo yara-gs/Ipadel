@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import ScrollToTop from "./component/scrollToTop";
-import Sign from "./pages/sign";
+import Sign from "./pages/signup_login";
 import { Home } from "./pages/home";
 import SingUpForm from "./pages/singUpForm";
 import { Demo } from "./pages/demo";

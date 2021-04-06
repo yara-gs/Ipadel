@@ -22,3 +22,10 @@ def sign():
     body = request.get_json()
     User.create_user(body["username"], body["email"], body["password"])
     return jsonify({}), 200
+
+@api.route('/login', methods = ['POST'])
+def login():
+    username = request.json.get("username", None)
+    password = request.json.get("password", None)
+    if username != "test" or password != "test":
+        return jsonify ({})
