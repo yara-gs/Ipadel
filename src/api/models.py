@@ -11,11 +11,14 @@ class User(db.Model):
 
     @classmethod
     def create_user(cls, username, email, password):
-        user= cls()
-        user.username= username
-        user.email= email
-        user.password= password
-        user.is_active= True
+        user= cls(username, email, password)
+        
+        db.session.add(user)
+        db.session.commit()
+
+    @classmethod
+    def get_login_with_credentials(cls, username, password):
+        return cls.query.filter_by(username=username).filter_by(password=password).one_or_none()
         
         db.session.add(user)
         db.session.commit()
