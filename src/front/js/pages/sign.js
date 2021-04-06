@@ -13,25 +13,39 @@ export default function Sign() {
     const [password, setPassword] = useState("");
 
     //POST TODO
-	function createUser() {
-		let body = {
-			username: username,
-			email: email,
-			password: password
-		};
-		fetch(process.env.BACKEND_URL + "/api/sign", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify(body)
-		});
-	}
+    function createUser() {
+        let body = {
+            username: username,
+            email: email,
+            password: password
+        };
+        fetch(process.env.BACKEND_URL + "/api/sign", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body)
+        });
+    }
 
     export default function Login() {
         const [signUpMode, setSignUpMode] = useState(false);
         const [username, setUsername] = useState("");
         const [password, setPassword] = useState("");
+
+        function logUser() {
+            let body = {
+                username: username,
+                password: password
+            };
+            fetch(process.env.BACKEND_URL + "/api/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(body)
+            });
+        }
 
         return (
             <div className={signUpMode ? "containertest sign-up-mode" : "containertest"}>
@@ -52,7 +66,8 @@ export default function Sign() {
                                 }} />
                             </div>
                             <input type="submit" value="Login" className="btn solid"
-                                onClick={() => {createUser()
+                                onClick={() => {
+                                    logUser()
 
                                 }} />
                             <p className="social-text">Or Sign in with social platforms</p>
@@ -107,19 +122,7 @@ export default function Sign() {
                                 type="submit"
                                 className="btn"
                                 value="Sign up"
-                                onClick={() => {
-                                    fetch("https://3001-apricot-panther-h75j6m3a.ws-eu03.gitpod.io/api/sign", {
-                                        method: "POST",
-                                        headers: {
-                                            "Content-Type": "application/json"
-                                        },
-                                        body: JSON.stringify({
-                                            username: username,
-                                            email: email,
-                                            password: password
-                                        })
-                                    });
-                                }}
+                                onClick={() => createUser()}
                             />
                             <p className="social-text">Or Sign up with social platforms</p>
                             <div className="social-media">
