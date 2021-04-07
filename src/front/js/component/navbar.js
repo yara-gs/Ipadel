@@ -35,6 +35,9 @@ export default function Mynavbar() {
 					<Link to="/sign">
 						<button className="btn btn-primary align-self: flex-end">Sing Up</button>
 					</Link>
+                    <Link to="/profile">
+						<button className="btn btn-primary align-self: flex-end">Perfil</button>
+					</Link>
 				</Nav>
 			</Navbar.Collapse>
 		</Navbar>

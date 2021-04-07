@@ -1,34 +1,66 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import "../../styles/sign.scss";
 
 import SignUpSvg from "../component/signUp_svg.jsx";
 import SignInSvg from "../component/signIn_svg.jsx";
 import LogoiPadel from "../component/logoiPadel.jsx";
 import TennisBall from "../../img/tennisball.png";
+import { Context } from "../store/appContext";
 
 export default function Sign() {
 	const [signUpMode, setSignUpMode] = useState(false);
 	const [username, setUsername] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [error, SetError] = useState("");
+    const [message, SetMessage] = useState("");
+    const { actions } = useContext(Context);
+    const history = useHistory();
 
 	//POST TODO
 	function createUser() {
+        setError("");
+        setMessage("");
+        if (email == "")
+            setError("Email obligatorio");
+            return;
+        if (password != confirmPassword) {
+            setError("");
+            setError("Contraseña no coincide");
+            return
 		let body = {
 			username: username,
 			email: email,
 			password: password
-		};
+            
+		}
+        let responseOk = false; 
+        
 		fetch(process.env.BACKEND_URL + "/api/sign", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json"
 			},
 			body: JSON.stringify(body)
-		});
+		}).then((response) => {
+            responseOk = response.ok;
+            if(response.ok) {
+                setMessage("Usuario registrado con éxito");
+            } 
+            return response.json()
+        }).then((responseJson) =>{
+            if(!responseOk) {
+                setError(responseJson.message);
+            }
+        })
+        .catch((error) => {
+            setError(error.message);
+        })
 	}
 
 	function logUser() {
+        setError("");
 		let body = {
 			username: username,
 			password: password
@@ -39,7 +71,24 @@ export default function Sign() {
 				"Content-Type": "application/json"
 			},
 			body: JSON.stringify(body)
-		});
+			})
+            .then((response) => {
+            responseOk = response.ok;
+            return response.json();
+
+        })
+            .then((responseJson) =>{
+                if (responseOk) {
+                    actions.saveAccessToken(responseJson.access_token);
+                    history.push("/profile")
+                } else {
+                    setError(responseJson.message);
+                }
+            
+        })
+        .catch((error) => {
+            setError(error.message);
+        })
 	}
 
 	return (
@@ -93,12 +142,15 @@ export default function Sign() {
 						</div>
 					</form>
 					<form action="#" className="sign-up-form">
+                            {error ? <h1>{error}</h1> : ""}
+                            {message ? <h1>{message}</h1> : ""}
 						<h2 className="title">Crear cuenta</h2>
 						<div className="input-field">
 							<i className="fas fa-user" />
 							<input
 								type="text"
 								placeholder="Username"
+                                required
 								onChange={event => {
 									setUsername(event.target.value);
 								}}
@@ -109,6 +161,7 @@ export default function Sign() {
 							<input
 								type="email"
 								placeholder="Email"
+                                required
 								onChange={event => {
 									setEmail(event.target.value);
 								}}
@@ -119,8 +172,17 @@ export default function Sign() {
 							<input
 								type="password"
 								placeholder="Password"
+                                required
 								onChange={event => {
 									setPassword(event.target.value);
+								}}
+							/>
+                            	<input
+								type="password"
+								placeholder="Confirm Password"
+                                required
+								onChange={event => {
+									setConfirmPassword(event.target.value);
 								}}
 							/>
 						</div>
