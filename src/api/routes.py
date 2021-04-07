@@ -21,6 +21,12 @@ def login():
         return jsonify ({})
 
 #  Register sport center
-@api.route ('/RegisterNewCenter', methods=['POST'])
+@api.route ('/newcenter', methods=['POST'])
 def registerNewCenter():
-        return jsonify ({})
+
+    newCenter=NewCenter()
+    newCenter=NewCenter.body(request.get_json())
+    newCenter.save()
+    return jsonify ({}), 200
+
+

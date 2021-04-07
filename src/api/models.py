@@ -2,6 +2,19 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+
+class BaseModel():
+    #get all data of a table
+    @classmethod
+    def getAll(cls):
+        return cls.query.all()
+    
+    #get data by id
+    @classmethod
+    def getId(cls,id):
+        return cls.query.get(id)
+    
+
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(120), unique=True, nullable=False)
@@ -33,22 +46,24 @@ class User(db.Model):
 
 
 
-#Register New Sport Center
-class NewCenter(db.model):
-    id=db.Colum(db.Integer, primary_key=True)
+# REGISTER NEW SPORTS CENTER
+
+class NewCenter(db.Model,BaseModel):
+    id=db.Column(db.Integer, primary_key=True)
     id_paymethod=db.Column(db.Integer,unique=False,nullable=False)
-    id_hours=db.Colum(db.Integer,unique=False, nullable=False))
-    id_courts=db.Column(db.Integer,unique=False, nullable=False))
+    id_hours=db.Column(db.Integer,unique=False, nullable=False)
+    id_courts=db.Column(db.Integer,unique=False, nullable=False)
     
     admin_user=db.Column(db.String(120), unique=True, nullable=False)
     password=db.Column(db.String(80), unique=False, nullable=False)
     center_name=db.Column(db.String(120), unique=True, nullable=False)
-    address=db.Colum(db.String(120), unique=True, nullable=False)
+    address=db.Column(db.String(120), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    phone=db.Colum(db.Integer, unique=True, nullable=False)
-    webpage=db.Column(db.String(120), unique=True, nullable=False))
-    image=db.Column(db.String(120),unique=False,nullable=False))
+    phone=db.Column(db.Integer, unique=True, nullable=False)
+    webpage=db.Column(db.String(120), unique=True, nullable=False)
+    image=db.Column(db.String(120),unique=False,nullable=False)
 
+   
      #metodo de instancia %r lo sustituty por %self.id
     def __repr__(self):
         return '<NewCenter %r>' % self.id
@@ -71,3 +86,30 @@ class NewCenter(db.model):
         self.center_name=center_name
         self.address=address
 
+    #get body
+    def body(self,request_json):
+        self.admin_user=request_json["admin_user"]
+        self.center_name=request_json["center_name"]
+        self.address=request_json["address"]
+        self.password=request_json["password"]
+        self.email=request_json["email"]
+        self.phone=request_json["phone"]
+        self.webpage=request_json["webpage"]
+        self.image=request_json["image"]
+
+    #create register
+    @classmethod
+    def createRegister(cls,request_json):
+        register=cls
+        register.body(request_json)
+        return body
+
+    # save data in the database
+    def save(self):
+        db.session.add(self)
+        return db.session.commit()
+    
+    # delete data in the database
+    def delete(self):
+        db.session.delete(self)
+        return db.session.commit()

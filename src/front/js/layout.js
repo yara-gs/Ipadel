@@ -1,13 +1,14 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import ScrollToTop from "./component/scrollToTop";
-import Sign from "./pages/sign";
+
 import { Home } from "./pages/home";
-import SingUpForm from "./pages/singUpForm";
 import { Demo } from "./pages/demo";
 import { Single } from "./pages/single";
 import injectContext from "./store/appContext";
 
+import Sign from "./pages/sign";
+import RegisterCenter from "./component/registerCenter.jsx";
 import Mynavbar from "./component/navbar";
 import { Footer } from "./component/footer";
 
@@ -33,11 +34,12 @@ const Layout = () => {
 							<Mynavbar />
 							<Home />
 						</Route>
+						<Route exact path="/newcenter">
+							<Mynavbar />
+							<RegisterCenter />
+						</Route>
 						<Route exact path="/demo">
 							<Demo />
-						</Route>
-						<Route exact path="/sing">
-							<Sign />
 						</Route>
 						<Route exact path="/single/:theid">
 							<Single />

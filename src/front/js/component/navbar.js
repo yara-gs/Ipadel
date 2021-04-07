@@ -31,7 +31,7 @@ export default function Mynavbar() {
 						<NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
 					</NavDropdown>
 
-					<Nav.Link href="#deets">More deets</Nav.Link>
+					<Nav.Link href="/newcenter">More deets</Nav.Link>
 					<Link to="/sign">
 						<button className="btn btn-primary align-self: flex-end">Sing Up</button>
 					</Link>
