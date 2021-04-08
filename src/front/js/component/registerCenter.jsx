@@ -25,14 +25,22 @@ export default function RegisterCenter() {
 
 	//POST NEW SPORT CENTER
 	function createCenter() {
-		body.admin_user = admin_user;
-		body.center_name = center_name;
-		body.address = address;
-		body.password = password;
-		body.email = email;
-		body.phone = phone;
-		body.webpage = webpage;
-		body.image = image;
+		// body.admin_user = admin_user;
+		// body.center_name = center_name;
+		// body.address = address;
+		// body.password = password;
+		// body.email = email;
+		// body.phone = phone;
+		// body.webpage = webpage;
+		// body.image = image;
+		body.admin_user = "admin_user";
+		body.center_name = "center_name";
+		body.address = "address";
+		body.password = "password";
+		body.email = "email";
+		body.phone = 617458258;
+		body.webpage = "webpage";
+		body.image = "image";
 
 		console.log(body);
 
@@ -49,7 +57,7 @@ export default function RegisterCenter() {
 		<div className="container col-12 col-xl-8 col-md-9 d-flex d-flex justify-content-center ">
 			<div className="formbody ">
 				<h2> Dar de alta un centro deportivo </h2>
-				<Form className="form d-flex justify-content-start">
+				<Form className="registerForm d-flex justify-content-start">
 					<Form.Group as={Col} controlId="formCenterName">
 						<Form.Label>Nombre Centro Deportivo</Form.Label>
 						<Form.Control placeholder="Padel Center" onChange={() => setCenter_Name(event.target.value)} />
@@ -142,9 +150,11 @@ export default function RegisterCenter() {
 						</Form.Group>
 					</Form.Row>
 				</Form>
-				<Button variant="primary" type="submit" onClick={() => createCenter()}>
-					Submit
-				</Button>
+				<div className=" d-flex justify-content-center">
+					<Button variant="primary" type="submit" onClick={() => createCenter()}>
+						Submit
+					</Button>
+				</div>
 			</div>
 		</div>
 	);

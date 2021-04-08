@@ -48,19 +48,19 @@ class User(db.Model):
 
 # REGISTER NEW SPORTS CENTER
 
-class NewCenter(db.Model,BaseModel):
+class NewCenter(db.Model):
     id=db.Column(db.Integer, primary_key=True)
-    id_paymethod=db.Column(db.Integer,unique=False,nullable=False)
-    id_hours=db.Column(db.Integer,unique=False, nullable=False)
-    id_courts=db.Column(db.Integer,unique=False, nullable=False)
+    # id_paymethod=db.Column(db.Integer,unique=False,nullable=False)
+    # id_hours=db.Column(db.Integer,unique=False, nullable=False)
+    # id_courts=db.Column(db.Integer,unique=False, nullable=False)
     
-    admin_user=db.Column(db.String(120), unique=True, nullable=False)
+    admin_user=db.Column(db.String(120), unique=False, nullable=False)
     password=db.Column(db.String(80), unique=False, nullable=False)
-    center_name=db.Column(db.String(120), unique=True, nullable=False)
-    address=db.Column(db.String(120), unique=True, nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    phone=db.Column(db.Integer, unique=True, nullable=False)
-    webpage=db.Column(db.String(120), unique=True, nullable=False)
+    center_name=db.Column(db.String(120), unique=False, nullable=False)
+    address=db.Column(db.String(120),unique=False, nullable=False)
+    email = db.Column(db.String(120), unique=False, nullable=False)
+    phone=db.Column(db.Integer, unique=False, nullable=False)
+    webpage=db.Column(db.String(120), unique=False, nullable=False)
     image=db.Column(db.String(120),unique=False,nullable=False)
 
    
@@ -86,8 +86,16 @@ class NewCenter(db.Model,BaseModel):
         self.center_name=center_name
         self.address=address
 
+    #create register
+    @classmethod
+    def createRegister(cls, request_json):
+        
+        register=cls(request_json["admin_user"],request_json["center_name"],request_json["address"])
+        register.body(request_json)
+        return register
+    
     #get body
-    def body(self,request_json):
+    def body(self, request_json):
         self.admin_user=request_json["admin_user"]
         self.center_name=request_json["center_name"]
         self.address=request_json["address"]
@@ -96,13 +104,6 @@ class NewCenter(db.Model,BaseModel):
         self.phone=request_json["phone"]
         self.webpage=request_json["webpage"]
         self.image=request_json["image"]
-
-    #create register
-    @classmethod
-    def createRegister(cls,request_json):
-        register=cls
-        register.body(request_json)
-        return body
 
     # save data in the database
     def save(self):
