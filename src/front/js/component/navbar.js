@@ -6,7 +6,6 @@ import Nav from "react-bootstrap/Nav";
 import LinkContainer from "react-bootstrap/Nav";
 import "../../styles/navbar.scss";
 import LogoiPadel from "../component/logoiPadel.jsx";
-
 export default function Mynavbar() {
 	return (
 		<Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -30,10 +29,12 @@ export default function Mynavbar() {
 						<NavDropdown.Divider />
 						<NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
 					</NavDropdown>
-
 					<Nav.Link href="#deets">More deets</Nav.Link>
 					<Link to="/sign">
 						<button className="btn btn-primary align-self: flex-end">Sing Up</button>
+					</Link>
+					<Link to="/profile">
+						<button className="btn btn-primary align-self: flex-end">Perfil</button>
 					</Link>
 				</Nav>
 			</Navbar.Collapse>
