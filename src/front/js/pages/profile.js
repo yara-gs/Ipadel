@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { useHistory } from "react-router-dom";
 import { Context } from "../store/appContext";
 
 const Profile = () => {
