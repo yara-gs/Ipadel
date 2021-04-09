@@ -25,24 +25,9 @@ def login():
 def registerNewCenter():
 
     body=request.get_json()
-    print(body)
-    # newCenter= NewCenter(body["admin_user"], body["center_name"],body["address"]) 
-    # newCenter.admin_user=body["admin_user"]
-    # newCenter.center_name=body["center_name"]
-    # newCenter.address=body["address"]
-    # newCenter.password=body["password"]
-    # newCenter.email=body["email"]
-    # newCenter.phone=body["phone"]
-    # newCenter.webpage=body["webpage"]
-    # newCenter.image=body["image"]
-
     newCenter=NewCenter.createRegister(body)
-    # newCenter= NewCenter(body["admin_user"], body["center_name"],body["address"]) 
-   
-    # print(newCenter.serialize())
     newCenter.save()
   
- 
     return jsonify(newCenter.serialize()),200
 
 

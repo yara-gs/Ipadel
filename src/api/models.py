@@ -53,14 +53,17 @@ class NewCenter(db.Model):
     # id_paymethod=db.Column(db.Integer,unique=False,nullable=False)
     # id_hours=db.Column(db.Integer,unique=False, nullable=False)
     # id_courts=db.Column(db.Integer,unique=False, nullable=False)
-    
+    center_name=db.Column(db.String(120), unique=False, nullable=False)
+    nif=db.Column(db.String(120), unique=False, nullable=False)
     admin_user=db.Column(db.String(120), unique=False, nullable=False)
     password=db.Column(db.String(80), unique=False, nullable=False)
-    center_name=db.Column(db.String(120), unique=False, nullable=False)
-    address=db.Column(db.String(120),unique=False, nullable=False)
     email = db.Column(db.String(120), unique=False, nullable=False)
     phone=db.Column(db.Integer, unique=False, nullable=False)
     webpage=db.Column(db.String(120), unique=False, nullable=False)
+    address=db.Column(db.String(120),unique=False, nullable=False)
+    states=db.Column(db.String(120),unique=False, nullable=True)
+    city=db.Column(db.String(120),unique=False, nullable=True)
+    cp=db.Column(db.Integer, unique=False, nullable=-True)
     image=db.Column(db.String(120),unique=False,nullable=False)
 
    
@@ -72,34 +75,46 @@ class NewCenter(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "admin_user": self.admin_user,
             "center_name": self.center_name,
+            "nif": self.nif,
+            "admin_user": self.admin_user,
             "address": self.address,
+            "states": self.states,
+            "city": self.city,
+            "cp": self.cp,
             "email": self.email,
             "phone": self.phone,
             "webpage": self.webpage
         }
 
     #metodo de instancia que obliga a que haya datos siempre que se llama       
-    def __init__(self,admin_user,center_name,address):
-        self.admin_user=admin_user
+    def __init__(self,center_name,nif,admin_user,address,state,city,cp):
         self.center_name=center_name
+        self.nif=nif
+        self.admin_user=admin_user
         self.address=address
+        self.states=states
+        self.city=city
+        self.cp=cp
 
     #create register
     @classmethod
     def createRegister(cls, request_json):
         
-        register=cls(request_json["admin_user"],request_json["center_name"],request_json["address"])
+        register=cls(request_json["center_name"],request_json["nif"],request_json["admin_user"],request_json["address"],request_json["states"],request_json["city"],request_json["cp"])
         register.body(request_json)
         return register
     
     #get body
     def body(self, request_json):
-        self.admin_user=request_json["admin_user"]
         self.center_name=request_json["center_name"]
-        self.address=request_json["address"]
+        self.nif=request_json["nif"]
+        self.admin_user=request_json["admin_user"]
         self.password=request_json["password"]
+        self.address=request_json["address"]
+        self.states=request_json["states"]
+        self.city=request_json["city"]
+        self.cp=request_json["cp"]
         self.email=request_json["email"]
         self.phone=request_json["phone"]
         self.webpage=request_json["webpage"]

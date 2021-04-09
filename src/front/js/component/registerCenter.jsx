@@ -3,44 +3,49 @@ import { Col, Form, Button } from "react-bootstrap";
 import "../../styles/registercenter.scss";
 
 export default function RegisterCenter() {
-	const [admin_user, setAdmin_User] = useState("");
 	const [center_name, setCenter_Name] = useState("");
-	const [address, setAddress] = useState("");
+	const [nif, setNif] = useState("");
+	const [admin_user, setAdmin_User] = useState("");
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
 	const [email, setEmail] = useState("");
-	const [phone, setPhone] = useState("");
+	const [phone, setPhone] = useState(0);
 	const [webpage, setWebpage] = useState("");
+	const [address, setAddress] = useState("");
+	const [state, setState] = useState("");
+	const [city, setCity] = useState("");
+	const [cp, setCp] = useState("");
 	const [image, setImage] = useState("");
+
 	let body = {
-		admin_user: "",
 		center_name: "",
-		address: "",
+		nif: "",
+		admin_user: "",
 		password: "",
 		email: "",
 		phone: "",
 		webpage: "",
+		address: "",
+		state: "",
+		city: "",
+		cp: "",
 		image: ""
 	};
 
 	//POST NEW SPORT CENTER
 	function createCenter() {
-		// body.admin_user = admin_user;
-		// body.center_name = center_name;
-		// body.address = address;
-		// body.password = password;
-		// body.email = email;
-		// body.phone = phone;
-		// body.webpage = webpage;
-		// body.image = image;
-		body.admin_user = "admin_user";
-		body.center_name = "center_name";
-		body.address = "address";
-		body.password = "password";
-		body.email = "email";
-		body.phone = 617458258;
-		body.webpage = "webpage";
-		body.image = "image";
+		body.admin_user = admin_user;
+		body.nif = nif;
+		body.center_name = center_name;
+		body.password = password;
+		body.email = email;
+		body.phone = phone;
+		body.webpage = webpage;
+		body.address = address;
+		body.state = state;
+		body.city = city;
+		body.cp = cp;
+		body.image = image;
 
 		console.log(body);
 
@@ -57,84 +62,170 @@ export default function RegisterCenter() {
 		<div className="container col-12 col-xl-8 col-md-9 d-flex d-flex justify-content-center ">
 			<div className="formbody ">
 				<h2> Dar de alta un centro deportivo </h2>
+
 				<Form className="registerForm d-flex justify-content-start">
-					<Form.Group as={Col} controlId="formCenterName">
-						<Form.Label>Nombre Centro Deportivo</Form.Label>
-						<Form.Control placeholder="Padel Center" onChange={() => setCenter_Name(event.target.value)} />
-					</Form.Group>
-
-					<Form.Group as={Col} controlId="formAdminUser">
-						<Form.Label>Usuario administrador</Form.Label>
-						<Form.Control
-							placeholder="sportcenteradmin"
-							onChange={() => setAdmin_User(event.target.value)}
-						/>
-					</Form.Group>
-
-					<Form.Row className="password">
+					<Form.Row className="adminUser">
+						<Form.Group as={Col} controlId="formAdminUser">
+							<Form.Label>Usuario administrador</Form.Label>
+							<Form.Control
+								placeholder=""
+								onChange={() => setAdmin_User(event.target.value)}
+								autoComplete="off"
+							/>
+						</Form.Group>
 						<Form.Group as={Col} controlId="formGridPassword">
 							<Form.Label>Contraseña</Form.Label>
 							<Form.Control
 								type="password"
-								placeholder="Password"
+								placeholder=""
 								onChange={() => setPassword(event.target.value)}
+								autoComplete="off"
 							/>
 						</Form.Group>
 						<Form.Group as={Col} controlId="formGridConfirmPassword">
 							<Form.Label>Confirmar contraseña</Form.Label>
 							<Form.Control
 								type="password"
-								placeholder="Confirm Password"
+								placeholder=""
 								onChange={() => setConfirmPassword(event.target.value)}
+								autoComplete="off"
+							/>
+						</Form.Group>
+					</Form.Row>
+
+					<Form.Row className="password">
+						<Form.Group as={Col} controlId="formCenterName">
+							<Form.Label>Nombre Centro Deportivo</Form.Label>
+							<Form.Control
+								placeholder=""
+								onChange={() => setCenter_Name(event.target.value)}
+								autoComplete="off"
+							/>
+						</Form.Group>
+						<Form.Group as={Col} controlId="formNIF">
+							<Form.Label>NIF</Form.Label>
+							<Form.Control
+								placeholder=""
+								onChange={() => setNif(event.target.value)}
+								autoComplete="off"
 							/>
 						</Form.Group>
 					</Form.Row>
 
 					<Form.Group as={Col} controlId="formGridEmail">
 						<Form.Label>Email</Form.Label>
-						<Form.Control
-							type="email"
-							placeholder="Introduce email"
-							onChange={() => setEmail(event.target.value)}
-						/>
+						<Form.Control type="email" placeholder="" onChange={() => setEmail(event.target.value)} />
 					</Form.Group>
 					<Form.Group as={Col} controlId="formGridPhone">
 						<Form.Label>Teléfono</Form.Label>
 						<Form.Control
 							type="phone"
-							placeholder="xxxxxxxxx"
+							placeholder=""
 							onChange={() => setPhone(event.target.value)}
+							autoComplete="off"
 						/>
 					</Form.Group>
-
-					<Form.Group as={Col} controlId="formGridAddress">
-						<Form.Label>Dirección</Form.Label>
-						<Form.Control placeholder="1234 Main St" onChange={() => setAddress(event.target.value)} />
-					</Form.Group>
-					<Form.Row>
-						<Form.Group as={Col} controlId="formGridCity">
-							<Form.Label>Ciudad</Form.Label>
-							<Form.Control />
-						</Form.Group>
-
-						<Form.Group as={Col} controlId="formGridState">
-							<Form.Label>Provincia</Form.Label>
-							<Form.Control as="select" defaultValue="Choose...">
-								<option>...</option>
-							</Form.Control>
-						</Form.Group>
-
-						<Form.Group as={Col} controlId="formGridCP">
-							<Form.Label>CP</Form.Label>
-							<Form.Control />
-						</Form.Group>
-					</Form.Row>
-					<Form.Group as={Col} controlId="formGridWeb" onChange={() => setWebpage(event.target.value)}>
+					<Form.Group
+						as={Col}
+						controlId="formGridWeb"
+						onChange={() => setWebpage(event.target.value)}
+						autoComplete="off">
 						<Form.Label>Web</Form.Label>
 						<Form.Control />
 					</Form.Group>
 
-					<Form.Label as={Col}>Metodos de pago</Form.Label>
+					<Form.Group as={Col} controlId="formGridAddress">
+						<Form.Label>Dirección</Form.Label>
+						<Form.Control
+							placeholder=""
+							onChange={() => setAddress(event.target.value)}
+							autoComplete="off"
+						/>
+					</Form.Group>
+
+					<Form.Row>
+						<Form.Group as={Col} controlId="formGridState">
+							<Form.Label>Provincia</Form.Label>
+							<Form.Control
+								required
+								as="select"
+								onChange={() => setState(event.target.value)}
+								autoComplete="off">
+								<option value="">...</option>
+								<option value="alava">Álava</option>
+								<option value="albacete">Albacete</option>
+								<option value="alicante">Alicante/Alacant</option>
+								<option value="almeria">Almería</option>
+								<option value="asturias">Asturias</option>
+								<option value="avila">Ávila</option>
+								<option value="badajoz">Badajoz</option>
+								<option value="barcelona">Barcelona</option>
+								<option value="burgos">Burgos</option>
+								<option value="caceres">Cáceres</option>
+								<option value="cadiz">Cádiz</option>
+								<option value="cantabria">Cantabria</option>
+								<option value="castellon">Castellón/Castelló</option>
+								<option value="ceuta">Ceuta</option>
+								<option value="ciudadreal">Ciudad Real</option>
+								<option value="cordoba">Córdoba</option>
+								<option value="cuenca">Cuenca</option>
+								<option value="girona">Girona</option>
+								<option value="laspalmas">Las Palmas</option>
+								<option value="granada">Granada</option>
+								<option value="guadalajara">Guadalajara</option>
+								<option value="guipuzcoa">Guipúzcoa</option>
+								<option value="huelva">Huelva</option>
+								<option value="huesca">Huesca</option>
+								<option value="illesbalears">Illes Balears</option>
+								<option value="jaen">Jaén</option>
+								<option value="acoruña">A Coruña</option>
+								<option value="larioja">La Rioja</option>
+								<option value="leon">León</option>
+								<option value="lleida">Lleida</option>
+								<option value="lugo">Lugo</option>
+								<option value="madrid">Madrid</option>
+								<option value="malaga">Málaga</option>
+								<option value="melilla">Melilla</option>
+								<option value="murcia">Murcia</option>
+								<option value="navarra">Navarra</option>
+								<option value="ourense">Ourense</option>
+								<option value="palencia">Palencia</option>
+								<option value="pontevedra">Pontevedra</option>
+								<option value="salamanca">Salamanca</option>
+								<option value="segovia">Segovia</option>
+								<option value="sevilla">Sevilla</option>
+								<option value="soria">Soria</option>
+								<option value="tarragona">Tarragona</option>
+								<option value="santacruztenerife">Santa Cruz de Tenerife</option>
+								<option value="teruel">Teruel</option>
+								<option value="toledo">Toledo</option>
+								<option value="valencia">Valencia/Valéncia</option>
+								<option value="valladolid">Valladolid</option>
+								<option value="vizcaya">Vizcaya</option>
+								<option value="zamora">Zamora</option>
+								<option value="zaragoza">Zaragoza</option>
+							</Form.Control>
+						</Form.Group>
+						<Form.Group
+							as={Col}
+							controlId="formGridCity"
+							onChange={() => setCity(event.target.value)}
+							autoComplete="off">
+							<Form.Label>Municipio</Form.Label>
+							<Form.Control />
+						</Form.Group>
+
+						<Form.Group
+							as={Col}
+							controlId="formGridCP"
+							onChange={() => setCp(event.target.value)}
+							autoComplete="off">
+							<Form.Label>CP</Form.Label>
+							<Form.Control />
+						</Form.Group>
+					</Form.Row>
+
+					{/* <Form.Label as={Col}>Metodos de pago</Form.Label>
 					<Form.Row>
 						<Form.Group as={Col} controlId="formGridCheckbox">
 							<Form.Check type="checkbox" label="Paypal" />
@@ -148,7 +239,7 @@ export default function RegisterCenter() {
 						<Form.Group as={Col} controlId="formGridCheckbox">
 							<Form.Check type="checkbox" label="Pago en centro" />
 						</Form.Group>
-					</Form.Row>
+					</Form.Row> */}
 				</Form>
 				<div className=" d-flex justify-content-center">
 					<Button variant="primary" type="submit" onClick={() => createCenter()}>
