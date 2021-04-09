@@ -26,11 +26,7 @@ class User(db.Model):
 
     @classmethod
     def log_user(cls, username, password):
-<<<<<<< HEAD
         return cls.query.filter_by(username=username).filter_by(password=password).one_or_none()
-=======
-        return cls.query.filter_by(username=username).filter_by(password=password.one_or_none())
->>>>>>> main
 
     @classmethod
     def get(cls, id):
