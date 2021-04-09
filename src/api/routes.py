@@ -33,10 +33,10 @@ def sign():
 @api.route("/login", methods=["POST"])
 def login():
     body = request.get_json()
-    username = body ["username"]
-    password = body ["password"]
+    username = body["username"]
+    password = body["password"]
 
-    User.log_user(username, password)
+    user = User.log_user(username, password)
 
     if user is None:
         raise APIException("Usuario o contraseña incorrecta")

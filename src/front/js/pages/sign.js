@@ -1,5 +1,6 @@
-import React, { useState,useContext } from "react";
+import React, { useState, useContext } from "react";
 import "../../styles/sign.scss";
+import { Link, useHistory } from "react-router-dom";
 
 import SignUpSvg from "../component/signUp_svg.jsx";
 import SignInSvg from "../component/signIn_svg.jsx";
@@ -16,6 +17,7 @@ export default function Sign() {
 	const [error, setError] = useState("");
 	const [message, setMessage] = useState("");
 	const { actions } = useContext(Context);
+	const history = useHistory();
 
 	//POST TODO
 	function createUser() {
@@ -63,7 +65,6 @@ export default function Sign() {
 	}
 
 	function logUser() {
-		//let history = useHistory();
 		setError("");
 		let body = {
 			username: username,
@@ -81,9 +82,10 @@ export default function Sign() {
 				return response.json();
 			})
 			.then(responseJson => {
+				console.log(responseJson);
 				if (responseOk) {
 					actions.saveAccessToken(responseJson.access_token);
-					//history.push("/profile");
+					history.push("/profile");
 				} else {
 					setError(responseJson.message);
 				}
@@ -97,7 +99,12 @@ export default function Sign() {
 		<div className={signUpMode ? "containertest sign-up-mode" : "containertest"}>
 			<div className="forms-container">
 				<div className="signin-signup">
-					<form action="#" className="sign-in-form">
+					<form
+						action="#"
+						className="sign-in-form"
+						onSubmit={() => {
+							logUser();
+						}}>
 						<h2 className="title">Iniciar sesión</h2>
 						<div className="input-field">
 							<i className="fas fa-user" />
@@ -119,14 +126,7 @@ export default function Sign() {
 								}}
 							/>
 						</div>
-						<input
-							type="submit"
-							value="Login"
-							className="btn solid"
-							onClick={() => {
-								logUser();
-							}}
-						/>
+						<input type="submit" value="Login" className="btn solid" />
 						<p className="social-text">Or Sign in with social platforms</p>
 						<div className="social-media">
 							<a href="#" className="social-icon">
@@ -179,15 +179,8 @@ export default function Sign() {
 									setPassword(event.target.value);
 								}}
 							/>
-                            	<input
-								type="password"
-								placeholder="Confirm Password"
-                                required
-								onChange={event => {
-									setConfirmPassword(event.target.value);
-								}}
-							/>
 						</div>
+
 						<div className="input-field">
 							<i className="fas fa-lock" />
 							<input
