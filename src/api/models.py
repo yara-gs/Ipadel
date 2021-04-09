@@ -61,10 +61,10 @@ class NewCenter(db.Model):
     phone=db.Column(db.Integer, unique=False, nullable=False)
     webpage=db.Column(db.String(120), unique=False, nullable=False)
     address=db.Column(db.String(120),unique=False, nullable=False)
-    states=db.Column(db.String(120),unique=False, nullable=True)
+    state=db.Column(db.String(120),unique=False, nullable=True)
     city=db.Column(db.String(120),unique=False, nullable=True)
-    cp=db.Column(db.Integer, unique=False, nullable=-True)
-    image=db.Column(db.String(120),unique=False,nullable=False)
+    cp=db.Column(db.String(120), unique=False, nullable=True)
+    image=db.Column(db.String(120),unique=False,nullable=True)
 
    
      #metodo de instancia %r lo sustituty por %self.id
@@ -79,7 +79,7 @@ class NewCenter(db.Model):
             "nif": self.nif,
             "admin_user": self.admin_user,
             "address": self.address,
-            "states": self.states,
+            "state": self.state,
             "city": self.city,
             "cp": self.cp,
             "email": self.email,
@@ -93,7 +93,7 @@ class NewCenter(db.Model):
         self.nif=nif
         self.admin_user=admin_user
         self.address=address
-        self.states=states
+        self.state=state
         self.city=city
         self.cp=cp
 
@@ -101,7 +101,7 @@ class NewCenter(db.Model):
     @classmethod
     def createRegister(cls, request_json):
         
-        register=cls(request_json["center_name"],request_json["nif"],request_json["admin_user"],request_json["address"],request_json["states"],request_json["city"],request_json["cp"])
+        register=cls(request_json["center_name"],request_json["nif"],request_json["admin_user"],request_json["state"],request_json["address"],request_json["city"],request_json["cp"])
         register.body(request_json)
         return register
     
@@ -112,7 +112,7 @@ class NewCenter(db.Model):
         self.admin_user=request_json["admin_user"]
         self.password=request_json["password"]
         self.address=request_json["address"]
-        self.states=request_json["states"]
+        self.state=request_json["state"]
         self.city=request_json["city"]
         self.cp=request_json["cp"]
         self.email=request_json["email"]

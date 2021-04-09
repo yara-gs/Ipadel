@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Col, Form, Button } from "react-bootstrap";
-import "../../styles/registercenter.scss";
+import { Col, Form, Button, Autocomplete, TextField } from "react-bootstrap";
+import "../../styles/center.scss";
 
 export default function RegisterCenter() {
 	const [center_name, setCenter_Name] = useState("");
@@ -47,6 +47,19 @@ export default function RegisterCenter() {
 		body.cp = cp;
 		body.image = image;
 
+		// body.admin_user = "admin_user";
+		// body.nif = "nif";
+		// body.center_name = "center_name";
+		// body.password = "password";
+		// body.email = "email";
+		// body.phone = 123;
+		// body.webpage = " webpage";
+		// body.address = "address";
+		// body.state = "state";
+		// body.city = "city";
+		// body.cp = 125;
+		// body.image = "image";
+
 		console.log(body);
 
 		fetch(process.env.BACKEND_URL + "/api/newcenter", {
@@ -61,21 +74,30 @@ export default function RegisterCenter() {
 	return (
 		<div className="container col-12 col-xl-8 col-md-9 d-flex d-flex justify-content-center ">
 			<div className="formbody ">
-				<h2> Dar de alta un centro deportivo </h2>
-
 				<Form className="registerForm d-flex justify-content-start">
 					<Form.Row className="adminUser">
 						<Form.Group as={Col} controlId="formAdminUser">
 							<Form.Label>Usuario administrador</Form.Label>
 							<Form.Control
+								className="form_inputfield"
+								required
 								placeholder=""
 								onChange={() => setAdmin_User(event.target.value)}
 								autoComplete="off"
 							/>
+							{/* <Autocomplete
+								id="combo-box-demo"
+								// options="hola"
+								// getOptionLabel="adios"
+								// style={{ width: 300 }}
+								// renderInput={params => <TextField {...params} label="Combo box" variant="outlined" />}
+							/> */}
 						</Form.Group>
 						<Form.Group as={Col} controlId="formGridPassword">
 							<Form.Label>Contraseña</Form.Label>
 							<Form.Control
+								required
+								className="form_inputfield"
 								type="password"
 								placeholder=""
 								onChange={() => setPassword(event.target.value)}
@@ -85,6 +107,8 @@ export default function RegisterCenter() {
 						<Form.Group as={Col} controlId="formGridConfirmPassword">
 							<Form.Label>Confirmar contraseña</Form.Label>
 							<Form.Control
+								required
+								className="form_inputfield"
 								type="password"
 								placeholder=""
 								onChange={() => setConfirmPassword(event.target.value)}
@@ -97,6 +121,8 @@ export default function RegisterCenter() {
 						<Form.Group as={Col} controlId="formCenterName">
 							<Form.Label>Nombre Centro Deportivo</Form.Label>
 							<Form.Control
+								required
+								className="form_inputfield"
 								placeholder=""
 								onChange={() => setCenter_Name(event.target.value)}
 								autoComplete="off"
@@ -105,6 +131,8 @@ export default function RegisterCenter() {
 						<Form.Group as={Col} controlId="formNIF">
 							<Form.Label>NIF</Form.Label>
 							<Form.Control
+								required
+								className="form_inputfield"
 								placeholder=""
 								onChange={() => setNif(event.target.value)}
 								autoComplete="off"
@@ -114,11 +142,19 @@ export default function RegisterCenter() {
 
 					<Form.Group as={Col} controlId="formGridEmail">
 						<Form.Label>Email</Form.Label>
-						<Form.Control type="email" placeholder="" onChange={() => setEmail(event.target.value)} />
+						<Form.Control
+							required
+							className="form_inputfield"
+							type="email"
+							placeholder=""
+							onChange={() => setEmail(event.target.value)}
+						/>
 					</Form.Group>
 					<Form.Group as={Col} controlId="formGridPhone">
 						<Form.Label>Teléfono</Form.Label>
 						<Form.Control
+							required
+							className="form_inputfield"
 							type="phone"
 							placeholder=""
 							onChange={() => setPhone(event.target.value)}
@@ -131,12 +167,14 @@ export default function RegisterCenter() {
 						onChange={() => setWebpage(event.target.value)}
 						autoComplete="off">
 						<Form.Label>Web</Form.Label>
-						<Form.Control />
+						<Form.Control required className="form_inputfield" />
 					</Form.Group>
 
 					<Form.Group as={Col} controlId="formGridAddress">
 						<Form.Label>Dirección</Form.Label>
 						<Form.Control
+							required
+							className="form_inputfield"
 							placeholder=""
 							onChange={() => setAddress(event.target.value)}
 							autoComplete="off"
@@ -148,6 +186,7 @@ export default function RegisterCenter() {
 							<Form.Label>Provincia</Form.Label>
 							<Form.Control
 								required
+								className="form_inputfield"
 								as="select"
 								onChange={() => setState(event.target.value)}
 								autoComplete="off">
@@ -207,21 +246,23 @@ export default function RegisterCenter() {
 							</Form.Control>
 						</Form.Group>
 						<Form.Group
+							required
 							as={Col}
 							controlId="formGridCity"
 							onChange={() => setCity(event.target.value)}
 							autoComplete="off">
 							<Form.Label>Municipio</Form.Label>
-							<Form.Control />
+							<Form.Control className="form_inputfield" />
 						</Form.Group>
 
 						<Form.Group
+							required
 							as={Col}
 							controlId="formGridCP"
 							onChange={() => setCp(event.target.value)}
 							autoComplete="off">
 							<Form.Label>CP</Form.Label>
-							<Form.Control />
+							<Form.Control className="form_inputfield" autoComplete="off" />
 						</Form.Group>
 					</Form.Row>
 

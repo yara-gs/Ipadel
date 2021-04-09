@@ -8,7 +8,7 @@ import { Single } from "./pages/single";
 import injectContext from "./store/appContext";
 
 import Sign from "./pages/sign";
-import RegisterCenter from "./component/registerCenter.jsx";
+import Center from "./pages/center";
 import Mynavbar from "./component/navbar";
 import { Footer } from "./component/footer";
 
@@ -36,7 +36,7 @@ const Layout = () => {
 						</Route>
 						<Route exact path="/newcenter">
 							<Mynavbar />
-							<RegisterCenter />
+							<Center />
 						</Route>
 						<Route exact path="/demo">
 							<Demo />

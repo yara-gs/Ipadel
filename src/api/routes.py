@@ -25,6 +25,7 @@ def login():
 def registerNewCenter():
 
     body=request.get_json()
+    print(body)
     newCenter=NewCenter.createRegister(body)
     newCenter.save()
   
