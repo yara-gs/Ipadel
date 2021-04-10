@@ -1,14 +1,6 @@
 
 // COMPLETE FORM PROGRESS BAR
 
-// /*basic reset*/
-// * {margin: 0; padding: 0;}
-// body {
-// 	// background-color: rgb(64,64,64);
-//     // font-family: montserrat, arial, verdana;
-    
-    
-// }
 /*form styles*/
 .msform {
 	// width: 400px;
@@ -16,60 +8,6 @@
 	text-align: center;
 	// position: relative;
 }
-// .msform fieldset {
-// 	background: white;
-// 	// border: 0 none;
-// 	border-radius: 3px;
-// 	box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
-// 	padding: 20px 30px;
-	
-// 	box-sizing: border-box;
-// 	width: 80%;
-// 	margin: 0 10%;
-	
-// 	/*stacking fieldsets above each other*/
-// 	position: absolute;
-// }
-/*inputs*/
-// .msform input {
-// 	padding: 15px;
-// 	border: 1px solid rgba(0,0,0, .05);
-// 	border-radius: 3px;
-// 	margin-bottom: 10px;
-// 	width: 100%;
-// 	box-sizing: border-box;
-// 	font-family: montserrat;
-// 	color: #2C3E50;
-// 	font-size: 13px;
-// }
-// .msform input.error, .msform textarea.error{
-//     border-color: #F9A826;
-    
-// }
-/*buttons*/
-// .msform .action-button {
-// 	width: 100px;
-// 	background: rgb(64,64,64);
-// 	font-weight: bold;
-// 	color: white;
-// 	border: 0 none;
-// 	border-radius: 2px;
-// 	cursor: pointer;
-// 	padding: 10px 5px;
-// 	margin: 10px 5px;
-// 	transition: all .4s;
-// }
-// .msform .action-button:hover, .msform .action-button:focus {
-// 	box-shadow: 0 0 0 2px white, 0 0 0 3px #F9A826;
-// 	background-color: #F9A826;
-// }
-//
-// .fs-subtitle {
-// 	font-weight: normal;
-// 	font-size: 13px;
-// 	color: #666;
-// 	// margin-bottom: 20px;
-// }
 /*progressbar*/
 .progressbar {
 	overflow: hidden;
@@ -155,7 +93,6 @@
     max-width: 100%;
 }
 
-
  .registerForm  {
     position: relative;
     padding: 2rem;
@@ -169,27 +106,12 @@
     background-color: #f0f0f0;
     }
 
-
 .formbody h2{
     padding-bottom:1.1rem;
 }
 
-
-Form Label {
-    font-weight:500;
-    color: #888787;
+.errorMessage{
+    color:red;
 }
-
-.form_inputfield{
-
-  background-color: white;
-  display: grid;
-  grid-template-columns: 15% 85%;
-  padding: 0 0.4rem;
-  position: relative;
-  
-
-}
-
 
 

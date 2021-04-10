@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Col, Form, Button, Autocomplete, TextField } from "react-bootstrap";
+import { Col, Form, Button } from "react-bootstrap";
 import "../../styles/center.scss";
 
 export default function RegisterCenter() {
@@ -16,6 +16,8 @@ export default function RegisterCenter() {
 	const [city, setCity] = useState("");
 	const [cp, setCp] = useState("");
 	const [image, setImage] = useState("");
+	const [error, setError] = useState("");
+	const [message, setMessage] = useState("");
 
 	let body = {
 		center_name: "",
@@ -33,7 +35,8 @@ export default function RegisterCenter() {
 	};
 
 	//POST NEW SPORT CENTER
-	function createCenter() {
+	function createCenter(event) {
+		event.preventDefault();
 		body.admin_user = admin_user;
 		body.nif = nif;
 		body.center_name = center_name;
@@ -46,227 +49,212 @@ export default function RegisterCenter() {
 		body.city = city;
 		body.cp = cp;
 		body.image = image;
-
-		// body.admin_user = "admin_user";
-		// body.nif = "nif";
-		// body.center_name = "center_name";
-		// body.password = "password";
-		// body.email = "email";
-		// body.phone = 123;
-		// body.webpage = " webpage";
-		// body.address = "address";
-		// body.state = "state";
-		// body.city = "city";
-		// body.cp = 125;
-		// body.image = "image";
-
-		console.log(body);
-
-		fetch(process.env.BACKEND_URL + "/api/newcenter", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify(body)
-		});
+		setMessage("");
+		//Comprobar Password & ConfirmPassword son iguales
+		if (body.password === confirmPassword) {
+			//envio datos a la base de datos
+			fetch(process.env.BACKEND_URL + "/api/newcenter", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify(body)
+			});
+			// .then(response => response.json())
+		} else {
+			setMessage("Contraseña no coincide");
+		}
+		console.log(error);
+		console.log(message);
 	}
-
 	return (
 		<div className="container col-12 col-xl-8 col-md-9 d-flex d-flex justify-content-center ">
-			<div className="formbody ">
-				<Form className="registerForm d-flex justify-content-start">
-					<Form.Row className="adminUser">
-						<Form.Group as={Col} controlId="formAdminUser">
-							<Form.Label>Usuario administrador</Form.Label>
-							<Form.Control
-								className="form_inputfield"
-								required
-								placeholder=""
-								onChange={() => setAdmin_User(event.target.value)}
-								autoComplete="off"
-							/>
-							{/* <Autocomplete
-								id="combo-box-demo"
-								// options="hola"
-								// getOptionLabel="adios"
-								// style={{ width: 300 }}
-								// renderInput={params => <TextField {...params} label="Combo box" variant="outlined" />}
-							/> */}
-						</Form.Group>
-						<Form.Group as={Col} controlId="formGridPassword">
-							<Form.Label>Contraseña</Form.Label>
-							<Form.Control
-								required
-								className="form_inputfield"
-								type="password"
-								placeholder=""
-								onChange={() => setPassword(event.target.value)}
-								autoComplete="off"
-							/>
-						</Form.Group>
-						<Form.Group as={Col} controlId="formGridConfirmPassword">
-							<Form.Label>Confirmar contraseña</Form.Label>
-							<Form.Control
-								required
-								className="form_inputfield"
-								type="password"
-								placeholder=""
-								onChange={() => setConfirmPassword(event.target.value)}
-								autoComplete="off"
-							/>
-						</Form.Group>
-					</Form.Row>
-
-					<Form.Row className="password">
-						<Form.Group as={Col} controlId="formCenterName">
-							<Form.Label>Nombre Centro Deportivo</Form.Label>
-							<Form.Control
-								required
-								className="form_inputfield"
-								placeholder=""
-								onChange={() => setCenter_Name(event.target.value)}
-								autoComplete="off"
-							/>
-						</Form.Group>
-						<Form.Group as={Col} controlId="formNIF">
-							<Form.Label>NIF</Form.Label>
-							<Form.Control
-								required
-								className="form_inputfield"
-								placeholder=""
-								onChange={() => setNif(event.target.value)}
-								autoComplete="off"
-							/>
-						</Form.Group>
-					</Form.Row>
-
-					<Form.Group as={Col} controlId="formGridEmail">
-						<Form.Label>Email</Form.Label>
+			<Form className="registerForm d-flex justify-content-start" onSubmit={event => createCenter(event)}>
+				<Form.Row className="adminUser">
+					<Form.Group as={Col} controlId="formAdminUser">
+						<Form.Label>Usuario administrador</Form.Label>
 						<Form.Control
-							required
 							className="form_inputfield"
-							type="email"
+							required
 							placeholder=""
-							onChange={() => setEmail(event.target.value)}
+							onChange={() => setAdmin_User(event.target.value)}
+							// autoComplete="off"
 						/>
 					</Form.Group>
-					<Form.Group as={Col} controlId="formGridPhone">
-						<Form.Label>Teléfono</Form.Label>
+					<Form.Group as={Col} controlId="formGridPassword">
+						<Form.Label>Contraseña</Form.Label>
 						<Form.Control
 							required
 							className="form_inputfield"
-							type="phone"
+							type="password"
 							placeholder=""
-							onChange={() => setPhone(event.target.value)}
-							autoComplete="off"
+							onChange={() => setPassword(event.target.value)}
+							// autoComplete="off"
 						/>
+					</Form.Group>
+					<Form.Group as={Col} controlId="formGridConfirmPassword">
+						<Form.Label>Confirmar contraseña</Form.Label>
+						<Form.Control
+							required
+							className="form_inputfield"
+							type="password"
+							placeholder=""
+							onChange={() => setConfirmPassword(event.target.value)}
+							// autoComplete="off"
+						/>
+					</Form.Group>
+				</Form.Row>
+
+				<Form.Row className="password">
+					<Form.Group as={Col} controlId="formCenterName">
+						<Form.Label>Nombre Centro Deportivo</Form.Label>
+						<Form.Control
+							required
+							className="form_inputfield"
+							placeholder=""
+							onChange={() => setCenter_Name(event.target.value)}
+							// autoComplete="off"
+						/>
+					</Form.Group>
+					<Form.Group as={Col} controlId="formNIF">
+						<Form.Label>NIF</Form.Label>
+						<Form.Control
+							required
+							className="form_inputfield"
+							placeholder=""
+							onChange={() => setNif(event.target.value)}
+							// autoComplete="off"
+						/>
+					</Form.Group>
+				</Form.Row>
+
+				<Form.Group as={Col} controlId="formGridEmail">
+					<Form.Label>Email</Form.Label>
+					<Form.Control
+						required
+						className="form_inputfield"
+						type="email"
+						placeholder=""
+						onChange={() => setEmail(event.target.value)}
+					/>
+				</Form.Group>
+				<Form.Group as={Col} controlId="formGridPhone">
+					<Form.Label>Teléfono</Form.Label>
+					<Form.Control
+						required
+						className="form_inputfield"
+						type="phone"
+						placeholder=""
+						onChange={() => setPhone(event.target.value)}
+						// autoComplete="off"
+					/>
+				</Form.Group>
+				<Form.Group
+					as={Col}
+					controlId="formGridWeb"
+					onChange={() => setWebpage(event.target.value)}
+					autoComplete="off">
+					<Form.Label>Web</Form.Label>
+					<Form.Control required className="form_inputfield" />
+				</Form.Group>
+
+				<Form.Group as={Col} controlId="formGridAddress">
+					<Form.Label>Dirección</Form.Label>
+					<Form.Control
+						required
+						className="form_inputfield"
+						placeholder=""
+						onChange={() => setAddress(event.target.value)}
+						autoComplete="off"
+					/>
+				</Form.Group>
+
+				<Form.Row>
+					<Form.Group as={Col} controlId="formGridState">
+						<Form.Label>Provincia</Form.Label>
+						<Form.Control
+							required
+							className="form_inputfield"
+							as="select"
+							onChange={() => setState(event.target.value)}
+							autoComplete="off">
+							<option value="">...</option>
+							<option value="alava">Álava</option>
+							<option value="albacete">Albacete</option>
+							<option value="alicante">Alicante/Alacant</option>
+							<option value="almeria">Almería</option>
+							<option value="asturias">Asturias</option>
+							<option value="avila">Ávila</option>
+							<option value="badajoz">Badajoz</option>
+							<option value="barcelona">Barcelona</option>
+							<option value="burgos">Burgos</option>
+							<option value="caceres">Cáceres</option>
+							<option value="cadiz">Cádiz</option>
+							<option value="cantabria">Cantabria</option>
+							<option value="castellon">Castellón/Castelló</option>
+							<option value="ceuta">Ceuta</option>
+							<option value="ciudadreal">Ciudad Real</option>
+							<option value="cordoba">Córdoba</option>
+							<option value="cuenca">Cuenca</option>
+							<option value="girona">Girona</option>
+							<option value="laspalmas">Las Palmas</option>
+							<option value="granada">Granada</option>
+							<option value="guadalajara">Guadalajara</option>
+							<option value="guipuzcoa">Guipúzcoa</option>
+							<option value="huelva">Huelva</option>
+							<option value="huesca">Huesca</option>
+							<option value="illesbalears">Illes Balears</option>
+							<option value="jaen">Jaén</option>
+							<option value="acoruña">A Coruña</option>
+							<option value="larioja">La Rioja</option>
+							<option value="leon">León</option>
+							<option value="lleida">Lleida</option>
+							<option value="lugo">Lugo</option>
+							<option value="madrid">Madrid</option>
+							<option value="malaga">Málaga</option>
+							<option value="melilla">Melilla</option>
+							<option value="murcia">Murcia</option>
+							<option value="navarra">Navarra</option>
+							<option value="ourense">Ourense</option>
+							<option value="palencia">Palencia</option>
+							<option value="pontevedra">Pontevedra</option>
+							<option value="salamanca">Salamanca</option>
+							<option value="segovia">Segovia</option>
+							<option value="sevilla">Sevilla</option>
+							<option value="soria">Soria</option>
+							<option value="tarragona">Tarragona</option>
+							<option value="santacruztenerife">Santa Cruz de Tenerife</option>
+							<option value="teruel">Teruel</option>
+							<option value="toledo">Toledo</option>
+							<option value="valencia">Valencia/Valéncia</option>
+							<option value="valladolid">Valladolid</option>
+							<option value="vizcaya">Vizcaya</option>
+							<option value="zamora">Zamora</option>
+							<option value="zaragoza">Zaragoza</option>
+						</Form.Control>
 					</Form.Group>
 					<Form.Group
+						required
 						as={Col}
-						controlId="formGridWeb"
-						onChange={() => setWebpage(event.target.value)}
+						controlId="formGridCity"
+						onChange={() => setCity(event.target.value)}
 						autoComplete="off">
-						<Form.Label>Web</Form.Label>
-						<Form.Control required className="form_inputfield" />
+						<Form.Label>Municipio</Form.Label>
+						<Form.Control className="form_inputfield" />
 					</Form.Group>
 
-					<Form.Group as={Col} controlId="formGridAddress">
-						<Form.Label>Dirección</Form.Label>
-						<Form.Control
-							required
-							className="form_inputfield"
-							placeholder=""
-							onChange={() => setAddress(event.target.value)}
-							autoComplete="off"
-						/>
+					<Form.Group
+						required
+						as={Col}
+						controlId="formGridCP"
+						onChange={() => setCp(event.target.value)}
+						autoComplete="off">
+						<Form.Label>CP</Form.Label>
+						<Form.Control className="form_inputfield" autoComplete="off" />
 					</Form.Group>
+				</Form.Row>
 
-					<Form.Row>
-						<Form.Group as={Col} controlId="formGridState">
-							<Form.Label>Provincia</Form.Label>
-							<Form.Control
-								required
-								className="form_inputfield"
-								as="select"
-								onChange={() => setState(event.target.value)}
-								autoComplete="off">
-								<option value="">...</option>
-								<option value="alava">Álava</option>
-								<option value="albacete">Albacete</option>
-								<option value="alicante">Alicante/Alacant</option>
-								<option value="almeria">Almería</option>
-								<option value="asturias">Asturias</option>
-								<option value="avila">Ávila</option>
-								<option value="badajoz">Badajoz</option>
-								<option value="barcelona">Barcelona</option>
-								<option value="burgos">Burgos</option>
-								<option value="caceres">Cáceres</option>
-								<option value="cadiz">Cádiz</option>
-								<option value="cantabria">Cantabria</option>
-								<option value="castellon">Castellón/Castelló</option>
-								<option value="ceuta">Ceuta</option>
-								<option value="ciudadreal">Ciudad Real</option>
-								<option value="cordoba">Córdoba</option>
-								<option value="cuenca">Cuenca</option>
-								<option value="girona">Girona</option>
-								<option value="laspalmas">Las Palmas</option>
-								<option value="granada">Granada</option>
-								<option value="guadalajara">Guadalajara</option>
-								<option value="guipuzcoa">Guipúzcoa</option>
-								<option value="huelva">Huelva</option>
-								<option value="huesca">Huesca</option>
-								<option value="illesbalears">Illes Balears</option>
-								<option value="jaen">Jaén</option>
-								<option value="acoruña">A Coruña</option>
-								<option value="larioja">La Rioja</option>
-								<option value="leon">León</option>
-								<option value="lleida">Lleida</option>
-								<option value="lugo">Lugo</option>
-								<option value="madrid">Madrid</option>
-								<option value="malaga">Málaga</option>
-								<option value="melilla">Melilla</option>
-								<option value="murcia">Murcia</option>
-								<option value="navarra">Navarra</option>
-								<option value="ourense">Ourense</option>
-								<option value="palencia">Palencia</option>
-								<option value="pontevedra">Pontevedra</option>
-								<option value="salamanca">Salamanca</option>
-								<option value="segovia">Segovia</option>
-								<option value="sevilla">Sevilla</option>
-								<option value="soria">Soria</option>
-								<option value="tarragona">Tarragona</option>
-								<option value="santacruztenerife">Santa Cruz de Tenerife</option>
-								<option value="teruel">Teruel</option>
-								<option value="toledo">Toledo</option>
-								<option value="valencia">Valencia/Valéncia</option>
-								<option value="valladolid">Valladolid</option>
-								<option value="vizcaya">Vizcaya</option>
-								<option value="zamora">Zamora</option>
-								<option value="zaragoza">Zaragoza</option>
-							</Form.Control>
-						</Form.Group>
-						<Form.Group
-							required
-							as={Col}
-							controlId="formGridCity"
-							onChange={() => setCity(event.target.value)}
-							autoComplete="off">
-							<Form.Label>Municipio</Form.Label>
-							<Form.Control className="form_inputfield" />
-						</Form.Group>
-
-						<Form.Group
-							required
-							as={Col}
-							controlId="formGridCP"
-							onChange={() => setCp(event.target.value)}
-							autoComplete="off">
-							<Form.Label>CP</Form.Label>
-							<Form.Control className="form_inputfield" autoComplete="off" />
-						</Form.Group>
-					</Form.Row>
-
-					{/* <Form.Label as={Col}>Metodos de pago</Form.Label>
+				{/* <Form.Label as={Col}>Metodos de pago</Form.Label>
 					<Form.Row>
 						<Form.Group as={Col} controlId="formGridCheckbox">
 							<Form.Check type="checkbox" label="Paypal" />
@@ -281,13 +269,14 @@ export default function RegisterCenter() {
 							<Form.Check type="checkbox" label="Pago en centro" />
 						</Form.Group>
 					</Form.Row> */}
-				</Form>
+
 				<div className=" d-flex justify-content-center">
-					<Button variant="primary" type="submit" onClick={() => createCenter()}>
+					<Button variant="primary" type="submit">
 						Submit
 					</Button>
 				</div>
-			</div>
+				<p className="errorMessage">{message}</p>
+			</Form>
 		</div>
 	);
 }
