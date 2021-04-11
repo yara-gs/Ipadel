@@ -39,17 +39,27 @@ def get_centers():
     centers_dict = []
     for center in centers:
         centers_dict.append(center.serialize())
+    
     return jsonify(centers_dict), 200
 
 
 #  Register sport center
-@api.route ('/courts', methods=['GET'])
-def get_courts():
-    centers=Court.query.all()
-    centers_dict = []
-    for center in centers:
-        centers_dict.append(center.serialize())
-    return jsonify(centers_dict), 200
+@api.route ('/sportcenters/<int:id>', methods=['GET'])
+def get_sportcenter(id):
+
+    center=SportCenter.getId(id)
+    courts=Court.query.all()
+
+    courts_dict = []
+    for court in courts:
+        courts_dict.append(court.serialize())
+    
+   
+
+    return jsonify(courts_dict), 200
+
+
+
 
 
    

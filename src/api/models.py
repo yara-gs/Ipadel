@@ -133,7 +133,6 @@ class SportCenter(db.Model,BaseModel):
         return db.session.commit()
 
 
-    
      # For Many to One (Many Courts to one SportCenter)
 class Court(db.Model,BaseModel):
     __tablename__ = 'court'
@@ -160,4 +159,4 @@ class Court(db.Model,BaseModel):
             "court_name": self.court_name,
             "light":self.light
         }       
-        
+    
