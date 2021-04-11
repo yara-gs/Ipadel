@@ -1,5 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 
+
+
 db = SQLAlchemy()
 
 
@@ -46,19 +48,18 @@ class User(db.Model):
 
 
 
-# REGISTER NEW SPORTS CENTER
 
-class NewCenter(db.Model):
+# REGISTER NEW SPORTS CENTER
+class SportCenter(db.Model,BaseModel):
+    __tablename__ = 'sportcenter'
+
     id=db.Column(db.Integer, primary_key=True)
-    # id_paymethod=db.Column(db.Integer,unique=False,nullable=False)
-    # id_hours=db.Column(db.Integer,unique=False, nullable=False)
-    # id_courts=db.Column(db.Integer,unique=False, nullable=False)
-    center_name=db.Column(db.String(120), unique=False, nullable=False)
-    nif=db.Column(db.String(120), unique=False, nullable=False)
-    admin_user=db.Column(db.String(120), unique=False, nullable=False)
+    center_name=db.Column(db.String(120), unique=True, nullable=False)
+    nif=db.Column(db.String(120), unique=True, nullable=False)
+    admin_user=db.Column(db.String(120), unique=True, nullable=False)
     password=db.Column(db.String(80), unique=False, nullable=False)
-    email = db.Column(db.String(120), unique=False, nullable=False)
-    phone=db.Column(db.Integer, unique=False, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    phone=db.Column(db.Integer, unique=True, nullable=False)
     webpage=db.Column(db.String(120), unique=False, nullable=False)
     address=db.Column(db.String(120),unique=False, nullable=False)
     state=db.Column(db.String(120),unique=False, nullable=True)
@@ -66,10 +67,11 @@ class NewCenter(db.Model):
     cp=db.Column(db.String(120), unique=False, nullable=True)
     image=db.Column(db.String(120),unique=False,nullable=True)
 
-   
+    courts=db.relationship("Court",back_populates="sportcenter")
+
      #metodo de instancia %r lo sustituty por %self.id
     def __repr__(self):
-        return '<NewCenter %r>' % self.id
+        return '<SportCenter %r>' % self.id
 
     #metodo de instancia serializa el diccionario
     def serialize(self):
@@ -129,3 +131,33 @@ class NewCenter(db.Model):
     def delete(self):
         db.session.delete(self)
         return db.session.commit()
+
+
+    
+     # For Many to One (Many Courts to one SportCenter)
+class Court(db.Model,BaseModel):
+    __tablename__ = 'court'
+    id=db.Column(db.Integer, primary_key=True)
+    court_name=db.Column(db.String(120), unique=False, nullable=True)
+    light=db.Column(db.Boolean, unique=False, nullable=True)
+    image=db.Column(db.String(120),unique=False,nullable=True)
+
+    sportcenter_id=db.Column(db.Integer,db.ForeignKey('sportcenter.id'))
+    sportcenter=db.relationship("SportCenter",back_populates="courts")
+    
+        #metodo de instancia %r lo sustituty por %self.id
+    def __repr__(self):
+        return '<Court %r>' % self.id
+
+    #metodo de instancia que obliga a que haya datos siempre que se llama       
+    def __init__(self,court_name):
+        self.court_name=court_name
+                
+    #metodo de instancia serializa el diccionario
+    def serialize(self):
+        return {
+            "id": self.id,
+            "court_name": self.court_name,
+            "light":self.light
+        }       
+        

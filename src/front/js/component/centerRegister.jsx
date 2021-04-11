@@ -19,37 +19,41 @@ export default function RegisterCenter() {
 	const [error, setError] = useState("");
 	const [message, setMessage] = useState("");
 
-	let body = {
-		center_name: "",
-		nif: "",
-		admin_user: "",
-		password: "",
-		email: "",
-		phone: "",
-		webpage: "",
-		address: "",
-		state: "",
-		city: "",
-		cp: "",
-		image: ""
-	};
+	// let body = {
+	// 	center_name: "",
+	// 	nif: "",
+	// 	admin_user: "",
+	// 	password: "",
+	// 	email: "",
+	// 	phone: "",
+	// 	webpage: "",
+	// 	address: "",
+	// 	state: "",
+	// 	city: "",
+	// 	cp: "",
+	// 	image: ""
+	// };
 
 	//POST NEW SPORT CENTER
 	function createCenter(event) {
 		event.preventDefault();
-		body.admin_user = admin_user;
-		body.nif = nif;
-		body.center_name = center_name;
-		body.password = password;
-		body.email = email;
-		body.phone = phone;
-		body.webpage = webpage;
-		body.address = address;
-		body.state = state;
-		body.city = city;
-		body.cp = cp;
-		body.image = image;
+		let body = {
+			admin_user: admin_user,
+			nif: nif,
+			center_name: center_name,
+			password: password,
+			email: email,
+			phone: phone,
+			webpage: webpage,
+			address: address,
+			state: state,
+			city: city,
+			cp: cp,
+			image: image
+		};
+
 		setMessage("");
+
 		//Comprobar Password & ConfirmPassword son iguales
 		if (body.password === confirmPassword) {
 			//envio datos a la base de datos
@@ -64,8 +68,17 @@ export default function RegisterCenter() {
 		} else {
 			setMessage("Contraseña no coincide");
 		}
-		console.log(error);
-		console.log(message);
+
+		// function getSportCenters(){
+
+		//     fetch(process.env.BACKEND_URL + "/api/sportcenters", {
+		// 				method: "GET",
+		// 				headers: {
+		// 					"Content-Type": "application/json"
+		// 				}
+		// 			});
+
+		// }
 	}
 	return (
 		<div className="container col-12 col-xl-8 col-md-9 d-flex d-flex justify-content-center ">
@@ -271,8 +284,8 @@ export default function RegisterCenter() {
 					</Form.Row> */}
 
 				<div className=" d-flex justify-content-center">
-					<Button variant="primary" type="submit">
-						Submit
+					<Button className="btn solid" variant="primary" type="submit">
+						Dar de Alta
 					</Button>
 				</div>
 				<p className="errorMessage">{message}</p>

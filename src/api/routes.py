@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, NewCenter
+from api.models import db, User, SportCenter,Court
 from api.utils import generate_sitemap, APIException
 
 api = Blueprint('api', __name__)
@@ -26,11 +26,33 @@ def registerNewCenter():
 
     body=request.get_json()
     print(body)
-    newCenter=NewCenter.createRegister(body)
-    newCenter.save()
+    newSportCenter=SportCenter.createRegister(body)
+    newSportCenter.save()
   
-    return jsonify(newCenter.serialize()),200
+    return jsonify(newSportCenter.serialize()),200
 
+
+#  Register sport center
+@api.route ('/sportcenters', methods=['GET'])
+def get_centers():
+    centers=SportCenter.query.all()
+    centers_dict = []
+    for center in centers:
+        centers_dict.append(center.serialize())
+    return jsonify(centers_dict), 200
+
+
+#  Register sport center
+@api.route ('/courts', methods=['GET'])
+def get_courts():
+    centers=Court.query.all()
+    centers_dict = []
+    for center in centers:
+        centers_dict.append(center.serialize())
+    return jsonify(centers_dict), 200
+
+
+   
 
 
 
