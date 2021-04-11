@@ -74,8 +74,8 @@ class SportCenter(db.Model,BaseModel):
         return '<SportCenter %r>' % self.id
 
     #metodo de instancia serializa el diccionario
-    def serialize(self):
-        return {
+    def serialize(self,with_courts=False):
+        sportcenter_serialized ={
             "id": self.id,
             "center_name": self.center_name,
             "nif": self.nif,
@@ -88,6 +88,15 @@ class SportCenter(db.Model,BaseModel):
             "phone": self.phone,
             "webpage": self.webpage
         }
+
+        if with_courts:
+            courts_dict = []
+            courts=self.courts
+            for court in courts:
+                courts_dict .append(court.serialize())
+            sportcenter_serialized["courts"] =courts_dict
+
+        return sportcenter_serialized
 
     #metodo de instancia que obliga a que haya datos siempre que se llama       
     def __init__(self,center_name,nif,admin_user,address,state,city,cp):

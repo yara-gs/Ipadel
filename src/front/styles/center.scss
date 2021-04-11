@@ -73,10 +73,8 @@
 	text-transform: uppercase;
     color: #444444;
     margin-top:50px;
-	margin-bottom: 10px;
+	margin-bottom: 20px;
 }
-
-
 
 .container{
     padding: 1rem ;
@@ -101,7 +99,7 @@
     margin-right: 0;
     margin-left: 0;
     color: #444444;
-    border-width: .2rem ;
+    border-width: .1rem ;
     border-radius: 8px 8px;
     background-color: #f0f0f0;
     }
@@ -115,3 +113,12 @@
 }
 
 
+//Center courts configuration
+
+.courtcard{
+    min-width: 20rem;
+    max-width: 50rem;
+    margin-top:10px;
+
+
+}

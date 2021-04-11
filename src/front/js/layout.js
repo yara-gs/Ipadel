@@ -8,7 +8,8 @@ import { Single } from "./pages/single";
 import injectContext from "./store/appContext";
 
 import Sign from "./pages/sign";
-import Center from "./pages/center";
+import Center from "./pages/sportCenter/center";
+import CenterConfiguration from "./pages/sportCenter/courts.jsx";
 import Mynavbar from "./component/navbar";
 import { Footer } from "./component/footer";
 
@@ -37,6 +38,10 @@ const Layout = () => {
 						<Route exact path="/newcenter">
 							<Mynavbar />
 							<Center />
+						</Route>
+						<Route exact path="/configurecenter">
+							<Mynavbar />
+							<CenterConfiguration />
 						</Route>
 						<Route exact path="/demo">
 							<Demo />

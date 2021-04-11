@@ -11,9 +11,10 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-import RegisterCenter from "../component/centerRegister.jsx";
-import FormPropsTextFields from "./pruebasInputs.js";
-import "../../styles/center.scss";
+import RegisterCenter from "../../component/centerRegister.jsx";
+
+import FormPropsTextFields from "../pruebasInputs.js";
+import "../../../styles/center.scss";
 
 export default function Center() {
 	return (
@@ -29,6 +30,7 @@ export default function Center() {
 			</form>
 			<h4 className=" fs-title d-flex justify-content-center ">Dar de alta un centro deportivo</h4>
 			<RegisterCenter />
+
 			<FormPropsTextFields />
 		</div>
 	);

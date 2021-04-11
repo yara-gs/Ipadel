@@ -32,31 +32,26 @@ def registerNewCenter():
     return jsonify(newSportCenter.serialize()),200
 
 
-#  Register sport center
+#  Get all sports center & their courts
 @api.route ('/sportcenters', methods=['GET'])
 def get_centers():
     centers=SportCenter.query.all()
     centers_dict = []
     for center in centers:
-        centers_dict.append(center.serialize())
+        centers_dict.append(center.serialize(with_courts=True))
     
     return jsonify(centers_dict), 200
 
 
-#  Register sport center
+#  Get a sportCenter by Id
 @api.route ('/sportcenters/<int:id>', methods=['GET'])
 def get_sportcenter(id):
 
     center=SportCenter.getId(id)
-    courts=Court.query.all()
-
-    courts_dict = []
-    for court in courts:
-        courts_dict.append(court.serialize())
     
-   
+    return jsonify(center.serialize(with_courts=True)), 200
 
-    return jsonify(courts_dict), 200
+
 
 
 
