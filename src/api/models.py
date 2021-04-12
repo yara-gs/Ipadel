@@ -24,16 +24,28 @@ class User(db.Model):
     password = db.Column(db.String(80), unique=False, nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
 
+    def __init__(self,username, email, password, is_active=True): 
+        if username == '' or email == '' or password == '':
+            raise Exception("Usuario, Email y Contraseña requerida")
+        self.username = username
+        self.email = email
+        self.password = password
+        self.is_active = is_active
+
     @classmethod
     def create_user(cls, username, email, password):
-        user= cls()
-        user.username= username
-        user.email= email
-        user.password= password
-        user.is_active= True
+        user= cls(username, email, password)
         
         db.session.add(user)
         db.session.commit()
+
+    @classmethod
+    def log_user(cls, username, password):
+        return cls.query.filter_by(username=username).filter_by(password=password.one_or_none())
+
+    @classmethod
+    def get(cls, id):
+        return cls.query.get(id)
 
     def __repr__(self):
         return '<User %r>' % self.username
