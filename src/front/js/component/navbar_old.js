@@ -6,7 +6,7 @@ import Nav from "react-bootstrap/Nav";
 import Button from "react-bootstrap/Nav";
 import LinkContainer from "react-bootstrap/Nav";
 import "../../styles/navbar.scss";
-import LogoiPadel from "../component/logoiPadel.jsx";
+import LogoiPadel from "./logoiPadel.jsx";
 
 export default function Mynavbar() {
 	return (
