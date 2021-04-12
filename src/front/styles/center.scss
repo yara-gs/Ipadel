@@ -3,10 +3,9 @@
 
 /*form styles*/
 .msform {
-	// width: 400px;
 	margin-top: 50px ;
 	text-align: center;
-	// position: relative;
+
 }
 /*progressbar*/
 .progressbar {
@@ -18,8 +17,6 @@
 }
 .progressbar li {
 	list-style-type: none;
-    color: #333;
-    border-color: #333;
 	text-transform: uppercase;
 	font-size: 11px;
 	width: 33.33%;
@@ -33,8 +30,6 @@
 	line-height: 40px;
 	display: block;
 	font-size: 20px;
-	color: #333;
-	border-color: #333;
 	border-radius: 50%;
     margin: 0 auto 5px auto;
     background: #ececec;
@@ -119,6 +114,21 @@
     min-width: 20rem;
     max-width: 50rem;
     margin-top:10px;
+}
+
+.courtcardtitle{
+background-color:white;
+}
+
+.court-icon{
+color: rgb(112, 112, 112);
+background-color: white;
 
 
 }
+
+// .courtcardtitle{
+//     border:none !important;
+//     background-color: white !important;
+    
+// }

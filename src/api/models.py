@@ -86,7 +86,8 @@ class SportCenter(db.Model,BaseModel):
             "cp": self.cp,
             "email": self.email,
             "phone": self.phone,
-            "webpage": self.webpage
+            "webpage": self.webpage,
+            "courts": self.courts
         }
 
         if with_courts:
@@ -146,9 +147,10 @@ class SportCenter(db.Model,BaseModel):
 class Court(db.Model,BaseModel):
     __tablename__ = 'court'
     id=db.Column(db.Integer, primary_key=True)
-    court_name=db.Column(db.String(120), unique=False, nullable=True)
+    court_name=db.Column(db.String(120), unique=False, nullable=False)
     light=db.Column(db.Boolean, unique=False, nullable=True)
     image=db.Column(db.String(120),unique=False,nullable=True)
+    players=db.Column(db.Integer, unique=False, nullable=False)
 
     sportcenter_id=db.Column(db.Integer,db.ForeignKey('sportcenter.id'))
     sportcenter=db.relationship("SportCenter",back_populates="courts")
@@ -166,6 +168,7 @@ class Court(db.Model,BaseModel):
         return {
             "id": self.id,
             "court_name": self.court_name,
-            "light":self.light
+            "light":self.light,
+            "players":self.players
         }       
     

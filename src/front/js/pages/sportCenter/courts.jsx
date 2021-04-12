@@ -4,8 +4,14 @@ import "../../../styles/center.scss";
 import Court from "../../component/sportCenter/court.jsx";
 
 export default function CenterConfiguration() {
-	const [center_name, setCenter_Name] = useState("");
 	const [courts, setCourts] = useState(null);
+	const [addCourt, setAddCourt] = useState(false);
+
+	let court_aux = {
+		court_name: "Nueva Pista",
+		light: false,
+		players: null
+	};
 
 	useEffect(
 		() => {
@@ -53,8 +59,26 @@ export default function CenterConfiguration() {
 	}
 
 	return (
-		<div className="container">
-			<h4 className=" fs-title d-flex justify-content-center ">Configuracion Pistas</h4>
+		<div>
+			<form className="msform" method="post">
+				{/* <!-- progressbar --> */}
+				<ul className="progressbar">
+					<li>Dar de alta</li>
+					<li className="active">Configurar Pistas</li>
+					<li>Subir imagenes</li>
+				</ul>
+			</form>
+			<div className="d-flex justify-content-center ">
+				<div className="card courtcard  mb-3 mt-4 ">
+					<div className=" court-icon pt-1">
+						<div type="button" className=" fas fa-plus pl-3 pr-2" onClick={() => setAddCourt(!addCourt)} />
+						Añadir pista
+					</div>
+				</div>
+			</div>
+
+			<div>{addCourt ? <Court court={court_aux} updateCourt={updateCourt} deleteCourt={deleteCourt} /> : ""}</div>
+
 			{courts != null ? (
 				<ul>
 					{courts.map(court => {

@@ -52,6 +52,24 @@ def get_sportcenter(id):
     return jsonify(center.serialize(with_courts=True)), 200
 
 
+# #Delete a court of a sport center
+# @api.route ('/sportcenters/<int:id>/deletecourt/<int:id2>', methods=['GET'])
+# def get_sportcenter(id,id2):
+
+#     courts=SportCenter.getId(id).serialize(with_courts=True)["courts"]
+#     court=0
+#     for item in courts:
+#         if item["id"]==id2:
+#             court=item
+#             db.session.delete(item)
+#             db.session.commit()
+    
+#     return jsonify(court), 200
+
+
+
+
+
 
 
 
