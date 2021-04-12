@@ -13,6 +13,141 @@ export default function Sign() {
 	const [username, setUsername] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+<<<<<<< HEAD
+
+	//POST TODO
+	function createUser() {
+		let body = {
+			username: username,
+			email: email,
+			password: password
+		};
+		fetch(process.env.BACKEND_URL + "/api/sign", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify(body)
+		});
+	}
+
+	function logUser() {
+		let body = {
+			username: username,
+			password: password
+		};
+		fetch(process.env.BACKEND_URL + "/api/login", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify(body)
+		});
+	}
+
+	return (
+		<div className={signUpMode ? "containertest sign-up-mode" : "containertest"}>
+			<div className="forms-container">
+				<div className="signin-signup">
+					<form action="#" className="sign-in-form">
+						<h2 className="title">Iniciar sesión</h2>
+						<div className="input-field">
+							<i className="fas fa-user" />
+							<input
+								type="text"
+								placeholder="Username"
+								onChange={event => {
+									setUsername(event.target.value);
+								}}
+							/>
+						</div>
+						<div className="input-field">
+							<i className="fas fa-lock" />
+							<input
+								type="password"
+								placeholder="Password"
+								onChange={event => {
+									setPassword(event.target.value);
+								}}
+							/>
+						</div>
+						<input
+							type="submit"
+							value="Login"
+							className="btn solid"
+							onClick={() => {
+								logUser();
+							}}
+						/>
+						<p className="social-text">Or Sign in with social platforms</p>
+						<div className="social-media">
+							<a href="#" className="social-icon">
+								<i className="fab fa-facebook-f" />
+							</a>
+							<a href="#" className="social-icon">
+								<i className="fab fa-twitter" />
+							</a>
+							<a href="#" className="social-icon">
+								<i className="fab fa-google" />
+							</a>
+							<a href="#" className="social-icon">
+								<i className="fab fa-linkedin-in" />
+							</a>
+						</div>
+					</form>
+					<form action="#" className="sign-up-form">
+						<h2 className="title">Crear cuenta</h2>
+						<div className="input-field">
+							<i className="fas fa-user" />
+							<input
+								type="text"
+								placeholder="Username"
+								onChange={event => {
+									setUsername(event.target.value);
+								}}
+							/>
+						</div>
+						<div className="input-field">
+							<i className="fas fa-envelope" />
+							<input
+								type="email"
+								placeholder="Email"
+								onChange={event => {
+									setEmail(event.target.value);
+								}}
+							/>
+						</div>
+						<div className="input-field">
+							<i className="fas fa-lock" />
+							<input
+								type="password"
+								placeholder="Password"
+								onChange={event => {
+									setPassword(event.target.value);
+								}}
+							/>
+						</div>
+						<input type="submit" className="btn" value="Sign up" onClick={() => createUser()} />
+						<p className="social-text">Or Sign up with social platforms</p>
+						<div className="social-media">
+							<a href="#" className="social-icon">
+								<i className="fab fa-facebook-f" />
+							</a>
+							<a href="#" className="social-icon">
+								<i className="fab fa-twitter" />
+							</a>
+							<a href="#" className="social-icon">
+								<i className="fab fa-google" />
+							</a>
+							<a href="#" className="social-icon">
+								<i className="fab fa-linkedin-in" />
+							</a>
+						</div>
+					</form>
+				</div>
+			</div>
+
+=======
 	const [confirmPassword, setConfirmPassword] = useState("");
 	const [error, setError] = useState("");
 	const [message, setMessage] = useState("");
@@ -212,6 +347,7 @@ export default function Sign() {
 				</div>
 			</div>
 
+>>>>>>> main
 			<div className="panels-container">
 				<div className="panel left-panel">
 					<div className="content">
