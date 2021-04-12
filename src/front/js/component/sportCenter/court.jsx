@@ -23,6 +23,7 @@ export default function Court(props) {
 	const [editLigth, setEditLigth] = React.useState(props.court.light);
 	const [editPlayers, setEditPlayers] = useState(props.court.players);
 	const [editBtn, setEditBtn] = useState(false);
+	//comment
 
 	if (props.court.court_name == "Nueva Pista" && editBtn == false) {
 		setEditBtn(true);
