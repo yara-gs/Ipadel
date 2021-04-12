@@ -5,7 +5,9 @@ import Court from "../../component/sportCenter/court.jsx";
 
 export default function CenterConfiguration() {
 	const [courts, setCourts] = useState(null);
-	const [addCourt, setAddCourt] = useState(false);
+    const [addCourt, setAddCourt] = useState(false);
+    const [borraraddCourt, setAddCourt] = useState(false);
+   
 
 	let court_aux = {
 		court_name: "Nueva Pista",
