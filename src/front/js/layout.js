@@ -3,8 +3,11 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import ScrollToTop from "./component/scrollToTop";
 import Sign from "./pages/sign";
 import { Home } from "./pages/home";
+import { Home2 } from "./pages/home2";
+import Pistas from "./pages/pistas";
 import SingUpForm from "./pages/singUpForm";
 import { Demo } from "./pages/demo";
+import MiRed from "./pages/mired";
 import { Single } from "./pages/single";
 import injectContext from "./store/appContext";
 import Mynavbar from "./component/navbar";
@@ -19,10 +22,13 @@ const Layout = () => {
 		<div className="d-flex flex-column h-100">
 			<BrowserRouter basename={basename}>
 				<ScrollToTop>
+					<Mynavbar />
 					<Switch>
 						<Route exact path="/">
-							<Mynavbar />
 							<Home />
+						</Route>
+						<Route exact path="/home2">
+							<Home2 />
 						</Route>
 						<Route exact path="/sign">
 							<Sign />
@@ -31,8 +37,13 @@ const Layout = () => {
 							<Profile />
 						</Route>
 						<Route exact path="/home">
-							<Mynavbar />
 							<Home />
+						</Route>
+						<Route exact path="/mired">
+							<MiRed />
+						</Route>
+						<Route exact path="/pistas">
+							<Pistas />
 						</Route>
 						<Route exact path="/demo">
 							<Demo />

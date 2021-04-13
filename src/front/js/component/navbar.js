@@ -21,9 +21,15 @@ export default function Mynavbar() {
 			</Navbar.Brand>
 			<Navbar.Toggle aria-controls="responsive-navbar-nav" />
 			<Navbar.Collapse id="responsive-navbar-nav">
-				<Nav.Link href="#features">Inicio</Nav.Link>
-				<Nav.Link href="#features">Pistas</Nav.Link>
-				<Nav.Link href="#features">Mi Red</Nav.Link>
+				<Link to="/home2">
+					<Nav.Link href="#features">Home2</Nav.Link>
+				</Link>
+				<Link to="/pistas">
+					<Nav.Link href="#features">Pistas</Nav.Link>
+				</Link>
+				<Link to="/mired">
+					<Nav.Link href="#features">Mi Red</Nav.Link>
+				</Link>
 				<Nav.Link href="#features">Mis Reservas</Nav.Link>
 				<Nav className="ml-auto">
 					<Link to="/sign">
