@@ -20,17 +20,27 @@ const useStyles = makeStyles(theme => ({
 
 export default function Court(props) {
 	const classes = useStyles();
-	const [editLigth, setEditLigth] = React.useState(props.court.light);
+	const [editCourt_name, setEditCourt_name] = useState(props.court.court_name);
+	const [editLigth, setEditLigth] = useState(props.court.light);
 	const [editPlayers, setEditPlayers] = useState(props.court.players);
 	const [editBtn, setEditBtn] = useState(false);
+	const [newCourt, setNewCourt] = useState(false);
+	// const [courtUpdated, setCourtUpdated] = useState(props.court);
+	let courtUpdated = {
+		court_name: editCourt_name,
+		light: editLigth,
+		players: editPlayers,
+		sportcenter_id: props.court.sportcenter_id
+	};
 
 	if (props.court.court_name == "Nueva Pista" && editBtn == false) {
 		setEditBtn(true);
-		console.log("hola");
+		setNewCourt(true);
 	}
-	let obj = props.court;
-	// obj.label = inputUpdateValue;
-	props.updateCourt(obj);
+
+	const handleChange_Court_name = event => {
+		setEditCourt_name(event.target.value);
+	};
 
 	const handleChange_Players = event => {
 		setEditPlayers(event.target.value);
@@ -39,23 +49,54 @@ export default function Court(props) {
 		setEditLigth(event.target.value);
 	};
 
+	function create_update_Court() {
+		if (newCourt) {
+			props.createCourt(courtUpdated);
+			props.closeNewCourt();
+		} else {
+			props.updateCourt(courtUpdated, props.court.id);
+		}
+		setEditBtn(false);
+		setNewCourt(false);
+	}
+
+	function closeNewCourt() {
+		setEditBtn(false);
+		if (newCourt) {
+			props.closeNewCourt();
+		}
+	}
+
 	return (
 		<div className="d-flex justify-content-center ">
 			<div className="card courtcard text-dark bg-light">
 				<div className="card-header d-flex justify-content-between">
 					<div>
 						{editBtn ? (
-							<TextField id="standard" label={props.court.court_name} />
+							<TextField
+								id="standard"
+								label={props.court.court_name}
+								onChange={handleChange_Court_name}
+							/>
 						) : (
 							<h5>{props.court.court_name}</h5>
 						)}
 					</div>
-
-					<div>
-						<div type="button" className=" far fa-edit pr-2" onClick={() => setEditBtn(!editBtn)} />
-
-						<div type="button" className=" far fa-trash-alt" />
-					</div>
+					{editBtn ? (
+						<div>
+							<div type="button" className="far fa-save pr-2" onClick={() => create_update_Court()} />
+							<div type="button" className="far fa-times-circle" onClick={closeNewCourt} />
+						</div>
+					) : (
+						<div>
+							<div type="button" className=" far fa-edit pr-2" onClick={() => setEditBtn(!editBtn)} />
+							<div
+								type="button"
+								className=" far fa-trash-alt"
+								onClick={() => props.deleteCourt(props.court.id)}
+							/>
+						</div>
+					)}
 				</div>
 				<div className="card-body">
 					<div className="card-title">
@@ -104,6 +145,8 @@ export default function Court(props) {
 
 Court.propTypes = {
 	court: PropTypes.object,
+	createCourt: PropTypes.func,
 	updateCourt: PropTypes.func,
-	deleteCourt: PropTypes.func
+	deleteCourt: PropTypes.func,
+	closeNewCourt: PropTypes.func
 };

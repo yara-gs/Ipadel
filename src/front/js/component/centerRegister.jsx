@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+
 import { Col, Form, Button } from "react-bootstrap";
 import "../../styles/center.scss";
 
@@ -19,20 +21,7 @@ export default function RegisterCenter() {
 	const [error, setError] = useState("");
 	const [message, setMessage] = useState("");
 
-	// let body = {
-	// 	center_name: "",
-	// 	nif: "",
-	// 	admin_user: "",
-	// 	password: "",
-	// 	email: "",
-	// 	phone: "",
-	// 	webpage: "",
-	// 	address: "",
-	// 	state: "",
-	// 	city: "",
-	// 	cp: "",
-	// 	image: ""
-	// };
+	let history = useHistory();
 
 	//POST NEW SPORT CENTER
 	function createCenter(event) {
@@ -52,7 +41,9 @@ export default function RegisterCenter() {
 			image: image
 		};
 
+		let responseOk = false;
 		setMessage("");
+		setError("");
 
 		//Comprobar Password & ConfirmPassword son iguales
 		if (body.password === confirmPassword) {
@@ -63,23 +54,28 @@ export default function RegisterCenter() {
 					"Content-Type": "application/json"
 				},
 				body: JSON.stringify(body)
-			});
-			// .then(response => response.json())
+			})
+				.then(response => {
+					responseOk = response.ok;
+					if (response.ok) {
+						setMessage("Centro registrado con exito");
+						history.push("/configurecenter");
+					}
+					return response.json();
+				})
+				.then(responseJson => {
+					if (!responseOk) {
+						setError(responseJson.message);
+					}
+				})
+				.catch(error => {
+					setError(error.message);
+				});
 		} else {
-			setMessage("Contraseña no coincide");
+			setError("Contraseñas no coinciden");
 		}
-
-		// function getSportCenters(){
-
-		//     fetch(process.env.BACKEND_URL + "/api/sportcenters", {
-		// 				method: "GET",
-		// 				headers: {
-		// 					"Content-Type": "application/json"
-		// 				}
-		// 			});
-
-		// }
 	}
+
 	return (
 		<div className="container col-12 col-xl-8 col-md-9 d-flex d-flex justify-content-center ">
 			<Form className="registerForm d-flex justify-content-start" onSubmit={event => createCenter(event)}>
@@ -288,7 +284,8 @@ export default function RegisterCenter() {
 						Dar de Alta
 					</Button>
 				</div>
-				<p className="errorMessage">{message}</p>
+				<p className="message">{message} </p>
+				<p className="errorMessage">{error} </p>
 			</Form>
 		</div>
 	);
