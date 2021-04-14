@@ -10,6 +10,8 @@ from flask_jwt_extended import get_jwt_identity
 
 api = Blueprint('api', __name__)
 
+# USER- LOGIN/SIGNUP CONFIGURATION
+
 @api.route('/sign', methods = ['POST'])
 def sign():
     body = request.get_json()
@@ -27,51 +29,104 @@ def login():
     if username != "test" or password != "test":
         return jsonify ({})
 
-#  Register sport center
+
+
+@api.route("/profile", methods=['GET'])
+@jwt_required()
+def profile():
+    current_user_id = get_jwt_identity()
+    user = User.get(current_user_id)
+    return jsonify(user.serialize())
+
+
+# SPORT CENTER REGISTRATION
+
+# SPORTCENTER: REGISTER SPORT NEW SPORTCENTER
 @api.route ('/newcenter', methods=['POST'])
-def registerNewCenter():
+def register_new_center():
 
     body=request.get_json()
-    print(body)
-    newSportCenter=SportCenter.createRegister(body)
-    newSportCenter.save()
+    new_sportcenter=SportCenter.add_register(body)
+    new_sportcenter.save()
   
-    return jsonify(newSportCenter.serialize()),200
+    return jsonify(new_sportcenter.serialize()),200
 
 
-#  Get all sports center & their courts
-@api.route ('/sportcenters', methods=['GET'])
+# SPORTCENTER: Get all sports center & without courts
+@api.route ('/sportcenters/', methods=['GET'])
 def get_centers():
-    centers=SportCenter.query.all()
+    centers=SportCenter.get_all()
     centers_dict = []
     for center in centers:
-        centers_dict.append(center.serialize(with_courts=True))
+        centers_dict.append(center.serialize(with_courts=False))
     
     return jsonify(centers_dict), 200
 
 
-#  Get a sportCenter by Id
+# SPORTCENTER: Get a sportCenter by Id
 @api.route ('/sportcenters/<int:id>', methods=['GET'])
 def get_sportcenter(id):
 
-    center=SportCenter.getId(id)
-    
-    return jsonify(center.serialize(with_courts=True)), 200
+    # param={'with_courts':1}
+    # with_courts=requests.get("https://3001-coffee-gayal-05rp2wqg.ws-eu03.gitpod.io/sportcenters/<int:id>", params=param)
+    with_courts="1" #PASAR POR PARAMETRO DESDE EL FETCH
+    if with_courts=="1":
+        with_courts=True
+    else:
+        with_courts=False
+
+    center=SportCenter.get_id(id)
+    return jsonify(center.serialize(with_courts=with_courts)), 200
 
 
-# #Delete a court of a sport center
-# @api.route ('/sportcenters/<int:id>/deletecourt/<int:id2>', methods=['GET'])
-# def get_sportcenter(id,id2):
+# COURTS
 
-#     courts=SportCenter.getId(id).serialize(with_courts=True)["courts"]
-#     court=0
-#     for item in courts:
-#         if item["id"]==id2:
-#             court=item
-#             db.session.delete(item)
-#             db.session.commit()
-    
-#     return jsonify(court), 200
+# COURTS: Get all courts from a sportCenter
+@api.route ('<int:sportcenter_id>/courts/', methods=['GET'])
+def get_courts(sportcenter_id):
+
+    courts=Court.courts_by_sportcenter(sportcenter_id)
+    courts_list = []
+    for court in courts:
+        courts_list.append(court.serialize())
+
+    return jsonify(courts_list), 200
+
+
+#COURTS:  Delete court by id
+@api.route ('newcourt/', methods=['POST'])
+def register_new_court():
+
+    body=request.get_json()
+    court=Court.add_register(body)
+    court.save()
+  
+    return jsonify(court.serialize()),200
+
+
+
+#COURTS:  Update court by id
+@api.route ('/courtupdate/<int:court_id>', methods=['PUT'])
+def update_court(court_id):
+
+    body=request.get_json()
+    court=Court.get_id(court_id)
+    court.body(body)    
+    court.save()
+
+    return jsonify(court.serialize()), 200
+
+
+#COURTS:  Delete court by id
+@api.route ('/courtdelete/<int:court_id>', methods=['GET'])
+def delete_court(court_id):
+
+    court=Court.get_id(court_id)
+    court.delete()    
+
+    return jsonify(court.serialize()), 200
+
+
 
 
 
@@ -86,22 +141,18 @@ def get_sportcenter(id):
 
 
 
-    body = request.get_json()
-    username = body ["username"]
-    password = body ["password"]
+    # body = request.get_json()
+    # username = body ["username"]
+    # password = body ["password"]
 
-    User.log_user(username, password)
+    # User.log_user(username, password)
 
-    if user is None:
-        raise APIException("Usuario o contraseña incorrecta")
+    # if user is None:
+    #     raise APIException("Usuario o contraseña incorrecta")
 
-    access_token = create_access_token(identity=user.id)
+    # access_token = create_access_token(identity=user.id)
 
-    return jsonify({"access_token": access_token})
+    # return jsonify({"access_token": access_token})
 
-@api.route("/profile", methods=['GET'])
-@jwt_required()
-def profile():
-    current_user_id = get_jwt_identity()
-    user = User.get(current_user_id)
-    return jsonify(user.serialize())
+
+

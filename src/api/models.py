@@ -8,14 +8,15 @@ db = SQLAlchemy()
 class BaseModel():
     #get all data of a table
     @classmethod
-    def getAll(cls):
+    def get_all(cls):
         return cls.query.all()
     
     #get data by id
     @classmethod
-    def getId(cls,id):
+    def get_id(cls,id):
         return cls.query.get(id)
     
+   
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -99,7 +100,6 @@ class SportCenter(db.Model,BaseModel):
             "email": self.email,
             "phone": self.phone,
             "webpage": self.webpage,
-            "courts": self.courts
         }
 
         if with_courts:
@@ -123,7 +123,7 @@ class SportCenter(db.Model,BaseModel):
 
     #create register
     @classmethod
-    def createRegister(cls, request_json):
+    def add_register(cls, request_json):
         
         register=cls(request_json["center_name"],request_json["nif"],request_json["admin_user"],request_json["state"],request_json["address"],request_json["city"],request_json["cp"])
         register.body(request_json)
@@ -172,8 +172,11 @@ class Court(db.Model,BaseModel):
         return '<Court %r>' % self.id
 
     #metodo de instancia que obliga a que haya datos siempre que se llama       
-    def __init__(self,court_name):
+    def __init__(self,court_name,light,players,sportcenter_id):
         self.court_name=court_name
+        self.light=light
+        self.players=players
+        self.sportcenter_id=sportcenter_id
                 
     #metodo de instancia serializa el diccionario
     def serialize(self):
@@ -181,6 +184,42 @@ class Court(db.Model,BaseModel):
             "id": self.id,
             "court_name": self.court_name,
             "light":self.light,
-            "players":self.players
+            "players":self.players,
+            "sportcenter_id": self.sportcenter_id
         }       
+    
+    @classmethod
+    def courts_by_sportcenter(cls, sportcenter_id):
+        return cls.query.filter_by(sportcenter_id=sportcenter_id).all()
+    
+    @classmethod
+    def court_by_sportcenter(cls, sportcenter_id):
+        return cls.query.filter_by(sportcenter_id=sportcenter_id).one_or_none()
+
+     #create register
+    @classmethod
+    def add_register(cls, request_json):
+        
+        register=cls(request_json["court_name"],request_json["light"],request_json["players"],request_json["sportcenter_id"])
+        register.body(request_json)
+        return register
+    
+    #get body
+    def body(self, request_json):
+        self.court_name=request_json["court_name"]
+        self.light=request_json["light"]
+        self.players=request_json["players"]
+        self.sportcenter_id=request_json["sportcenter_id"]
+
+    # save data in the database
+    def save(self):
+        db.session.add(self)
+        return db.session.commit()
+    
+    # delete data in the database
+    def delete(self):
+        db.session.delete(self)
+        return db.session.commit()
+
+
     

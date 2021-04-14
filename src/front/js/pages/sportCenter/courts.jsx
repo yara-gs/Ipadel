@@ -2,61 +2,98 @@ import React, { useState, useEffect } from "react";
 import "../../../styles/center.scss";
 
 import Court from "../../component/sportCenter/court.jsx";
+import setTimeout_useEffect from "../../setTimeout";
 
 export default function CenterConfiguration() {
 	const [courts, setCourts] = useState(null);
 	const [addCourt, setAddCourt] = useState(false);
+	const [sportCenterId, setSportCenterId] = useState(null);
+	const [message, setMessage] = useState(" ");
 
 	let court_aux = {
 		court_name: "Nueva Pista",
 		light: false,
-		players: null
+		players: 4,
+		sportcenter_id: 1
 	};
 
 	useEffect(
 		() => {
+			let sportcenter_id = "1"; //BORRAR
 			//GET COURTS OF A SPORT CENTER
-			fetch(process.env.BACKEND_URL + "/api/sportcenters/1", {
+			fetch(process.env.BACKEND_URL + "/api/" + sportcenter_id + "/courts", {
 				method: "GET",
 				headers: { "Content-Type": "application/json" }
 			})
 				.then(response => response.json())
-				.then(resultJson => setCourts(resultJson.courts));
+				.then(resultJson => setCourts(resultJson));
 		},
 
 		[]
 	);
 
+	//CREATE NEW COURT
+	function createCourt(court) {
+		setMessage("");
+		fetch(process.env.BACKEND_URL + "/api/newcourt/", {
+			method: "POST",
+			body: JSON.stringify(court),
+			headers: {
+				"Content-Type": "application/json"
+			}
+		})
+			.then(response => response.json())
+			.then(responseJson => {
+				let arrayCopy = [...courts, responseJson];
+				setCourts(arrayCopy);
+				setMessage(court.court_name + " creada correctamente");
+				setAddCourt(false);
+			});
+	}
+
 	//UPDATE COURT
-	function updateCourt(court) {
-		// fetch(process.env.BASENAME + "todos/" + todo.id, {
-		// 	method: "PUT",
-		// 	headers: { "Content-Type": "application/json" },
-		// 	body: JSON.stringify(todo)
-		// })
-		// 	.then(response => response.json())
-		// 	.then(resultJson => {
-		// 		let arrayCopy = [...todos];
-		// 		let arrayPos = arrayCopy.findIndex(item => item.id === todo.id);
-		// 		arrayCopy[arrayPos] = todo;
-		// 		setTodos(arrayCopy);
-		// 	});
+	function updateCourt(court, court_id) {
+		console.log(court);
+		setMessage("");
+		fetch(process.env.BACKEND_URL + "/api/courtupdate/" + court_id, {
+			method: "PUT",
+			body: JSON.stringify(court),
+			headers: {
+				"Content-Type": "application/json"
+			}
+		})
+			.then(response => response.json())
+			.then(responseJson => {
+				let arrayCopy = [...courts];
+				let arrayPos = arrayCopy.findIndex(item => item.id === court.id);
+				arrayCopy[arrayPos] = court;
+				setCourts(arrayCopy);
+				setMessage(court.court_name + " se ha modificado correctamente");
+				setUpdate(true);
+			});
+	}
+
+	function closeNewCourt() {
+		setAddCourt(false);
 	}
 
 	//DELETE COURT
-	function deleteCourt(id) {
-		// fetch(process.env.BASENAME + "todos/" + id, {
-		// 	method: "DELETE",
-		// 	headers: { "Content-Type": "application/json" }
-		// })
-		// 	.then(response => response.json())
-		// 	.then(resultJson => {
-		// 		let arrayCopy = [...todos];
-		// 		let arrayPos = arrayCopy.findIndex(item => item.id === id);
-		// 		arrayCopy.splice(arrayPos, 1);
-		// 		setTodos(arrayCopy);
-		// 	});
+	function deleteCourt(court_id) {
+		fetch(process.env.BACKEND_URL + "/api/courtdelete/" + court_id, {
+			method: "GET",
+			headers: { "Content-Type": "application/json" }
+		})
+			.then(response => response.json())
+			.then(resultJson => {
+				let arrayCopy = [...courts];
+				let arrayPos = arrayCopy.findIndex(item => item.id === court_id);
+				arrayCopy.splice(arrayPos, 1);
+				setCourts(arrayCopy);
+			});
 	}
+
+	//call funcion setTimeout
+	setTimeout_useEffect(message, setMessage, 2000);
 
 	return (
 		<div>
@@ -68,22 +105,44 @@ export default function CenterConfiguration() {
 					<li>Subir imagenes</li>
 				</ul>
 			</form>
-			<div className="d-flex justify-content-center ">
-				<div className="card courtcard  mb-3 mt-4 ">
+			<div className="d-flex justify-content-center  ">
+				<div className="card courtcard  mb-2 mt-4 ">
 					<div className=" court-icon pt-1">
 						<div type="button" className=" fas fa-plus pl-3 pr-2" onClick={() => setAddCourt(!addCourt)} />
 						Añadir pista
 					</div>
 				</div>
 			</div>
+			<div className="d-flex justify-content-center">
+				<p className="configcourts_message mb-0 mt-0 ">{message}</p>
+			</div>
 
-			<div>{addCourt ? <Court court={court_aux} updateCourt={updateCourt} deleteCourt={deleteCourt} /> : ""}</div>
+			<div>
+				{addCourt ? (
+					<Court
+						court={court_aux}
+						createCourt={createCourt}
+						updateCourt={updateCourt}
+						deleteCourt={deleteCourt}
+						closeNewCourt={closeNewCourt}
+					/>
+				) : (
+					""
+				)}
+			</div>
 
 			{courts != null ? (
 				<ul>
 					{courts.map(court => {
 						return (
-							<Court key={court.id} court={court} updateCourt={updateCourt} deleteCourt={deleteCourt} />
+							<Court
+								key={court.id}
+								court={court}
+								createCourt={createCourt}
+								updateCourt={updateCourt}
+								deleteCourt={deleteCourt}
+								closeNewCourt={closeNewCourt}
+							/>
 						);
 					})}
 				</ul>
