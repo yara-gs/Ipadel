@@ -24,8 +24,7 @@ export default function Court(props) {
 	const [editLigth, setEditLigth] = useState(props.court.light);
 	const [editPlayers, setEditPlayers] = useState(props.court.players);
 	const [editBtn, setEditBtn] = useState(false);
-	const [newCourt, setNewCourt] = useState(false);
-	// const [courtUpdated, setCourtUpdated] = useState(props.court);
+
 	let courtUpdated = {
 		court_name: editCourt_name,
 		light: editLigth,
@@ -33,9 +32,8 @@ export default function Court(props) {
 		sportcenter_id: props.court.sportcenter_id
 	};
 
-	if (props.court.court_name == "Nueva Pista" && editBtn == false) {
+	if (props.addCourtBtn && editBtn == false) {
 		setEditBtn(true);
-		setNewCourt(true);
 	}
 
 	const handleChange_Court_name = event => {
@@ -50,19 +48,18 @@ export default function Court(props) {
 	};
 
 	function create_update_Court() {
-		if (newCourt) {
+		if (props.addCourtBtn) {
 			props.createCourt(courtUpdated);
-			props.closeNewCourt();
+			// props.closeNewCourt();
 		} else {
 			props.updateCourt(courtUpdated, props.court.id);
 		}
 		setEditBtn(false);
-		setNewCourt(false);
 	}
 
 	function closeNewCourt() {
 		setEditBtn(false);
-		if (newCourt) {
+		if (props.addCourtBtn) {
 			props.closeNewCourt();
 		}
 	}
@@ -145,6 +142,7 @@ export default function Court(props) {
 
 Court.propTypes = {
 	court: PropTypes.object,
+	addCourtBtn: PropTypes.boolean,
 	createCourt: PropTypes.func,
 	updateCourt: PropTypes.func,
 	deleteCourt: PropTypes.func,
