@@ -24,6 +24,7 @@ export default function Court(props) {
 	const [editLigth, setEditLigth] = useState(props.court.light);
 	const [editPlayers, setEditPlayers] = useState(props.court.players);
 	const [editBtn, setEditBtn] = useState(false);
+	const [newCourtName, setnewCourtName] = useState(props.court.court_name);
 
 	let courtUpdated = {
 		court_name: editCourt_name,
@@ -32,8 +33,12 @@ export default function Court(props) {
 		sportcenter_id: props.court.sportcenter_id
 	};
 
-	if (props.addCourtBtn && editBtn == false) {
+	if (props.addCourtBtn && (newCourtName != props.court.court_name || editBtn == false)) {
+		console.log("dfasd");
+		// setEditCourt_name(props.court.court_name);
 		setEditBtn(true);
+		setnewCourtName(props.court.court_name);
+		setEditCourt_name(props.court.court_name);
 	}
 
 	const handleChange_Court_name = event => {
@@ -48,8 +53,10 @@ export default function Court(props) {
 	};
 
 	function create_update_Court() {
+		setEditBtn(false);
 		if (props.addCourtBtn) {
 			props.createCourt(courtUpdated);
+			setEditBtn(false);
 			// props.closeNewCourt();
 		} else {
 			props.updateCourt(courtUpdated, props.court.id);
