@@ -6,12 +6,12 @@ import setTimeout_useEffect from "../../setTimeout";
 
 export default function CenterConfiguration() {
 	const [courts, setCourts] = useState(null);
-	const [addCourt, setAddCourt] = useState(false);
+	const [addCourtBtn, setAddCourtBtn] = useState(false);
 	const [sportCenterId, setSportCenterId] = useState(null);
 	const [message, setMessage] = useState(" ");
 
 	let court_aux = {
-		court_name: "Nueva Pista",
+		court_name: "",
 		light: false,
 		players: 4,
 		sportcenter_id: 1
@@ -32,7 +32,36 @@ export default function CenterConfiguration() {
 		[]
 	);
 
-	//CREATE NEW COURT
+	//SELECT CONFIGURE NEW COURT
+
+	if (addCourtBtn) {
+		//BUSCAR NOMBRES DISPONIBLES PARA PISTAS NUEVAS
+		let courtname = "";
+		let isNameUsed = false;
+		if (courts != null) {
+			for (let i = 1; i < courts.length + 2; i++) {
+				if (i < 10) {
+					courtname = "Pista_00" + i;
+				} else if (i >= 10 && i < 100) {
+					courtname = "Pista_0" + i;
+				} else {
+					courtname = "Pista_" + i;
+				}
+
+				for (let j = 0; j < courts.length; j++) {
+					if (courts[j].court_name === courtname) {
+						isNameUsed = true;
+					}
+				}
+				if (isNameUsed == false) {
+					court_aux["court_name"] = courtname;
+				}
+				isNameUsed = false;
+			}
+		}
+	}
+
+	//SAVE NEW COURT
 	function createCourt(court) {
 		setMessage("");
 		fetch(process.env.BACKEND_URL + "/api/newcourt/", {
@@ -47,7 +76,6 @@ export default function CenterConfiguration() {
 				let arrayCopy = [...courts, responseJson];
 				setCourts(arrayCopy);
 				setMessage(court.court_name + " creada correctamente");
-				setAddCourt(false);
 			});
 	}
 
@@ -69,12 +97,11 @@ export default function CenterConfiguration() {
 				arrayCopy[arrayPos] = court;
 				setCourts(arrayCopy);
 				setMessage(court.court_name + " se ha modificado correctamente");
-				setUpdate(true);
 			});
 	}
 
 	function closeNewCourt() {
-		setAddCourt(false);
+		setAddCourtBtn(false);
 	}
 
 	//DELETE COURT
@@ -108,7 +135,11 @@ export default function CenterConfiguration() {
 			<div className="d-flex justify-content-center  ">
 				<div className="card courtcard  mb-2 mt-4 ">
 					<div className=" court-icon pt-1">
-						<div type="button" className=" fas fa-plus pl-3 pr-2" onClick={() => setAddCourt(!addCourt)} />
+						<div
+							type="button"
+							className=" fas fa-plus pl-3 pr-2"
+							onClick={() => setAddCourtBtn(!addCourtBtn)}
+						/>
 						Añadir pista
 					</div>
 				</div>
@@ -118,9 +149,10 @@ export default function CenterConfiguration() {
 			</div>
 
 			<div>
-				{addCourt ? (
+				{addCourtBtn ? (
 					<Court
 						court={court_aux}
+						addCourtBtn={true}
 						createCourt={createCourt}
 						updateCourt={updateCourt}
 						deleteCourt={deleteCourt}
@@ -138,6 +170,7 @@ export default function CenterConfiguration() {
 							<Court
 								key={court.id}
 								court={court}
+								addCourtBtn={false}
 								createCourt={createCourt}
 								updateCourt={updateCourt}
 								deleteCourt={deleteCourt}
