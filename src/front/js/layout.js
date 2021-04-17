@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import ScrollToTop from "./component/scrollToTop";
 import Sign from "./pages/sign";
 import { Home } from "./pages/home";
-import { Home2 } from "./pages/home2";
+import MiRedComponentes from "./pages/miRedComponentes";
 import Pistas from "./pages/pistas";
 import SingUpForm from "./pages/singUpForm";
 import { Demo } from "./pages/demo";
@@ -27,9 +27,7 @@ const Layout = () => {
 						<Route exact path="/">
 							<Home />
 						</Route>
-						<Route exact path="/home2">
-							<Home2 />
-						</Route>
+
 						<Route exact path="/sign">
 							<Sign />
 						</Route>
@@ -40,7 +38,7 @@ const Layout = () => {
 							<Home />
 						</Route>
 						<Route exact path="/mired">
-							<MiRed />
+							<MiRedComponentes />
 						</Route>
 						<Route exact path="/pistas">
 							<Pistas />
