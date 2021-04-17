@@ -133,13 +133,7 @@ export default function Sign() {
 								<i className="fab fa-facebook-f" />
 							</a>
 							<a href="#" className="social-icon">
-								<i className="fab fa-twitter" />
-							</a>
-							<a href="#" className="social-icon">
 								<i className="fab fa-google" />
-							</a>
-							<a href="#" className="social-icon">
-								<i className="fab fa-linkedin-in" />
 							</a>
 						</div>
 					</form>
@@ -199,13 +193,7 @@ export default function Sign() {
 								<i className="fab fa-facebook-f" />
 							</a>
 							<a href="#" className="social-icon">
-								<i className="fab fa-twitter" />
-							</a>
-							<a href="#" className="social-icon">
 								<i className="fab fa-google" />
-							</a>
-							<a href="#" className="social-icon">
-								<i className="fab fa-linkedin-in" />
 							</a>
 						</div>
 					</form>
