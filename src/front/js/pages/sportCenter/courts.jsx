@@ -9,6 +9,7 @@ export default function CenterConfiguration() {
 	const [addCourtBtn, setAddCourtBtn] = useState(false);
 	const [sportCenterId, setSportCenterId] = useState(null);
 	const [message, setMessage] = useState(" ");
+	const [courtDefaultLabel, setCourtDefaultLabel] = useState("Pista_");
 
 	let court_aux = {
 		court_name: "",
@@ -34,18 +35,23 @@ export default function CenterConfiguration() {
 
 	//SELECT CONFIGURE NEW COURT
 
-	if (addCourtBtn) {
-		//BUSCAR NOMBRES DISPONIBLES PARA PISTAS NUEVAS
+	if (addCourtBtn && court_aux["court_name"] === "") {
+		setDefault_CourNewName();
+		console.log("hola");
+	}
+	//BUSCAR NOMBRES DISPONIBLES PARA PISTAS NUEVAS
+
+	function setDefault_CourNewName() {
 		let courtname = "";
 		let isNameUsed = false;
 		if (courts != null) {
 			for (let i = 1; i < courts.length + 2; i++) {
 				if (i < 10) {
-					courtname = "Pista_00" + i;
+					courtname = courtDefaultLabel + "00" + i;
 				} else if (i >= 10 && i < 100) {
-					courtname = "Pista_0" + i;
+					courtname = courtDefaultLabel + "0" + i;
 				} else {
-					courtname = "Pista_" + i;
+					courtname = courtDefaultLabel + i;
 				}
 
 				for (let j = 0; j < courts.length; j++) {
@@ -55,6 +61,7 @@ export default function CenterConfiguration() {
 				}
 				if (isNameUsed == false) {
 					court_aux["court_name"] = courtname;
+					return;
 				}
 				isNameUsed = false;
 			}
@@ -76,6 +83,7 @@ export default function CenterConfiguration() {
 				let arrayCopy = [...courts, responseJson];
 				setCourts(arrayCopy);
 				setMessage(court.court_name + " creada correctamente");
+				court_aux["court_name"] = "";
 			});
 	}
 
@@ -149,6 +157,22 @@ export default function CenterConfiguration() {
 			</div>
 
 			<div>
+				{addCourtBtn ? (
+					<div className="d-flex justify-content-center  ">
+						<div className="card courtcard  mb-2 mt-4 ">
+							<div className=" court-icon pt-1">
+								<input
+									type="text"
+									className=" fas fa-plus pl-3 pr-2"
+									onChange={() => setCourtDefaultLabel(event.target.value)}
+								/>
+								Etiqueta
+							</div>
+						</div>
+					</div>
+				) : (
+					""
+				)}
 				{addCourtBtn ? (
 					<Court
 						court={court_aux}
