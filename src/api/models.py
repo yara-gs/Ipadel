@@ -25,7 +25,7 @@ class User(db.Model):
         db.session.commit()
 
     @classmethod
-    def log_user(cls, username, password):
+    def get_with_login_credentials(cls, username, password):
         return cls.query.filter_by(username=username).filter_by(password=password).one_or_none()
 
     @classmethod

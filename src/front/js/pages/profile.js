@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { Context } from "../store/appContext";
 
 const Profile = () => {
-	const [email, setEmail] = useState("");
+	const [username, setUsername] = useState("");
 
 	const { actions } = useContext(Context);
 	const history = useHistory();
@@ -13,19 +13,19 @@ const Profile = () => {
 			history.push("/login");
 			return;
 		}
-		fetch("https://3001-lime-pike-pb9kbqkx.ws-eu03.gitpod.io/api/profile", {
+		fetch(process.env.BACKEND_URL + "/api/profile", {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",
-				Authorization: "Bearer" + actions.getAccessToken()
+				Authorization: "Bearer " + actions.getAccessToken()
 			}
 		})
 			.then(response => response.json())
-			.then(responseJson => setEmail(responseJson.email));
+			.then(responseJson => setUsername(responseJson.username));
 	}, []);
 	return (
-		<div>
-			<h2 className="title">Email</h2>
+		<div className="jumbotron">
+			<div>Username {username}</div>
 		</div>
 	);
 };

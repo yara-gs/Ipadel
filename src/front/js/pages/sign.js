@@ -20,7 +20,8 @@ export default function Sign() {
 	const history = useHistory();
 
 	//POST TODO
-	function createUser() {
+	function createUser(event) {
+		event.preventDefault();
 		setError("");
 		setMessage("");
 		if (email == "") {
@@ -62,9 +63,11 @@ export default function Sign() {
 			.catch(error => {
 				setError(error.message);
 			});
+		return false;
 	}
 
-	function logUser() {
+	function logUser(event) {
+		event.preventDefault();
 		setError("");
 		let body = {
 			username: username,
@@ -99,12 +102,7 @@ export default function Sign() {
 		<div className={signUpMode ? "containertest sign-up-mode" : "containertest"}>
 			<div className="forms-container">
 				<div className="signin-signup">
-					<form
-						action="#"
-						className="sign-in-form"
-						onSubmit={() => {
-							logUser();
-						}}>
+					<form action="#" className="sign-in-form" onSubmit={logUser}>
 						<h2 className="title">Iniciar sesión</h2>
 						<div className="input-field">
 							<i className="fas fa-user" />
@@ -137,7 +135,7 @@ export default function Sign() {
 							</a>
 						</div>
 					</form>
-					<form action="#" className="sign-up-form">
+					<form action="#" className="sign-up-form" onSubmit={createUser}>
 						{error ? <h1>{error}</h1> : ""}
 						{message ? <h1>{message}</h1> : ""}
 						<h2 className="title">Crear cuenta</h2>
@@ -186,7 +184,7 @@ export default function Sign() {
 								}}
 							/>
 						</div>
-						<input type="submit" className="btn" value="Sign up" onClick={() => createUser()} />
+						<input type="submit" className="btn" value="Sign up" />
 						<p className="social-text">Or Sign up with social platforms</p>
 						<div className="social-media">
 							<a href="#" className="social-icon">

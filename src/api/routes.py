@@ -36,13 +36,12 @@ def login():
     username = body["username"]
     password = body["password"]
 
-    user = User.log_user(username, password)
-
+    user = User.get_with_login_credentials(username, password)
     if user is None:
         raise APIException("Usuario o contraseña incorrecta")
 
     access_token = create_access_token(identity=user.id)
-
+    
     return jsonify({"access_token": access_token})
 
 @api.route("/profile", methods=['GET'])
