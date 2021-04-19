@@ -9,7 +9,10 @@ export default function CenterConfiguration() {
 	const [addCourtBtn, setAddCourtBtn] = useState(false);
 	const [sportCenterId, setSportCenterId] = useState(null);
 	const [message, setMessage] = useState(" ");
+	const [showCourtDefaultLabel, setShowCourtDefaultLabel] = useState(false);
+	const [courtDefaultLabelInput, setCourtDefaultLabelInput] = useState("");
 	const [courtDefaultLabel, setCourtDefaultLabel] = useState("Pista_");
+	let DefaultLabel_placeholder = "Etiqueta: " + courtDefaultLabel;
 
 	let court_aux = {
 		court_name: "",
@@ -34,14 +37,12 @@ export default function CenterConfiguration() {
 	);
 
 	//SELECT CONFIGURE NEW COURT
-
 	if (addCourtBtn && court_aux["court_name"] === "") {
-		setDefault_CourNewName();
-		console.log("hola");
+		defineDefault_CourtNewName();
 	}
-	//BUSCAR NOMBRES DISPONIBLES PARA PISTAS NUEVAS
 
-	function setDefault_CourNewName() {
+	//BUSCAR ETIQUETAS DISPONIBLES PARA PISTAS NUEVAS
+	function defineDefault_CourtNewName() {
 		let courtname = "";
 		let isNameUsed = false;
 		if (courts != null) {
@@ -68,6 +69,13 @@ export default function CenterConfiguration() {
 		}
 	}
 
+	//GUARDAR ETIQUETA POR DEFECTO PARA PISTAS NUEVAS
+	function changeDefault_CourtName() {
+		setCourtDefaultLabel(courtDefaultLabelInput);
+		setShowCourtDefaultLabel(false);
+		setMessage("etiqueta pistas nuevas modificada a : " + courtDefaultLabelInput);
+	}
+
 	//SAVE NEW COURT
 	function createCourt(court) {
 		setMessage("");
@@ -89,7 +97,6 @@ export default function CenterConfiguration() {
 
 	//UPDATE COURT
 	function updateCourt(court, court_id) {
-		console.log(court);
 		setMessage("");
 		fetch(process.env.BACKEND_URL + "/api/courtupdate/" + court_id, {
 			method: "PUT",
@@ -108,6 +115,7 @@ export default function CenterConfiguration() {
 			});
 	}
 
+	//BORRAR CUADRO CREACION NUEVAS PISTAS
 	function closeNewCourt() {
 		setAddCourtBtn(false);
 	}
@@ -141,50 +149,58 @@ export default function CenterConfiguration() {
 				</ul>
 			</form>
 			<div className="d-flex justify-content-center  ">
-				<div className="card courtcard  mb-2 mt-4 ">
-					<div className=" court-icon pt-1">
-						<div
-							type="button"
-							className=" fas fa-plus pl-3 pr-2"
+				<div className=" courtcard  mb-0 mt-4 ">
+					<div className=" court-icon pt-1 justify-content-around">
+						<button
+							type="button "
+							className=" fas fa-plus p-1"
 							onClick={() => setAddCourtBtn(!addCourtBtn)}
 						/>
-						Añadir pista
+						{"  "}
+
+						{showCourtDefaultLabel == false ? (
+							<button
+								type="button "
+								className=" fas fa-cog p-1"
+								onClick={() => setShowCourtDefaultLabel(true)}
+							/>
+						) : (
+							<span>
+								<button
+									type="button "
+									className=" fas fa-times p-1"
+									onClick={() => setShowCourtDefaultLabel(false)}
+								/>
+								<button
+									type="button "
+									className=" far fa-save p-1"
+									onClick={() => changeDefault_CourtName()}
+								/>
+								<input
+									className="courtcardInput"
+									type="text"
+									placeholder={DefaultLabel_placeholder}
+									onChange={() => setCourtDefaultLabelInput(event.target.value)}
+								/>
+							</span>
+						)}
+
+						<p className="configcourts_message mb-0 mt-2 ">{message}</p>
+
+						{addCourtBtn ? (
+							<Court
+								court={court_aux}
+								addCourtBtn={true}
+								createCourt={createCourt}
+								updateCourt={updateCourt}
+								deleteCourt={deleteCourt}
+								closeNewCourt={closeNewCourt}
+							/>
+						) : (
+							""
+						)}
 					</div>
 				</div>
-			</div>
-			<div className="d-flex justify-content-center">
-				<p className="configcourts_message mb-0 mt-0 ">{message}</p>
-			</div>
-
-			<div>
-				{addCourtBtn ? (
-					<div className="d-flex justify-content-center  ">
-						<div className="card courtcard  mb-2 mt-4 ">
-							<div className=" court-icon pt-1">
-								<input
-									type="text"
-									className=" fas fa-plus pl-3 pr-2"
-									onChange={() => setCourtDefaultLabel(event.target.value)}
-								/>
-								Etiqueta
-							</div>
-						</div>
-					</div>
-				) : (
-					""
-				)}
-				{addCourtBtn ? (
-					<Court
-						court={court_aux}
-						addCourtBtn={true}
-						createCourt={createCourt}
-						updateCourt={updateCourt}
-						deleteCourt={deleteCourt}
-						closeNewCourt={closeNewCourt}
-					/>
-				) : (
-					""
-				)}
 			</div>
 
 			{courts != null ? (
