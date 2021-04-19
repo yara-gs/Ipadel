@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import "../../../styles/center.scss";
 
+import { Modal, Button } from "react-bootstrap";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -25,6 +26,8 @@ export default function Court(props) {
 	const [editPlayers, setEditPlayers] = useState(props.court.players);
 	const [editBtn, setEditBtn] = useState(false);
 	const [newCourtName, setnewCourtName] = useState(props.court.court_name);
+	const [showConfirmDelteCourt, setShowConfirmDeleteCourt] = useState(false);
+	const [confirmDeleteCourt, setConfirmDeleteCourt] = useState(false);
 
 	let courtUpdated = {
 		court_name: editCourt_name,
@@ -32,10 +35,9 @@ export default function Court(props) {
 		players: editPlayers,
 		sportcenter_id: props.court.sportcenter_id
 	};
+	const handleClose = () => setShowConfirmDeleteCourt(false);
 
 	if (props.addCourtBtn && (newCourtName != props.court.court_name || editBtn == false)) {
-		console.log("dfasd");
-		// setEditCourt_name(props.court.court_name);
 		setEditBtn(true);
 		setnewCourtName(props.court.court_name);
 		setEditCourt_name(props.court.court_name);
@@ -57,11 +59,15 @@ export default function Court(props) {
 		if (props.addCourtBtn) {
 			props.createCourt(courtUpdated);
 			setEditBtn(false);
-			// props.closeNewCourt();
 		} else {
 			props.updateCourt(courtUpdated, props.court.id);
 		}
 		setEditBtn(false);
+	}
+
+	function delete_Court() {
+		props.deleteCourt(props.court.id);
+		setShowConfirmDeleteCourt(false);
 	}
 
 	function closeNewCourt() {
@@ -69,6 +75,16 @@ export default function Court(props) {
 		if (props.addCourtBtn) {
 			props.closeNewCourt();
 		}
+	}
+
+	function showSaveButton() {
+		let return_html = "";
+		if (props.court.court_name != editCourt_name || props.addCourtBtn) {
+			return_html = <div type="button" className="far fa-save pr-2" onClick={() => create_update_Court()} />;
+		} else {
+			return_html = "";
+		}
+		return return_html;
 	}
 
 	return (
@@ -88,7 +104,8 @@ export default function Court(props) {
 					</div>
 					{editBtn ? (
 						<div>
-							<div type="button" className="far fa-save pr-2" onClick={() => create_update_Court()} />
+							{/* <div type="button" className="far fa-save pr-2" onClick={() => create_update_Court()} /> */}
+							{showSaveButton()}
 							<div type="button" className="far fa-times-circle" onClick={closeNewCourt} />
 						</div>
 					) : (
@@ -97,7 +114,7 @@ export default function Court(props) {
 							<div
 								type="button"
 								className=" far fa-trash-alt"
-								onClick={() => props.deleteCourt(props.court.id)}
+								onClick={() => setShowConfirmDeleteCourt(true)}
 							/>
 						</div>
 					)}
@@ -143,6 +160,20 @@ export default function Court(props) {
 					</div>
 				</div>
 			</div>
+
+			<Modal show={showConfirmDelteCourt} onHide={handleClose}>
+				<Modal.Header closeButton>
+					<Modal.Title>
+						<i className="far fa-trash-alt fa-s" /> {courtUpdated.court_name}
+					</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					¿Desea realmente eliminar {courtUpdated.court_name} ? Pulse confirmar para continuar{" "}
+				</Modal.Body>
+				<Modal.Footer>
+					<Button onClick={() => delete_Court()}>Confirmar</Button>
+				</Modal.Footer>
+			</Modal>
 		</div>
 	);
 }

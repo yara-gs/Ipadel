@@ -125,6 +125,29 @@ color: rgb(112, 112, 112);
 background-color: white;
 
 }
+.court-icon button{
+color: rgb(112, 112, 112);
+background-color: #f0f0f0;
+border-color:white;
+border-width: thin;
+border-radius: 3px;
+
+
+}
+
+
+.courtcardInput{
+    font: 400 13.3333px Arial;
+    padding: 3px 4px;
+    border-width: 1px;
+    border-style: inset;
+    border-color:#f0f0f0;
+    border-color: -internal-light-dark(#f0f0f0, #f0f0f0);
+    border-image: initial;
+
+
+
+}
 
 .configcourts_message{
     color: #F9A826;
