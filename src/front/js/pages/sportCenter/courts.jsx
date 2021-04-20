@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import "../../../styles/center.scss";
 
 import Court from "../../component/sportCenter/court.jsx";
@@ -149,15 +150,13 @@ export default function CenterConfiguration() {
 				</ul>
 			</form>
 			<div className="d-flex justify-content-center  ">
-				<div className=" courtcard  mb-0 mt-4 ">
-					<div className=" court-icon pt-1 justify-content-around">
+				<div className=" courtcard  mb-0 mt-4 d-flex justify-content-start">
+					<div className=" court-icon pt-1 ">
 						<button
 							type="button "
-							className=" fas fa-plus p-1"
+							className=" fas fa-plus p-1 "
 							onClick={() => setAddCourtBtn(!addCourtBtn)}
 						/>
-						{"  "}
-
 						{showCourtDefaultLabel == false ? (
 							<button
 								type="button "
@@ -184,9 +183,13 @@ export default function CenterConfiguration() {
 								/>
 							</span>
 						)}
+						<span className=" next_step ">Saltar paso</span>
+
+						<Link to="/uploadCenterImages">
+							<button type="button " className=" next_stepLink fas fa-chevron-right ml-1 p-1" />
+						</Link>
 
 						<p className="configcourts_message mb-0 mt-2 ">{message}</p>
-
 						{addCourtBtn ? (
 							<Court
 								court={court_aux}
