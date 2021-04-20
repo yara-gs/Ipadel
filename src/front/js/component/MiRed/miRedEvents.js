@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
-import { Context } from "../store/appContext";
-import "../../styles/mired.scss";
-import "../../styles/modal.scss";
+import { Context } from "../../store/appContext";
+import "../../../styles/mired.scss";
+import "../../../styles/modal.scss";
 import "w3-css/w3.css";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";

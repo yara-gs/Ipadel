@@ -2,12 +2,12 @@ import React, { useContext } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/mired.scss";
 import "w3-css/w3.css";
-import MiRedPerfil from "../component/miRedPerfil";
-import MiRedInterests from "../component/miRedInterests";
-import MiRedPostText from "../component/miRedPostText";
-import MiRedPosts from "../component/miRedPosts";
-import MiRedEvents from "../component/miRedEvents";
-import MiRedFriendRequest from "../component/miRedFriendRequest";
+import MiRedPerfil from "../component/MiRed/miRedPerfil";
+import MiRedInterests from "../component/MiRed/miRedInterests";
+import MiRedPostText from "../component/MiRed/miRedPostText";
+import MiRedPosts from "../component/MiRed/miRedPosts";
+import MiRedEvents from "../component/MiRed/miRedEvents";
+import MiRedFriendRequest from "../component/MiRed/miRedFriendRequest";
 
 export default function MiRedComponentes() {
 	return (

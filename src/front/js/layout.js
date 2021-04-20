@@ -6,7 +6,7 @@ import { Home } from "./pages/home";
 import MiRedComponentes from "./pages/miRedComponentes";
 import SingUpForm from "./pages/singUpForm";
 import { Demo } from "./pages/demo";
-import MiRed from "./pages/mired";
+
 import { Single } from "./pages/single";
 import injectContext from "./store/appContext";
 import Mynavbar from "./component/navbar";

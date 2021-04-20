@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
-import { Context } from "../store/appContext";
-import "../../styles/mired.scss";
+import { Context } from "../../store/appContext";
+import "../../../styles/mired.scss";
 import "w3-css/w3.css";
-import "../../styles/buttons.scss";
+import "../../../styles/buttons.scss";
 
 export default function MiRedPostText() {
 	const [postsList, setPostsList] = React.useState([]);
