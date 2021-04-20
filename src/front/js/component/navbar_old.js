@@ -6,7 +6,7 @@ import Nav from "react-bootstrap/Nav";
 import Button from "react-bootstrap/Nav";
 import LinkContainer from "react-bootstrap/Nav";
 import "../../styles/navbar.scss";
-import LogoiPadel from "../component/logoiPadel.jsx";
+import LogoiPadel from "./logoiPadel.jsx";
 
 export default function Mynavbar() {
 	return (
@@ -21,19 +21,10 @@ export default function Mynavbar() {
 			</Navbar.Brand>
 			<Navbar.Toggle aria-controls="responsive-navbar-nav" />
 			<Navbar.Collapse id="responsive-navbar-nav">
-				<Link to="/pistas">
-					<Nav.Link href="#features">Pistas</Nav.Link>
-				</Link>
-				<Link to="/mired">
-					<Nav.Link href="#features">Mi Red</Nav.Link>
-				</Link>
+				<Nav.Link href="#features">Inicio</Nav.Link>
+				<Nav.Link href="#features">Pistas</Nav.Link>
+				<Nav.Link href="#features">Mi Red</Nav.Link>
 				<Nav.Link href="#features">Mis Reservas</Nav.Link>
-				<Link to="/newcenter">
-					<Nav.Link href="#features">Alta Centros Deportivos</Nav.Link>
-				</Link>
-				<Link to="/configurecenter">
-					<Nav.Link href="#features">Configurar centro</Nav.Link>
-				</Link>
 				<Nav className="ml-auto">
 					<Link to="/sign">
 						<Nav.Link href="#pricing">Sign Up</Nav.Link>
