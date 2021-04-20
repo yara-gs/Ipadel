@@ -21,9 +21,6 @@ export default function Mynavbar() {
 			</Navbar.Brand>
 			<Navbar.Toggle aria-controls="responsive-navbar-nav" />
 			<Navbar.Collapse id="responsive-navbar-nav">
-				<Link to="/home2">
-					<Nav.Link href="#features">Home2</Nav.Link>
-				</Link>
 				<Link to="/pistas">
 					<Nav.Link href="#features">Pistas</Nav.Link>
 				</Link>

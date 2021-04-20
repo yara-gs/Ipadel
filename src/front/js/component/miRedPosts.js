@@ -15,7 +15,7 @@ export default function MiRedPosts() {
 					id="image7"
 				/>
 				<span className="w3-right w3-opacity">1 min</span>
-				<h4>John Doe</h4>
+				<h4>Nico Balcells</h4>
 				<br />
 				<hr className="w3-clear" />
 				<p>

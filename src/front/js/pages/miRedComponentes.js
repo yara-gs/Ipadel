@@ -11,7 +11,7 @@ import MiRedFriendRequest from "../component/miRedFriendRequest";
 
 export default function MiRedComponentes() {
 	return (
-		<div>
+		<div className="w3-margin-top">
 			<MiRedPerfil />
 			<MiRedPostText />
 			<MiRedEvents />

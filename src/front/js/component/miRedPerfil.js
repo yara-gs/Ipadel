@@ -8,7 +8,7 @@ export default function MiRedPerfil() {
 		<div className="w3-col m3">
 			<div className="w3-card w3-round w3-white">
 				<div className="w3-container">
-					<h4 className="w3-center">My Profile</h4>
+					<h4 className="w3-center">Mi Perfil</h4>
 					<p className="w3-center">
 						<img
 							src="https://www.w3schools.com/w3images/avatar3.png"
@@ -18,13 +18,13 @@ export default function MiRedPerfil() {
 						/>
 					</p>
 					<p>
-						<i className="fa fa-pencil fa-fw w3-margin-right w3-text-theme" /> Designer, UI
+						<i className="fa fa-pencil fa-fw w3-margin-right w3-text-theme" /> Profesion
 					</p>
 					<p>
-						<i className="fa fa-home fa-fw w3-margin-right w3-text-theme" /> London, UK
+						<i className="fa fa-home fa-fw w3-margin-right w3-text-theme" /> Ciudad, Pais
 					</p>
 					<p>
-						<i className="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme" /> April 1, 1988
+						<i className="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme" /> Fecha de Nacimiento
 					</p>
 				</div>
 			</div>

@@ -4,7 +4,6 @@ import ScrollToTop from "./component/scrollToTop";
 import Sign from "./pages/sign";
 import { Home } from "./pages/home";
 import MiRedComponentes from "./pages/miRedComponentes";
-import Pistas from "./pages/pistas";
 import SingUpForm from "./pages/singUpForm";
 import { Demo } from "./pages/demo";
 import MiRed from "./pages/mired";
@@ -40,9 +39,7 @@ const Layout = () => {
 						<Route exact path="/mired">
 							<MiRedComponentes />
 						</Route>
-						<Route exact path="/pistas">
-							<Pistas />
-						</Route>
+
 						<Route exact path="/demo">
 							<Demo />
 						</Route>
