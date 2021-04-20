@@ -24,12 +24,17 @@ def sign():
 
 @api.route("/login", methods=["POST"])
 def login():
-    username = request.json.get("username", None)
-    password = request.json.get("password", None)
-    if username != "test" or password != "test":
-        return jsonify ({})
+    body = request.get_json()
+    username = body["username"]
+    password = body["password"]
 
+    user = User.get_with_login_credentials(username, password)
+    if user is None:
+        raise APIException("Usuario o contraseña incorrecta")
 
+    access_token = create_access_token(identity=user.id)
+    
+    return jsonify({"access_token": access_token})
 
 @api.route("/profile", methods=['GET'])
 @jwt_required()
