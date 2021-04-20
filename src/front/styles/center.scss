@@ -116,6 +116,12 @@
     margin-top:10px;
 }
 
+.card.newcard{
+    border-color:#F9CB40;
+    margin-top: 0px;
+
+}
+
 .courtcardtitle{
 background-color:white;
 }
@@ -150,6 +156,14 @@ border-radius: 3px;
 .configcourts_message{
     color: #F9A826;
     font-size: small;
+
+
+}
+
+.newcourts_message{
+    color:rgb(112, 112, 112);
+    font-size:x-small;
+    padding-left: 230px;
 
 
 }

@@ -27,9 +27,9 @@ export default function Court(props) {
 	const [editBtn, setEditBtn] = useState(false);
 	const [newCourtName, setnewCourtName] = useState(props.court.court_name);
 	const [showConfirmDelteCourt, setShowConfirmDeleteCourt] = useState(false);
-	const [confirmDeleteCourt, setConfirmDeleteCourt] = useState(false);
 
 	let courtUpdated = {
+		id: props.court.id,
 		court_name: editCourt_name,
 		light: editLigth,
 		players: editPlayers,
@@ -87,9 +87,17 @@ export default function Court(props) {
 		return return_html;
 	}
 
+	let return_Cardhtml = "";
+
+	if (props.addCourtBtn) {
+		return_Cardhtml = "card courtcard newcard text-dark bg-light";
+	} else {
+		return_Cardhtml = "card courtcard text-dark bg-light";
+	}
+
 	return (
 		<div className="d-flex justify-content-center ">
-			<div className="card courtcard text-dark bg-light">
+			<div className={return_Cardhtml}>
 				<div className="card-header d-flex justify-content-between">
 					<div>
 						{editBtn ? (
@@ -104,8 +112,9 @@ export default function Court(props) {
 					</div>
 					{editBtn ? (
 						<div>
-							{/* <div type="button" className="far fa-save pr-2" onClick={() => create_update_Court()} /> */}
+							{/* <div className="newcourts_message">Crear pista nueva</div> */}
 							{showSaveButton()}
+
 							<div type="button" className="far fa-times-circle" onClick={closeNewCourt} />
 						</div>
 					) : (

@@ -9,7 +9,7 @@ import injectContext from "./store/appContext";
 
 import Sign from "./pages/sign";
 import Center from "./pages/sportCenter/center";
-import CenterConfiguration from "./pages/sportCenter/courts.jsx";
+import ConfigureCourts from "./pages/sportCenter/configure-courts.jsx";
 import CenterImages from "./pages/sportCenter/centerImages.jsx";
 import Mynavbar from "./component/navbar";
 import { Footer } from "./component/footer";
@@ -42,9 +42,9 @@ const Layout = () => {
 							<Mynavbar />
 							<Center />
 						</Route>
-						<Route exact path="/configurecenter">
+						<Route exact path="/configure-courts">
 							<Mynavbar />
-							<CenterConfiguration />
+							<ConfigureCourts />
 						</Route>
 						<Route exact path="/uploadCenterImages">
 							<Mynavbar />

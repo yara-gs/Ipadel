@@ -5,7 +5,7 @@ import "../../../styles/center.scss";
 import Court from "../../component/sportCenter/court.jsx";
 import setTimeout_useEffect from "../../setTimeout";
 
-export default function CenterConfiguration() {
+export default function ConfigureCourts() {
 	const [courts, setCourts] = useState(null);
 	const [addCourtBtn, setAddCourtBtn] = useState(false);
 	const [sportCenterId, setSportCenterId] = useState(null);
@@ -97,9 +97,9 @@ export default function CenterConfiguration() {
 	}
 
 	//UPDATE COURT
-	function updateCourt(court, court_id) {
+	function updateCourt(court) {
 		setMessage("");
-		fetch(process.env.BACKEND_URL + "/api/courtupdate/" + court_id, {
+		fetch(process.env.BACKEND_URL + "/api/courtupdate/" + court.id, {
 			method: "PUT",
 			body: JSON.stringify(court),
 			headers: {
@@ -190,15 +190,19 @@ export default function CenterConfiguration() {
 						</Link>
 
 						<p className="configcourts_message mb-0 mt-2 ">{message}</p>
+
 						{addCourtBtn ? (
-							<Court
-								court={court_aux}
-								addCourtBtn={true}
-								createCourt={createCourt}
-								updateCourt={updateCourt}
-								deleteCourt={deleteCourt}
-								closeNewCourt={closeNewCourt}
-							/>
+							<span>
+								<p className="newcourts_message mb-0 mt-0 ">Crear pista nueva</p>
+								<Court
+									court={court_aux}
+									addCourtBtn={true}
+									createCourt={createCourt}
+									updateCourt={updateCourt}
+									deleteCourt={deleteCourt}
+									closeNewCourt={closeNewCourt}
+								/>
+							</span>
 						) : (
 							""
 						)}

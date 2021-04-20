@@ -31,7 +31,7 @@ export default function Mynavbar() {
 					</NavDropdown>
 
 					<Nav.Link href="/newcenter">Alta centro deportivo</Nav.Link>
-					<Nav.Link href="/configurecenter">Configurar centro</Nav.Link>
+					<Nav.Link href="/configure-courts">Configurar centro</Nav.Link>
 					<Nav.Link href="/sign">Login</Nav.Link>
 
 					{/* <Link to="/sign">
