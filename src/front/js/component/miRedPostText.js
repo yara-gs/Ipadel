@@ -24,7 +24,7 @@ export default function MiRedPostText() {
 		setPostsList(newList);
 	}
 	var d = new Date();
-	var n = d.getHours();
+	var hour = d.getHours();
 
 	//useEffect(() => {
 	const liNewTask = postsList.map((eachPost, index) => {
@@ -37,7 +37,7 @@ export default function MiRedPostText() {
 					className="w3-left w3-circle w3-margin-right"
 					id="image7"
 				/>
-				<span className="w3-right w3-opacity">{n + ".00"}</span>
+				<span className="w3-right w3-opacity">{hour + ".00"}</span>
 				<h4>{eachPost}</h4>
 				<br />
 				<hr className="w3-clear" />
@@ -67,11 +67,8 @@ export default function MiRedPostText() {
 				<button type="button" className="w3-button w3-theme-d1 w3-margin-bottom">
 					<i className="fa fa-thumbs-up" />  Me Gusta
 				</button>
-				<button
-					type="button"
-					className="w3-button w3-theme-d1 w3-margin-bottom"
-					onClick={() => deletePost(index)}>
-					x
+				<button type="button" className="w3-button w3-theme-d2 w3-margin-bottom">
+					<i className="fa fa-comment" />  Comment
 				</button>
 			</div>
 		);
