@@ -29,13 +29,14 @@ export default function Mynavbar() {
 						<NavDropdown.Divider />
 						<NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
 					</NavDropdown>
-					<Nav.Link href="#deets">More deets</Nav.Link>
-					<Link to="/sign">
+
+					<Nav.Link href="/newcenter">Alta centro deportivo</Nav.Link>
+					<Nav.Link href="/configurecenter">Configurar centro</Nav.Link>
+					<Nav.Link href="/sign">Login</Nav.Link>
+
+					{/* <Link to="/sign">
 						<button className="btn btn-primary align-self: flex-end">Sing Up</button>
-					</Link>
-					<Link to="/profile">
-						<button className="btn btn-primary align-self: flex-end">Perfil</button>
-					</Link>
+					</Link> */}
 				</Nav>
 			</Navbar.Collapse>
 		</Navbar>

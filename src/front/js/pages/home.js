@@ -6,5 +6,5 @@ import "../../styles/home.scss";
 export const Home = () => {
 	const { store, actions } = useContext(Context);
 
-	return <h1>hola</h1>;
+	return <h1> </h1>;
 };
