@@ -137,25 +137,21 @@ def delete_court(court_id):
 def upload_images():
 
     files=request.files
-    print(files)
-    # for key in files:
-    #     file=files[key]
-    #     url_image=""
-    #     try:
-    #         url_image=upload_file_to_s3(file, os.environ.get('S3_BUCKET_NAME'))
+    sportcenter_id=request.form.get('sportcenter_id')
+    images_list=[]
+    for key in files:
+        file=files[key]
+        try:
+            url_image=upload_file_to_s3(file, os.environ.get('S3_BUCKET_NAME'))
+            image=Image(url_image=url_image,sportcenter_id=sportcenter_id)
+            image.save()
+            images_list.append(image.serialize())
 
-    #     except Exception as e:
-    #         raise APIException("Fallo al importar imagenes")
-
-    url_image="http://ipadel.s3.amazonaws.com/tenis.svg"
-    image=Image(url_image=url_image,sportcenter_id="1")
-    print(file.filename)
-    # image.save()
+        except Exception as e:
+            raise APIException("Fallo al importar imagenes")
 
 
-    
-
-    return jsonify(image.serialize()),200
+    return jsonify(images_list),200
 
 
 
