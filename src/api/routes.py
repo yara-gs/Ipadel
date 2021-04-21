@@ -88,7 +88,7 @@ def get_sportcenter(id):
 @api.route ('<int:sportcenter_id>/courts/', methods=['GET'])
 def get_courts(sportcenter_id):
 
-    courts=Court.courts_by_sportcenter(sportcenter_id)
+    courts=Court.items_by_sportcenter(sportcenter_id)
     courts_list = []
     for court in courts:
         courts_list.append(court.serialize())
@@ -154,6 +154,16 @@ def upload_images():
     return jsonify(images_list),200
 
 
+# SPORTCENTER: MOSTRAR LAS IMAGES DEL CENTRO
+@api.route ('<int:sportcenter_id>/images', methods=['GET'])
+def download_images(sportcenter_id):
+
+    images=Image.items_by_sportcenter(sportcenter_id)
+    images_list = []
+    for image in images:
+        images_list.append(image.serialize())
+
+    return jsonify(images_list), 200
 
 
 

@@ -16,7 +16,10 @@ class BaseModel():
     def get_id(cls,id):
         return cls.query.get(id)
     
-   
+
+
+
+
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -156,8 +159,21 @@ class SportCenter(db.Model,BaseModel):
         return db.session.commit()
 
 
+class SportCenterId():
+    @classmethod
+    def items_by_sportcenter(cls, sportcenter_id):
+        return cls.query.filter_by(sportcenter_id=sportcenter_id).all()
+
+    @classmethod
+    def item_by_sportcenter(cls, sportcenter_id):
+        return cls.query.filter_by(sportcenter_id=sportcenter_id).one_or_none()
+
+
+
+
+
 # For Many to One (Many Courts to one SportCenter)
-class Court(db.Model,BaseModel):
+class Court(db.Model,BaseModel,SportCenterId):
     __tablename__ = 'court'
     id=db.Column(db.Integer, primary_key=True)
     court_name=db.Column(db.String(120), unique=False, nullable=False)
@@ -188,15 +204,8 @@ class Court(db.Model,BaseModel):
             "players":self.players,
             "sportcenter_id": self.sportcenter_id
         }       
-    
-    @classmethod
-    def courts_by_sportcenter(cls, sportcenter_id):
-        return cls.query.filter_by(sportcenter_id=sportcenter_id).all()
-    
-    @classmethod
-    def court_by_sportcenter(cls, sportcenter_id):
-        return cls.query.filter_by(sportcenter_id=sportcenter_id).one_or_none()
 
+    
      #create register
     @classmethod
     def add_register(cls, request_json):
@@ -225,7 +234,7 @@ class Court(db.Model,BaseModel):
 
     
 # For Many to One (Many Images to one SportCenter)
-class Image(db.Model,BaseModel):
+class Image(db.Model,BaseModel,SportCenterId):
     __tablename__ = 'images'
     id=db.Column(db.Integer, primary_key=True)
     url_image=db.Column(db.String(120), unique=False, nullable=False)
