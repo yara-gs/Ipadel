@@ -59,7 +59,7 @@ export default function RegisterCenter() {
 					responseOk = response.ok;
 					if (response.ok) {
 						setMessage("Centro registrado con exito");
-						history.push("/configurecenter");
+						history.push("/configure-courts");
 					}
 					return response.json();
 				})

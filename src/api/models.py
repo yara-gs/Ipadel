@@ -81,6 +81,7 @@ class SportCenter(db.Model,BaseModel):
     image=db.Column(db.String(120),unique=False,nullable=True)
 
     courts=db.relationship("Court",back_populates="sportcenter")
+    images=db.relationship("Image",back_populates="sportcenter")
 
      #metodo de instancia %r lo sustituty por %self.id
     def __repr__(self):
@@ -155,7 +156,7 @@ class SportCenter(db.Model,BaseModel):
         return db.session.commit()
 
 
-     # For Many to One (Many Courts to one SportCenter)
+# For Many to One (Many Courts to one SportCenter)
 class Court(db.Model,BaseModel):
     __tablename__ = 'court'
     id=db.Column(db.Integer, primary_key=True)
@@ -223,3 +224,37 @@ class Court(db.Model,BaseModel):
 
 
     
+# For Many to One (Many Images to one SportCenter)
+class Image(db.Model,BaseModel):
+    __tablename__ = 'images'
+    id=db.Column(db.Integer, primary_key=True)
+    url_image=db.Column(db.String(120), unique=False, nullable=False)
+
+
+    sportcenter_id=db.Column(db.Integer,db.ForeignKey('sportcenter.id'))
+    sportcenter=db.relationship("SportCenter",back_populates="images")
+    
+
+        #metodo de instancia %r lo sustituty por %self.id
+    def __repr__(self):
+        return '<Image %r>' % self.id
+
+    #metodo de instancia que obliga a que haya datos siempre que se llama       
+    def __init__(self,url_image,sportcenter_id):
+        self.url_image=url_image
+        self.sportcenter_id=sportcenter_id
+
+ 
+    #metodo de instancia serializa el diccionario
+    def serialize(self):
+        return {
+            "id": self.id,
+            "url_image": self.url_image,
+            "sportcenter_id": self.sportcenter_id
+        }       
+
+    # save data in the database
+    def save(self):
+        db.session.add(self)
+        return db.session.commit()
+        

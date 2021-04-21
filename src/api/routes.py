@@ -1,12 +1,15 @@
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
+import os
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, SportCenter,Court
+from api.models import db, User, SportCenter,Court,Image
 from api.utils import generate_sitemap, APIException
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import get_jwt_identity
+
+from aws import upload_file_to_s3
 
 api = Blueprint('api', __name__)
 
@@ -93,7 +96,7 @@ def get_courts(sportcenter_id):
     return jsonify(courts_list), 200
 
 
-#COURTS:  Delete court by id
+#COURTS:  Crate new court
 @api.route ('newcourt/', methods=['POST'])
 def register_new_court():
 
@@ -127,32 +130,34 @@ def delete_court(court_id):
     return jsonify(court.serialize()), 200
 
 
+# SPORT CENTER IMAGES
+
+# SPORTCENTER: UPLOAD IMAGES
+@api.route ('/upload-images', methods=['POST'])
+def upload_images():
+
+    files=request.files
+    print(files)
+    # for key in files:
+    #     file=files[key]
+    #     url_image=""
+    #     try:
+    #         url_image=upload_file_to_s3(file, os.environ.get('S3_BUCKET_NAME'))
+
+    #     except Exception as e:
+    #         raise APIException("Fallo al importar imagenes")
+
+    url_image="http://ipadel.s3.amazonaws.com/tenis.svg"
+    image=Image(url_image=url_image,sportcenter_id="1")
+    print(file.filename)
+    # image.save()
 
 
+    
+
+    return jsonify(image.serialize()),200
 
 
-
-
-
-
-
-
-   
-
-
-
-    # body = request.get_json()
-    # username = body ["username"]
-    # password = body ["password"]
-
-    # User.log_user(username, password)
-
-    # if user is None:
-    #     raise APIException("Usuario o contraseña incorrecta")
-
-    # access_token = create_access_token(identity=user.id)
-
-    # return jsonify({"access_token": access_token})
 
 
 
