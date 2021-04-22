@@ -40,7 +40,7 @@ export default function ImportImages() {
 	return (
 		<div>
 			<form>
-				<input type="file" onChange={event => setCenterImages(event.currentTarget.files)} />
+				<input type="file" multiple onChange={event => setCenterImages(event.currentTarget.files)} />
 			</form>
 			<button onClick={uploadImages}> Save </button>
 		</div>
