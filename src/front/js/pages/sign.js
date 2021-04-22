@@ -88,7 +88,7 @@ export default function Sign() {
 				console.log(responseJson);
 				if (responseOk) {
 					actions.saveAccessToken(responseJson.access_token);
-					history.push("/profile");
+					history.push("/home");
 				} else {
 					setError(responseJson.message);
 				}
