@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
 import { Col, Form, Button } from "react-bootstrap";
-import "../../styles/center.scss";
+import "../../../styles/center.scss";
 
 export default function RegisterCenter() {
 	const [center_name, setCenter_Name] = useState("");
@@ -59,7 +59,7 @@ export default function RegisterCenter() {
 					responseOk = response.ok;
 					if (response.ok) {
 						setMessage("Centro registrado con exito");
-						history.push("/configurecenter");
+						history.push("/configure-courts");
 					}
 					return response.json();
 				})

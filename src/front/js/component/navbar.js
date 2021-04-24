@@ -21,24 +21,24 @@ export default function Mynavbar() {
 			</Navbar.Brand>
 			<Navbar.Toggle aria-controls="responsive-navbar-nav" />
 			<Navbar.Collapse id="responsive-navbar-nav">
-				<Link to="/pistas">
-					<Nav.Link href="#features">Pistas</Nav.Link>
-				</Link>
-				<Link to="/mired">
-					<Nav.Link href="#features">Mi Red</Nav.Link>
-				</Link>
-				<Nav.Link href="#features">Mis Reservas</Nav.Link>
-				<Link to="/newcenter">
-					<Nav.Link href="#features">Alta Centros Deportivos</Nav.Link>
-				</Link>
-				<Link to="/configurecenter">
-					<Nav.Link href="#features">Configurar centro</Nav.Link>
-				</Link>
-				<Nav className="ml-auto">
-					<Link to="/sign">
-						<Nav.Link href="#pricing">Sign Up</Nav.Link>
-					</Link>
-					<Nav.Link href="#deets">login</Nav.Link>
+				<Nav className="mr-auto">
+					<Nav.Link href="#features">Features</Nav.Link>
+					<Nav.Link href="#pricing">Pricing</Nav.Link>
+					<NavDropdown title="Dropdown" id="collasible-nav-dropdown">
+						<NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+						<NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
+						<NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+						<NavDropdown.Divider />
+						<NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
+					</NavDropdown>
+
+					<Nav.Link href="/newcenter">Alta centro deportivo</Nav.Link>
+					<Nav.Link href="/configure-courts">Configurar centro</Nav.Link>
+					<Nav.Link href="/sign">Login</Nav.Link>
+
+					{/* <Link to="/sign">
+						<button className="btn btn-primary align-self: flex-end">Sing Up</button>
+					</Link> */}
 				</Nav>
 			</Navbar.Collapse>
 		</Navbar>

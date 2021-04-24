@@ -10,7 +10,7 @@ import injectContext from "./store/appContext";
 import MiRedComponentes from "./pages/miRedComponentes";
 import Sign from "./pages/sign";
 import Center from "./pages/sportCenter/center";
-import CenterConfiguration from "./pages/sportCenter/courts.jsx";
+import ConfigureCourts from "./pages/sportCenter/configure-courts.jsx";
 import CenterImages from "./pages/sportCenter/centerImages.jsx";
 import Mynavbar from "./component/navbar";
 import { Footer } from "./component/footer";
@@ -46,8 +46,9 @@ const Layout = () => {
 						<Route exact path="/newcenter">
 							<Center />
 						</Route>
-						<Route exact path="/configurecenter">
-							<CenterConfiguration />
+						<Route exact path="/configure-courts">
+							<Mynavbar />
+							<ConfigureCourts />
 						</Route>
 						<Route exact path="/uploadCenterImages">
 							<Mynavbar />

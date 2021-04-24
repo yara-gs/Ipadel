@@ -1,19 +1,5 @@
 import React, { useState, useEffect } from "react";
-import TextField from "@material-ui/core/TextField";
-import { makeStyles } from "@material-ui/core/styles";
-
-const useStyles = makeStyles(theme => ({
-	root: {
-		"& .MuiTextField-root": {
-			margin: theme.spacing(1),
-			width: "25ch"
-		}
-	}
-}));
-
-import RegisterCenter from "../../component/centerRegister.jsx";
-
-import FormPropsTextFields from "../pruebasInputs.js";
+import RegisterCenter from "../../component/sportCenter/centerRegister.jsx";
 import "../../../styles/center.scss";
 
 export default function Center() {
@@ -30,8 +16,6 @@ export default function Center() {
 			</form>
 			<h4 className=" fs-title d-flex justify-content-center ">Dar de alta un centro deportivo</h4>
 			<RegisterCenter />
-
-			<FormPropsTextFields />
 		</div>
 	);
 }

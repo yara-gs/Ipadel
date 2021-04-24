@@ -1,12 +1,15 @@
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
+import os
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, SportCenter,Court
+from api.models import db, User, SportCenter,Court,Image
 from api.utils import generate_sitemap, APIException
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import get_jwt_identity
+
+from aws import upload_file_to_s3
 
 api = Blueprint('api', __name__)
 
@@ -90,7 +93,7 @@ def get_sportcenter(id):
 @api.route ('<int:sportcenter_id>/courts/', methods=['GET'])
 def get_courts(sportcenter_id):
 
-    courts=Court.courts_by_sportcenter(sportcenter_id)
+    courts=Court.items_by_sportcenter(sportcenter_id)
     courts_list = []
     for court in courts:
         courts_list.append(court.serialize())
@@ -98,7 +101,7 @@ def get_courts(sportcenter_id):
     return jsonify(courts_list), 200
 
 
-#COURTS:  Delete court by id
+#COURTS:  Crate new court
 @api.route ('newcourt/', methods=['POST'])
 def register_new_court():
 
@@ -132,32 +135,40 @@ def delete_court(court_id):
     return jsonify(court.serialize()), 200
 
 
+# SPORT CENTER IMAGES
+
+# SPORTCENTER: UPLOAD IMAGES
+@api.route ('/upload-images', methods=['POST'])
+def upload_images():
+
+    files=request.files
+    sportcenter_id=request.form.get('sportcenter_id')
+    images_list=[]
+    for key in files:
+        file=files[key]
+        try:
+            url_image=upload_file_to_s3(file, os.environ.get('S3_BUCKET_NAME'))
+            image=Image(url_image=url_image,sportcenter_id=sportcenter_id)
+            image.save()
+            images_list.append(image.serialize())
+
+        except Exception as e:
+            raise APIException("Fallo al importar imagenes")
 
 
+    return jsonify(images_list),200
 
 
+# SPORTCENTER: MOSTRAR LAS IMAGES DEL CENTRO
+@api.route ('<int:sportcenter_id>/images', methods=['GET'])
+def get_images(sportcenter_id):
 
+    images=Image.items_by_sportcenter(sportcenter_id)
+    images_list = []
+    for image in images:
+        images_list.append(image.serialize())
 
-
-
-
-
-   
-
-
-
-    # body = request.get_json()
-    # username = body ["username"]
-    # password = body ["password"]
-
-    # User.log_user(username, password)
-
-    # if user is None:
-    #     raise APIException("Usuario o contraseña incorrecta")
-
-    # access_token = create_access_token(identity=user.id)
-
-    # return jsonify({"access_token": access_token})
+    return jsonify(images_list), 200
 
 
 
