@@ -4,9 +4,10 @@ import ScrollToTop from "./component/scrollToTop";
 
 import { Home } from "./pages/home";
 import { Demo } from "./pages/demo";
+
 import { Single } from "./pages/single";
 import injectContext from "./store/appContext";
-
+import MiRedComponentes from "./pages/miRedComponentes";
 import Sign from "./pages/sign";
 import Center from "./pages/sportCenter/center";
 import ConfigureCourts from "./pages/sportCenter/configure-courts.jsx";
@@ -23,11 +24,12 @@ const Layout = () => {
 		<div className="d-flex flex-column h-100">
 			<BrowserRouter basename={basename}>
 				<ScrollToTop>
+					<Mynavbar />
 					<Switch>
 						<Route exact path="/">
-							<Mynavbar />
 							<Home />
 						</Route>
+
 						<Route exact path="/sign">
 							<Sign />
 						</Route>
@@ -35,11 +37,13 @@ const Layout = () => {
 							<Profile />
 						</Route>
 						<Route exact path="/home">
-							<Mynavbar />
 							<Home />
 						</Route>
+						<Route exact path="/mired">
+							<MiRedComponentes />
+						</Route>
+
 						<Route exact path="/newcenter">
-							<Mynavbar />
 							<Center />
 						</Route>
 						<Route exact path="/configure-courts">

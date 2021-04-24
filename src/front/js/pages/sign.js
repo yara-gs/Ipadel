@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
-import { useHistory } from "react-router-dom";
 import "../../styles/sign.scss";
+import { Link, useHistory } from "react-router-dom";
 
 import SignUpSvg from "../component/signUp_svg.jsx";
 import SignInSvg from "../component/signIn_svg.jsx";
@@ -17,9 +17,11 @@ export default function Sign() {
 	const [error, setError] = useState("");
 	const [message, setMessage] = useState("");
 	const { actions } = useContext(Context);
+	const history = useHistory();
 
 	//POST TODO
-	function createUser() {
+	function createUser(event) {
+		event.preventDefault();
 		setError("");
 		setMessage("");
 		if (email == "") {
@@ -61,10 +63,11 @@ export default function Sign() {
 			.catch(error => {
 				setError(error.message);
 			});
+		return false;
 	}
 
-	function logUser() {
-		//let history = useHistory();
+	function logUser(event) {
+		event.preventDefault();
 		setError("");
 		let body = {
 			username: username,
@@ -82,9 +85,10 @@ export default function Sign() {
 				return response.json();
 			})
 			.then(responseJson => {
+				console.log(responseJson);
 				if (responseOk) {
 					actions.saveAccessToken(responseJson.access_token);
-					//history.push("/profile");
+					history.push("/profile");
 				} else {
 					setError(responseJson.message);
 				}
@@ -98,7 +102,7 @@ export default function Sign() {
 		<div className={signUpMode ? "containertest sign-up-mode" : "containertest"}>
 			<div className="forms-container">
 				<div className="signin-signup">
-					<form action="#" className="sign-in-form">
+					<form action="#" className="sign-in-form" onSubmit={logUser}>
 						<h2 className="title">Iniciar sesión</h2>
 						<div className="input-field">
 							<i className="fas fa-user" />
@@ -120,31 +124,18 @@ export default function Sign() {
 								}}
 							/>
 						</div>
-						<input
-							type="submit"
-							value="Login"
-							className="btn solid"
-							onClick={() => {
-								logUser();
-							}}
-						/>
+						<input type="submit" value="Login" className="btn solid" />
 						<p className="social-text">Or Sign in with social platforms</p>
 						<div className="social-media">
 							<a href="#" className="social-icon">
 								<i className="fab fa-facebook-f" />
 							</a>
 							<a href="#" className="social-icon">
-								<i className="fab fa-twitter" />
-							</a>
-							<a href="#" className="social-icon">
 								<i className="fab fa-google" />
-							</a>
-							<a href="#" className="social-icon">
-								<i className="fab fa-linkedin-in" />
 							</a>
 						</div>
 					</form>
-					<form action="#" className="sign-up-form">
+					<form action="#" className="sign-up-form" onSubmit={createUser}>
 						{error ? <h1>{error}</h1> : ""}
 						{message ? <h1>{message}</h1> : ""}
 						<h2 className="title">Crear cuenta</h2>
@@ -181,6 +172,7 @@ export default function Sign() {
 								}}
 							/>
 						</div>
+
 						<div className="input-field">
 							<i className="fas fa-lock" />
 							<input
@@ -192,20 +184,14 @@ export default function Sign() {
 								}}
 							/>
 						</div>
-						<input type="submit" className="btn" value="Sign up" onClick={() => createUser()} />
+						<input type="submit" className="btn" value="Sign up" />
 						<p className="social-text">Or Sign up with social platforms</p>
 						<div className="social-media">
 							<a href="#" className="social-icon">
 								<i className="fab fa-facebook-f" />
 							</a>
 							<a href="#" className="social-icon">
-								<i className="fab fa-twitter" />
-							</a>
-							<a href="#" className="social-icon">
 								<i className="fab fa-google" />
-							</a>
-							<a href="#" className="social-icon">
-								<i className="fab fa-linkedin-in" />
 							</a>
 						</div>
 					</form>
