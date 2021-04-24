@@ -1,6 +1,8 @@
 import React, { useState, useContext } from "react";
 import "../../styles/sign.scss";
 import { Link, useHistory } from "react-router-dom";
+//import ReactDOM from "react-dom";
+//import FacebookLogin from "react-facebook-login";
 
 import SignUpSvg from "../component/signUp_svg.jsx";
 import SignInSvg from "../component/signIn_svg.jsx";
@@ -18,6 +20,7 @@ export default function Sign() {
 	const [message, setMessage] = useState("");
 	const { actions } = useContext(Context);
 	const history = useHistory();
+	//
 
 	//POST TODO
 	function createUser(event) {
@@ -59,6 +62,7 @@ export default function Sign() {
 				if (!responseOk) {
 					setError(responseJson.message);
 				}
+				//history.push("/login");
 			})
 			.catch(error => {
 				setError(error.message);
@@ -73,6 +77,7 @@ export default function Sign() {
 			username: username,
 			password: password
 		};
+		let responseOk = false;
 		fetch(process.env.BACKEND_URL + "/api/login", {
 			method: "POST",
 			headers: {
@@ -85,15 +90,16 @@ export default function Sign() {
 				return response.json();
 			})
 			.then(responseJson => {
-				console.log(responseJson);
 				if (responseOk) {
+					setMessage("Bienvenido");
 					actions.saveAccessToken(responseJson.access_token);
-					history.push("/home");
 				} else {
 					setError(responseJson.message);
 				}
+				history.push("/mired");
 			})
 			.catch(error => {
+				console.log(error);
 				setError(error.message);
 			});
 	}
@@ -102,7 +108,7 @@ export default function Sign() {
 		<div className={signUpMode ? "containertest sign-up-mode" : "containertest"}>
 			<div className="forms-container">
 				<div className="signin-signup">
-					<form action="#" className="sign-in-form" onSubmit={logUser}>
+					<form action="#" className="sign-in-form">
 						<h2 className="title">Iniciar sesión</h2>
 						<div className="input-field">
 							<i className="fas fa-user" />
@@ -124,7 +130,7 @@ export default function Sign() {
 								}}
 							/>
 						</div>
-						<input type="submit" value="Login" className="btn solid" />
+						<input type="submit" value="Login" className="btn solid" onClick={logUser} />
 						<p className="social-text">Or Sign in with social platforms</p>
 						<div className="social-media">
 							<a href="#" className="social-icon">
