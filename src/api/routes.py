@@ -156,7 +156,7 @@ def upload_images():
 
 # SPORTCENTER: MOSTRAR LAS IMAGES DEL CENTRO
 @api.route ('<int:sportcenter_id>/images', methods=['GET'])
-def download_images(sportcenter_id):
+def get_images(sportcenter_id):
 
     images=Image.items_by_sportcenter(sportcenter_id)
     images_list = []
