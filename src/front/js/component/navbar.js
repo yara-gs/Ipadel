@@ -10,7 +10,7 @@ import LogoiPadel from "../component/logoiPadel.jsx";
 
 export default function Mynavbar() {
 	return (
-		<Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+		<Navbar fixed="top" collapseOnSelect expand="lg" bg="dark" variant="dark">
 			<Navbar.Brand href="#home">
 				<Link to="/">
 					<span className="iPadel ">
