@@ -208,9 +208,9 @@ export default function Sign() {
 				<div className="panel left-panel">
 					<div className="content">
 						<h2>Todavía no formas parte de la comunidad </h2>
-						<h1 className="iPadel">
+						<span className="iPadel ">
 							<LogoiPadel />?
-						</h1>
+						</span>
 						<p className="sign-text">Introduce tus datos para unirte!</p>
 						<button className="btn transparent" id="sign-up-btn" onClick={() => setSignUpMode(true)}>
 							Crear cuenta
@@ -224,7 +224,7 @@ export default function Sign() {
 					<div className="content">
 						<h2>Ya perteneces a la comunidad</h2>
 						<span className="iPadel">
-							<LogoiPadel />!
+							<LogoiPadel />?
 						</span>
 						<p className="sign-text">Introduce tus datos para acceder</p>
 						<button className="btn transparent" id="sign-in-btn" onClick={() => setSignUpMode(false)}>

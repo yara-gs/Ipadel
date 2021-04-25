@@ -9,7 +9,8 @@ import { Single } from "./pages/single";
 import injectContext from "./store/appContext";
 import MiRedComponentes from "./pages/miRedComponentes";
 import Sign from "./pages/sign";
-import Center from "./pages/sportCenter/center";
+import Centers from "./pages/sportCenter/centers";
+import CenterForm from "./pages/sportCenter/centerForm";
 import ConfigureCourts from "./pages/sportCenter/configure-courts.jsx";
 import CenterImages from "./pages/sportCenter/centerImages.jsx";
 import Mynavbar from "./component/navbar";
@@ -44,13 +45,16 @@ const Layout = () => {
 						</Route>
 
 						<Route exact path="/newcenter">
-							<Center />
+							<CenterForm />
 						</Route>
 						<Route exact path="/configure-courts">
 							<ConfigureCourts />
 						</Route>
 						<Route exact path="/uploadCenterImages">
 							<CenterImages />
+						</Route>
+						<Route exact path="/centers">
+							<Centers />
 						</Route>
 						<Route exact path="/demo">
 							<Demo />

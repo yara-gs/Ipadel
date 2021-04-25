@@ -6,10 +6,10 @@ import "../../../styles/center.scss";
 import fetchFiles from "../../fetchFunctions";
 import setTimeout_useEffect from "../../setTimeout";
 
-export default function ImportImages() {
+export default function ImportImages(props) {
 	const [centerImages, setCenterImages] = useState([]);
 	const [uploadImagesBtn, setUploadImagesBtn] = useState(false);
-	const [sportCenterId, setSportCenterId] = useState("1");
+	const [sportCenterId, setSportCenterId] = useState(props.sportCenter_id);
 	const [error, setError] = useState("");
 	const [message, setMessage] = useState("");
 	const [importing, setImporting] = useState(false);
@@ -68,3 +68,7 @@ export default function ImportImages() {
 		</div>
 	);
 }
+
+ImportImages.propTypes = {
+	sportCenter_id: PropTypes.number
+};
