@@ -1,10 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
+import { Context } from "../../store/appContext";
+
 import { useHistory } from "react-router-dom";
 
 import { Col, Form, Button } from "react-bootstrap";
 import "../../../styles/center.scss";
 
 export default function RegisterCenter() {
+	const { actions, store } = useContext(Context);
+
 	const [center_name, setCenter_Name] = useState("");
 	const [nif, setNif] = useState("");
 	const [admin_user, setAdmin_User] = useState("");
@@ -27,18 +31,15 @@ export default function RegisterCenter() {
 	function createCenter(event) {
 		event.preventDefault();
 		let body = {
-			admin_user: admin_user,
+			user_id: store.user.id,
 			nif: nif,
 			center_name: center_name,
-			password: password,
-			email: email,
 			phone: phone,
 			webpage: webpage,
 			address: address,
 			state: state,
 			city: city,
-			cp: cp,
-			image: image
+			cp: cp
 		};
 
 		let responseOk = false;
@@ -46,34 +47,31 @@ export default function RegisterCenter() {
 		setError("");
 
 		//Comprobar Password & ConfirmPassword son iguales
-		if (body.password === confirmPassword) {
-			//envio datos a la base de datos
-			fetch(process.env.BACKEND_URL + "/api/newcenter", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json"
-				},
-				body: JSON.stringify(body)
+
+		//envio datos a la base de datos
+		fetch(process.env.BACKEND_URL + "/api/newcenter", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify(body)
+		})
+			.then(response => {
+				responseOk = response.ok;
+				if (response.ok) {
+					setMessage("Centro registrado con exito");
+					history.push("/configure-courts");
+				}
+				return response.json();
 			})
-				.then(response => {
-					responseOk = response.ok;
-					if (response.ok) {
-						setMessage("Centro registrado con exito");
-						history.push("/configure-courts");
-					}
-					return response.json();
-				})
-				.then(responseJson => {
-					if (!responseOk) {
-						setError(responseJson.message);
-					}
-				})
-				.catch(error => {
-					setError(error.message);
-				});
-		} else {
-			setError("Contraseñas no coinciden");
-		}
+			.then(responseJson => {
+				if (!responseOk) {
+					setError(responseJson.message);
+				}
+			})
+			.catch(error => {
+				setError(error.message);
+			});
 	}
 
 	return (
