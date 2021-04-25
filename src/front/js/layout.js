@@ -47,11 +47,9 @@ const Layout = () => {
 							<Center />
 						</Route>
 						<Route exact path="/configure-courts">
-							<Mynavbar />
 							<ConfigureCourts />
 						</Route>
 						<Route exact path="/uploadCenterImages">
-							<Mynavbar />
 							<CenterImages />
 						</Route>
 						<Route exact path="/demo">

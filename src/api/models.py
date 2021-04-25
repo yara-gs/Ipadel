@@ -28,6 +28,11 @@ class User(db.Model):
     password = db.Column(db.String(80), unique=False, nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
 
+    # relacion one to many con tabla User (un usuario puede tener muchos centros)
+    sportcenters=db.relationship("SportCenter",back_populates="user")
+  
+
+
     def __init__(self,username, email, password, is_active=True): 
         if username == '' or email == '' or password == '':
             raise Exception("Usuario, Email y Contraseña requerida")
@@ -72,17 +77,18 @@ class SportCenter(db.Model,BaseModel):
     id=db.Column(db.Integer, primary_key=True)
     center_name=db.Column(db.String(120), unique=True, nullable=False)
     nif=db.Column(db.String(120), unique=True, nullable=False)
-    admin_user=db.Column(db.String(120), unique=True, nullable=False)
-    password=db.Column(db.String(80), unique=False, nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
     phone=db.Column(db.Integer, unique=True, nullable=False)
     webpage=db.Column(db.String(120), unique=False, nullable=False)
     address=db.Column(db.String(120),unique=False, nullable=False)
     state=db.Column(db.String(120),unique=False, nullable=True)
     city=db.Column(db.String(120),unique=False, nullable=True)
     cp=db.Column(db.String(120), unique=False, nullable=True)
-    image=db.Column(db.String(120),unique=False,nullable=True)
 
+    # relacion one to many con tabla User (un usuario puede tener muchos centros)
+    user_id=db.Column(db.Integer,db.ForeignKey('user.id'))
+    user=db.relationship("User",back_populates="sportcenters")
+
+    #relacion many to one ( muchas pistas/imagenes para un solo centro)
     courts=db.relationship("Court",back_populates="sportcenter")
     images=db.relationship("Image",back_populates="sportcenter")
 
@@ -96,12 +102,10 @@ class SportCenter(db.Model,BaseModel):
             "id": self.id,
             "center_name": self.center_name,
             "nif": self.nif,
-            "admin_user": self.admin_user,
             "address": self.address,
             "state": self.state,
             "city": self.city,
             "cp": self.cp,
-            "email": self.email,
             "phone": self.phone,
             "webpage": self.webpage,
         }
@@ -116,10 +120,9 @@ class SportCenter(db.Model,BaseModel):
         return sportcenter_serialized
 
     #metodo de instancia que obliga a que haya datos siempre que se llama       
-    def __init__(self,center_name,nif,admin_user,address,state,city,cp):
+    def __init__(self,center_name,nif,address,state,city,cp):
         self.center_name=center_name
         self.nif=nif
-        self.admin_user=admin_user
         self.address=address
         self.state=state
         self.city=city
@@ -129,7 +132,7 @@ class SportCenter(db.Model,BaseModel):
     @classmethod
     def add_register(cls, request_json):
         
-        register=cls(request_json["center_name"],request_json["nif"],request_json["admin_user"],request_json["state"],request_json["address"],request_json["city"],request_json["cp"])
+        register=cls(request_json["center_name"],request_json["nif"],request_json["state"],request_json["address"],request_json["city"],request_json["cp"])
         register.body(request_json)
         return register
     
@@ -137,16 +140,12 @@ class SportCenter(db.Model,BaseModel):
     def body(self, request_json):
         self.center_name=request_json["center_name"]
         self.nif=request_json["nif"]
-        self.admin_user=request_json["admin_user"]
-        self.password=request_json["password"]
         self.address=request_json["address"]
         self.state=request_json["state"]
         self.city=request_json["city"]
         self.cp=request_json["cp"]
-        self.email=request_json["email"]
         self.phone=request_json["phone"]
         self.webpage=request_json["webpage"]
-        self.image=request_json["image"]
 
     # save data in the database
     def save(self):
