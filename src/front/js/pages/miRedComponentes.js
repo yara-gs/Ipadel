@@ -13,13 +13,11 @@ import MiRedFriendRequest from "../component/MiRed/miRedFriendRequest";
 export default function MiRedComponentes() {
 	const { actions } = useContext(Context);
 	const history = useHistory();
-	const [user, setUser] = useState("");
 
 	useEffect(() => {
 		let acessToken = actions.getAccessToken();
-		setUser(actions.saveUser());
 		if (!acessToken) {
-			history.push("/login");
+			history.push("/sign");
 			return;
 		}
 		fetch(process.env.BACKEND_URL + "/api/profile", {
@@ -31,7 +29,6 @@ export default function MiRedComponentes() {
 		})
 			.then(response => response.json())
 			.then(responseJson => {
-				setUser(responseJson);
 				actions.saveUser(responseJson);
 			});
 	}, []);
