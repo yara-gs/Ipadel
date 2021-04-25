@@ -2,7 +2,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
 			accessToken: "",
-			user: {},
+			user: null,
 			localstorage: {}
 		},
 		actions: {

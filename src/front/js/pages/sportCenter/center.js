@@ -1,8 +1,21 @@
-import React from "react";
+import React, { useState, useContext, useEffect } from "react";
+import { Context } from "../../store/appContext";
+import { useHistory } from "react-router-dom";
+
 import RegisterCenter from "../../component/sportCenter/centerRegister.jsx";
 import "../../../styles/center.scss";
 
 export default function Center() {
+	const { actions, store } = useContext(Context);
+	const history = useHistory();
+
+	useEffect(() => {
+		if (store.user === null) {
+			history.push("/sign");
+			return;
+		}
+	}, []);
+
 	return (
 		<div>
 			{/* <!-- multistep form --> */}
