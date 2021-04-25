@@ -120,7 +120,8 @@ class SportCenter(db.Model,BaseModel):
         return sportcenter_serialized
 
     #metodo de instancia que obliga a que haya datos siempre que se llama       
-    def __init__(self,center_name,nif,address,state,city,cp):
+    def __init__(self,user_id,center_name,nif,address,state,city,cp):
+        self.user_id=user_id
         self.center_name=center_name
         self.nif=nif
         self.address=address
@@ -132,12 +133,13 @@ class SportCenter(db.Model,BaseModel):
     @classmethod
     def add_register(cls, request_json):
         
-        register=cls(request_json["center_name"],request_json["nif"],request_json["state"],request_json["address"],request_json["city"],request_json["cp"])
+        register=cls(request_json["user_id"],request_json["center_name"],request_json["nif"],request_json["state"],request_json["address"],request_json["city"],request_json["cp"])
         register.body(request_json)
         return register
     
     #get body
     def body(self, request_json):
+        self.user_id=request_json["user_id"]
         self.center_name=request_json["center_name"]
         self.nif=request_json["nif"]
         self.address=request_json["address"]
