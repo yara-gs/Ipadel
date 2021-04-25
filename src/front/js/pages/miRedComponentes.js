@@ -35,12 +35,19 @@ export default function MiRedComponentes() {
 
 	return (
 		<div className="w3-margin-top">
-			<MiRedPerfil />
-			<MiRedPostText />
-			<MiRedEvents />
-			<MiRedInterests />
-			<MiRedPosts />
-			<MiRedFriendRequest />
+			<div className="w3-col m3">
+				<MiRedPerfil />
+				<MiRedInterests />
+			</div>
+
+			<div className="w3-col m7">
+				<MiRedPostText />
+				<MiRedPosts />
+			</div>
+			<div className="w3-col m2">
+				<MiRedEvents />
+				<MiRedFriendRequest />
+			</div>
 		</div>
 	);
 }
