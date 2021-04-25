@@ -5,7 +5,7 @@ import "w3-css/w3.css";
 
 export default function MiRedPerfil() {
 	return (
-		<div className="w3-col m3">
+		<div className="w3-col">
 			<div className="w3-card w3-round w3-white">
 				<div className="w3-container">
 					<h4 className="w3-center">Mi Perfil</h4>

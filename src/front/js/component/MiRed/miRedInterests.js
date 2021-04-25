@@ -5,7 +5,7 @@ import "w3-css/w3.css";
 
 export default function MiRedInterests() {
 	return (
-		<div className="w3-col m3">
+		<div className="w3-col w3-margin-top">
 			<div className="w3-card w3-round w3-white w3-hide-small">
 				<div className="w3-container">
 					<p>Me Interesan</p>

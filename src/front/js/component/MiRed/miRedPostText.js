@@ -75,7 +75,7 @@ export default function MiRedPostText() {
 	});
 
 	return (
-		<div className="w3-col m7">
+		<div className="w3-col">
 			<div className="w3-row-padding">
 				<div className="w3-col m12">
 					<div className="w3-card w3-round w3-white">
@@ -91,22 +91,6 @@ export default function MiRedPostText() {
 							/>
 							<button type="button" onClick={addPost} className="button_publicar w3-button w3-theme">
 								<i className="fa fa-home" />  Publicar
-							</button>
-							<br />
-							<button type="button" className="w3-button w3-theme">
-								<i className="fa fa-home" />
-							</button>
-							<br />
-							<button type="button" className="w3-button w3-theme">
-								<i className="fa fa-home" />
-							</button>
-							<br />
-							<button type="button" className="w3-button w3-theme">
-								<i className="fa fa-home" />
-							</button>
-							<br />
-							<button type="button" className="w3-button w3-theme">
-								<i className="fa fa-home" />
 							</button>
 						</div>
 					</div>
