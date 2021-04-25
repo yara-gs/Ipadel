@@ -180,6 +180,7 @@ class Court(db.Model,BaseModel,SportCenterId):
     image=db.Column(db.String(120),unique=False,nullable=True)
     players=db.Column(db.Integer, unique=False, nullable=False)
 
+    # relacion one to many con tabla SportCenter (un sportCenter puede tener muchas pistas)
     sportcenter_id=db.Column(db.Integer,db.ForeignKey('sportcenter.id'))
     sportcenter=db.relationship("SportCenter",back_populates="courts")
     
