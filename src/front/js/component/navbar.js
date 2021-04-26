@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
+import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
@@ -9,6 +10,8 @@ import "../../styles/navbar.scss";
 import LogoiPadel from "../component/logoiPadel.jsx";
 
 export default function Mynavbar() {
+	const { actions, store } = useContext(Context);
+	let user = actions.getUser();
 	return (
 		<Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
 			<Navbar.Brand href="#home">
@@ -19,28 +22,34 @@ export default function Mynavbar() {
 					<p className="slogan">padel social network </p>
 				</Link>
 			</Navbar.Brand>
-			<Navbar.Toggle aria-controls="responsive-navbar-nav" />
-			<Navbar.Collapse id="responsive-navbar-nav">
-				<Link to="/pistas">
-					<Nav.Link href="#features">Pistas</Nav.Link>
-				</Link>
-				<Link to="/mired">
-					<Nav.Link href="#features">Mi Red</Nav.Link>
-				</Link>
-				<Nav.Link href="#features">Mis Reservas</Nav.Link>
-				<Link to="/newcenter">
-					<Nav.Link href="#features">Alta Centros Deportivos</Nav.Link>
-				</Link>
-				<Link to="/configure-courts">
-					<Nav.Link href="#features">Configurar centro</Nav.Link>
-				</Link>
+
+			{user ? (
+				<span>
+					<Navbar.Toggle aria-controls="responsive-navbar-nav" />
+					<Navbar.Collapse id="responsive-navbar-nav">
+						<Link to="/pistas">
+							<Nav.Link href="#features">Pistas</Nav.Link>
+						</Link>
+						<Link to="/mired">
+							<Nav.Link href="#features">Mi Red</Nav.Link>
+						</Link>
+						<Nav.Link href="#features">Mis Reservas</Nav.Link>
+						<Link to="/newcenter">
+							<Nav.Link href="#features">Alta Centros Deportivos</Nav.Link>
+						</Link>
+						<Link to="/configure-courts">
+							<Nav.Link href="#features">Configurar centro</Nav.Link>
+						</Link>
+					</Navbar.Collapse>
+				</span>
+			) : (
 				<Nav className="ml-auto">
 					<Link to="/sign">
 						<Nav.Link href="#pricing">Sign Up</Nav.Link>
 					</Link>
 					<Nav.Link href="#deets">login</Nav.Link>
 				</Nav>
-			</Navbar.Collapse>
+			)}
 		</Navbar>
 	);
 }

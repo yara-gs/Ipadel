@@ -4,11 +4,15 @@ import "../../../styles/mired.scss";
 import "w3-css/w3.css";
 
 export default function MiRedPerfil() {
+	const { actions, store } = useContext(Context);
+	let user = actions.getUser();
+
 	return (
 		<div className="w3-col">
 			<div className="w3-card w3-round w3-white">
 				<div className="w3-container">
-					<h4 className="w3-center">Mi Perfil</h4>
+					{user ? <h4 className="w3-center">{user.username}</h4> : ""}
+
 					<p className="w3-center">
 						<img
 							src="https://www.w3schools.com/w3images/avatar3.png"
