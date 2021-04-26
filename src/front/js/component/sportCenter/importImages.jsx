@@ -59,11 +59,11 @@ export default function ImportImages(props) {
 	setTimeout_useEffect(message, setMessage, 2000);
 
 	return (
-		<div>
+		<div className="d-flex justify-content-between court-icon sporCenterImages">
 			<form>
 				<input type="file" multiple onChange={event => setCenterImages(event.currentTarget.files)} />
 			</form>
-			<p className="configcourts_message mb-0 mt-2 ">{importing ? "Cargando" : message}</p>
+			<p className="configcourts_message ">{importing ? "Cargando" : message}</p>
 			<button onClick={uploadImages}> Save </button>
 		</div>
 	);

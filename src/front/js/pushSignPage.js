@@ -12,6 +12,5 @@ export default function pushSignPage() {
 		if (user === null) {
 			history.push("/sign");
 		}
-		return user;
 	}, []);
 }

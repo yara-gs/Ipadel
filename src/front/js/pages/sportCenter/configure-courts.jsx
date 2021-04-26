@@ -28,7 +28,7 @@ export default function ConfigureCourts() {
 	};
 
 	//funcion que lleva a sign si no hay usario logueado
-	// pushSignPage();
+	pushSignPage();
 
 	if (user != null && sportCenter != null) {
 		court_aux.sportcenter_id = sportCenter.id;
