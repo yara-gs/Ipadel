@@ -5,16 +5,14 @@ import { useHistory } from "react-router-dom";
 import RegisterCenter from "../../component/sportCenter/centerRegister.jsx";
 import "../../../styles/center.scss";
 
-export default function Center() {
+import pushSignPage from "../../pushSignPage";
+
+export default function CenterForm() {
 	const { actions, store } = useContext(Context);
 	const history = useHistory();
 
-	useEffect(() => {
-		if (store.user === null) {
-			history.push("/sign");
-			return;
-		}
-	}, []);
+	//funcion que lleva a sign si no hay usario logueado
+	pushSignPage();
 
 	return (
 		<div>
@@ -25,6 +23,7 @@ export default function Center() {
 					<li className="active">Dar de alta</li>
 					<li>Configurar centro</li>
 					<li>Subir imagenes</li>
+					<li>Finalizar</li>
 				</ul>
 			</form>
 			<h4 className=" fs-title d-flex justify-content-center ">Dar de alta un centro deportivo</h4>

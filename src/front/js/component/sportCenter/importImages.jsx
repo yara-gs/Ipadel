@@ -6,10 +6,10 @@ import "../../../styles/center.scss";
 import fetchFiles from "../../fetchFunctions";
 import setTimeout_useEffect from "../../setTimeout";
 
-export default function ImportImages() {
+export default function ImportImages(props) {
 	const [centerImages, setCenterImages] = useState([]);
 	const [uploadImagesBtn, setUploadImagesBtn] = useState(false);
-	const [sportCenterId, setSportCenterId] = useState("1");
+	const [sportCenterId, setSportCenterId] = useState(props.sportCenter_id);
 	const [error, setError] = useState("");
 	const [message, setMessage] = useState("");
 	const [importing, setImporting] = useState(false);
@@ -59,12 +59,16 @@ export default function ImportImages() {
 	setTimeout_useEffect(message, setMessage, 2000);
 
 	return (
-		<div>
+		<div className="d-flex justify-content-between court-icon sporCenterImages">
 			<form>
 				<input type="file" multiple onChange={event => setCenterImages(event.currentTarget.files)} />
 			</form>
-			<p className="configcourts_message mb-0 mt-2 ">{importing ? "Cargando" : message}</p>
+			<p className="configcourts_message ">{importing ? "Cargando" : message}</p>
 			<button onClick={uploadImages}> Save </button>
 		</div>
 	);
 }
+
+ImportImages.propTypes = {
+	sportCenter_id: PropTypes.number
+};

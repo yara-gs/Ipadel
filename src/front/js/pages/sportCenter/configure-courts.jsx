@@ -1,41 +1,52 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
+import { Context } from "../../store/appContext";
 import { Link } from "react-router-dom";
 import "../../../styles/center.scss";
 
 import Court from "../../component/sportCenter/court.jsx";
 import setTimeout_useEffect from "../../setTimeout";
+import pushSignPage from "../../pushSignPage";
 
 export default function ConfigureCourts() {
+	const { actions, store } = useContext(Context);
+
 	const [courts, setCourts] = useState(null);
 	const [addCourtBtn, setAddCourtBtn] = useState(false);
-	const [sportCenterId, setSportCenterId] = useState(null);
 	const [message, setMessage] = useState(" ");
 	const [showCourtDefaultLabel, setShowCourtDefaultLabel] = useState(false);
 	const [courtDefaultLabelInput, setCourtDefaultLabelInput] = useState("");
 	const [courtDefaultLabel, setCourtDefaultLabel] = useState("Pista_");
-	let DefaultLabel_placeholder = "Etiqueta: " + courtDefaultLabel;
 
+	let DefaultLabel_placeholder = "Etiqueta: " + courtDefaultLabel;
+	let user = actions.getUser();
+	let sportCenter = actions.getSportCenter();
 	let court_aux = {
 		court_name: "",
 		light: false,
 		players: 4,
-		sportcenter_id: 1
+		sportcenter_id: ""
 	};
 
-	useEffect(
-		() => {
-			let sportcenter_id = "1"; //BORRAR
-			//GET COURTS OF A SPORT CENTER
-			fetch(process.env.BACKEND_URL + "/api/" + sportcenter_id + "/courts", {
-				method: "GET",
-				headers: { "Content-Type": "application/json" }
-			})
-				.then(response => response.json())
-				.then(resultJson => setCourts(resultJson));
-		},
+	//funcion que lleva a sign si no hay usario logueado
+	pushSignPage();
 
-		[]
-	);
+	if (user != null && sportCenter != null) {
+		court_aux.sportcenter_id = sportCenter.id;
+
+		useEffect(
+			() => {
+				//GET COURTS OF A SPORT CENTER
+				fetch(process.env.BACKEND_URL + "/api/" + sportCenter.id + "/courts", {
+					method: "GET",
+					headers: { "Content-Type": "application/json" }
+				})
+					.then(response => response.json())
+					.then(resultJson => setCourts(resultJson));
+			},
+
+			[]
+		);
+	}
 
 	//SELECT CONFIGURE NEW COURT
 	if (addCourtBtn && court_aux["court_name"] === "") {
@@ -147,6 +158,7 @@ export default function ConfigureCourts() {
 					<li>Dar de alta</li>
 					<li className="active">Configurar Pistas</li>
 					<li>Subir imagenes</li>
+					<li>Finalizar</li>
 				</ul>
 			</form>
 			<div className="d-flex justify-content-center  ">
@@ -183,7 +195,7 @@ export default function ConfigureCourts() {
 								/>
 							</span>
 						)}
-						<span className=" next_step ">Saltar paso</span>
+						<span className=" next_step ">Siguiente paso</span>
 
 						<Link to="/uploadCenterImages">
 							<button type="button " className=" next_stepLink fas fa-chevron-right ml-1 p-1" />

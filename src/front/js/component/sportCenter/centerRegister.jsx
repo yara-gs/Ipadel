@@ -9,29 +9,26 @@ import "../../../styles/center.scss";
 export default function RegisterCenter() {
 	const { actions, store } = useContext(Context);
 
+	// const [user, setUser] = useState(actions.getUser());
 	const [center_name, setCenter_Name] = useState("");
 	const [nif, setNif] = useState("");
-	const [admin_user, setAdmin_User] = useState("");
-	const [password, setPassword] = useState("");
-	const [confirmPassword, setConfirmPassword] = useState("");
-	const [email, setEmail] = useState("");
 	const [phone, setPhone] = useState(0);
 	const [webpage, setWebpage] = useState("");
 	const [address, setAddress] = useState("");
 	const [state, setState] = useState("");
 	const [city, setCity] = useState("");
 	const [cp, setCp] = useState("");
-	const [image, setImage] = useState("");
 	const [error, setError] = useState("");
 	const [message, setMessage] = useState("");
 
+	let user = actions.getUser();
 	let history = useHistory();
 
 	//POST NEW SPORT CENTER
 	function createCenter(event) {
 		event.preventDefault();
 		let body = {
-			user_id: store.user.id,
+			user_id: user.id,
 			nif: nif,
 			center_name: center_name,
 			phone: phone,
@@ -42,11 +39,8 @@ export default function RegisterCenter() {
 			cp: cp
 		};
 
-		let responseOk = false;
 		setMessage("");
 		setError("");
-
-		//Comprobar Password & ConfirmPassword son iguales
 
 		//envio datos a la base de datos
 		fetch(process.env.BACKEND_URL + "/api/newcenter", {
@@ -56,18 +50,10 @@ export default function RegisterCenter() {
 			},
 			body: JSON.stringify(body)
 		})
-			.then(response => {
-				responseOk = response.ok;
-				if (response.ok) {
-					setMessage("Centro registrado con exito");
-					history.push("/configure-courts");
-				}
-				return response.json();
-			})
+			.then(response => response.json())
 			.then(responseJson => {
-				if (!responseOk) {
-					setError(responseJson.message);
-				}
+				actions.saveSportCenter(responseJson);
+				history.push("/configure-courts");
 			})
 			.catch(error => {
 				setError(error.message);
@@ -77,41 +63,6 @@ export default function RegisterCenter() {
 	return (
 		<div className="container col-12 col-xl-8 col-md-9 d-flex d-flex justify-content-center ">
 			<Form className="registerForm d-flex justify-content-start" onSubmit={event => createCenter(event)}>
-				<Form.Row className="adminUser">
-					<Form.Group as={Col} controlId="formAdminUser">
-						<Form.Label>Usuario administrador</Form.Label>
-						<Form.Control
-							className="form_inputfield"
-							required
-							placeholder=""
-							onChange={() => setAdmin_User(event.target.value)}
-							// autoComplete="off"
-						/>
-					</Form.Group>
-					<Form.Group as={Col} controlId="formGridPassword">
-						<Form.Label>Contraseña</Form.Label>
-						<Form.Control
-							required
-							className="form_inputfield"
-							type="password"
-							placeholder=""
-							onChange={() => setPassword(event.target.value)}
-							// autoComplete="off"
-						/>
-					</Form.Group>
-					<Form.Group as={Col} controlId="formGridConfirmPassword">
-						<Form.Label>Confirmar contraseña</Form.Label>
-						<Form.Control
-							required
-							className="form_inputfield"
-							type="password"
-							placeholder=""
-							onChange={() => setConfirmPassword(event.target.value)}
-							// autoComplete="off"
-						/>
-					</Form.Group>
-				</Form.Row>
-
 				<Form.Row className="password">
 					<Form.Group as={Col} controlId="formCenterName">
 						<Form.Label>Nombre Centro Deportivo</Form.Label>
@@ -135,16 +86,6 @@ export default function RegisterCenter() {
 					</Form.Group>
 				</Form.Row>
 
-				<Form.Group as={Col} controlId="formGridEmail">
-					<Form.Label>Email</Form.Label>
-					<Form.Control
-						required
-						className="form_inputfield"
-						type="email"
-						placeholder=""
-						onChange={() => setEmail(event.target.value)}
-					/>
-				</Form.Group>
 				<Form.Group as={Col} controlId="formGridPhone">
 					<Form.Label>Teléfono</Form.Label>
 					<Form.Control
