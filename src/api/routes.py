@@ -3,7 +3,7 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 import os
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, SportCenter,Court,Image
+from api.models import db, User, SportCenter,Court,Image,Profile
 from api.utils import generate_sitemap, APIException
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import jwt_required
@@ -45,6 +45,46 @@ def profile():
     current_user_id = get_jwt_identity()
     user = User.get(current_user_id)
     return jsonify(user.serialize())
+
+
+# PROFILE
+
+# POST NEW PROFILE
+@api.route ('/profile', methods=['POST'])
+def register_new_profile():
+
+    body=request.get_json()
+    new_profile=Profile.add_register(body)
+    new_profile.save()
+  
+    return jsonify(new_profile.serialize()),200
+
+# PROFILE: Get profile by user Id
+@api.route ('/profile/<int:user_id>', methods=['GET'])
+def get_profile(user_id):
+
+    profile=Profile.item_by_user_id(user_id)
+
+    return jsonify(profile.serialize()), 200
+
+
+# PROFILE: update profile by id
+@api.route ('/profileupdate/<int:profile_id>', methods=['PUT'])
+def update_profile(profile_id):
+
+    body=request.get_json()
+    profile=Profile.get_id(profile_id)
+    profile.body(body)    
+    profile.save()
+
+    return jsonify(profile.serialize()), 200
+
+
+
+
+
+
+
 
 
 # SPORT CENTER REGISTRATION
