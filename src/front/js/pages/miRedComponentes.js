@@ -20,7 +20,7 @@ export default function MiRedComponentes() {
 			history.push("/sign");
 			return;
 		}
-		fetch(process.env.BACKEND_URL + "/api/profile", {
+		fetch(process.env.BACKEND_URL + "/api/getuser", {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",

@@ -3,7 +3,7 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 import os
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, SportCenter,Court,Image,Profile
+from api.models import db, User, SportCenter,Court,Image,Profile,Post,Comment
 from api.utils import generate_sitemap, APIException
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import jwt_required
@@ -39,7 +39,7 @@ def login():
 
     return jsonify({"access_token": access_token})
 
-@api.route("/profile", methods=['GET'])
+@api.route("/getuser", methods=['GET'])
 @jwt_required()
 def profile():
     current_user_id = get_jwt_identity()
@@ -80,9 +80,40 @@ def update_profile(profile_id):
     return jsonify(profile.serialize()), 200
 
 
+# POSTS
+
+# NEW POST
+@api.route ('/post', methods=['POST'])
+def register_new_post():
+
+    body=request.get_json()
+    new_post=Post.add_register(body)
+    new_post.save()
+  
+    return jsonify(new_post.serialize()),200
+
+# POST: Get posts by user Id
+@api.route ('/posts/<int:user_id>', methods=['GET'])
+def get_posts(user_id):
+
+    posts=Post.items_by_user_id(user_id)
+    posts_list = []
+    print(posts)
+    for post in posts:
+        posts_list.append(post.serialize())
+        print(posts_list)
+    
+    return jsonify(posts_list), 200
 
 
+#POST:  Delete post by post_id
+@api.route ('/postdelete/<int:post_id>', methods=['GET'])
+def delete_post(post_id):
 
+    post=Post.get_id(post_id)
+    post.delete()    
+
+    return jsonify({}), 200
 
 
 

@@ -121,8 +121,8 @@ class Profile(db.Model,BaseModel):
 
 
 
-#PROFILE MI RED
-#POSTS
+# #PROFILE MI RED
+# #POSTS
 
 class Post(db.Model,BaseModel):
     __tablename__ = 'post'
@@ -133,9 +133,9 @@ class Post(db.Model,BaseModel):
   
     # relacion one to many con tabla User (un usuario puede tener muchos centros)
     user_id=db.Column(db.Integer,db.ForeignKey('user.id'))
-    user=db.relationship("User",back_populates="post")
+    user=db.relationship("User",back_populates="posts")
 
-    # relacion many to one con tabla User (un post puede tener muchos comments)
+    #relacion many to one con tabla User (un post puede tener muchos comments)
     comments=db.relationship("Comment",back_populates="post")
 
 
@@ -145,41 +145,41 @@ class Post(db.Model,BaseModel):
 
     #metodo de instancia serializa el diccionario
     def serialize(self):
-        post_serialize:{
+        return{
             "id": self.id,
             "text": self.text,
-            "url_image": self.url_image,
+            "url_image": self.url_image
         }
 
-        if with_comments:
-            comments_dict = []
-            comments=self.comments
-            for comment in comments:
-                comments_dict .append(comment.serialize())
-            post_serialize["comments"] =comments_dict
+        # if with_comments:
+        #     comments_dict = []
+        #     comments=self.comments
+        #     for comment in comments:
+        #         comments_dict .append(comment.serialize())
+        #     post_serialize["comments"] =comments_dict
 
-        if with_likes:
-            likes_dict = []
-            likes=self.likes
-            for like in likes:
-                likes_dict .append(like.serialize())
-            post_serialize["likes"] =likes_dict
+        # if with_likes:
+        #     likes_dict = []
+        #     likes=self.likes
+        #     for like in likes:
+        #         likes_dict .append(like.serialize())
+        #     post_serialize["likes"] =likes_dict
 
-        return post_serialize
+        # return post_serialize
 
     @classmethod
     def add_register(cls, request_json):
         
-        register=cls(request_json["user_id"],request_json["birth"],request_json["country"],request_json["city"])
+        register=cls(request_json["user_id"],request_json["text"],request_json["url_image"])
         register.body(request_json)
         return register
     
     #get body
     def body(self, request_json):
         self.user_id=request_json["user_id"]
-        self.birth=request_json["birth"]
-        self.state=request_json["country"]
-        self.city=request_json["city"]
+        self.text=request_json["text"]
+        self.url_image=request_json["url_image"]
+       
         
     # save data in the database
     def save(self):
@@ -187,8 +187,13 @@ class Post(db.Model,BaseModel):
         return db.session.commit()
     
     @classmethod
-    def item_by_user_id(cls,user_id):
-        return cls.query.filter_by(user_id=user_id).one_or_none()
+    def items_by_user_id(cls, user_id):
+        return cls.query.filter_by(user_id=user_id).all()
+
+    # delete data in the database
+    def delete(self):
+        db.session.delete(self)
+        return db.session.commit()
 
 
 #PROFILE MI RED
@@ -398,9 +403,7 @@ class Image(db.Model,BaseModel,SportCenterId):
     #metodo de instancia serializa el diccionario
     def serialize(self):
         return {
-            "id": self.id,
             "url_image": self.url_image,
-            "sportcenter_id": self.sportcenter_id
         }       
 
     # save data in the database
