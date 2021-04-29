@@ -1,8 +1,8 @@
-import React, { useState, useContext, useEffect } from "react";
-import { Context } from "../../store/appContext";
-import Slider from "react-slick";
+import React, { useState, useContext, useEffect, Component, createRef } from "react";
 
-import CarouselItem from "./carouselItem.jsx";
+import { Context } from "../../store/appContext";
+//importar librería slick
+import Slider from "react-slick";
 
 import "../../../styles/center.scss";
 import "../../../styles/imgcarousel.scss";
@@ -35,77 +35,70 @@ export default function CarouselImages() {
 			.then(resultJson => setImages(resultJson));
 	}
 
-	function sliders() {
-		return images.map(data => {
-			return (
-				<div key={data}>
-					<div>
-						<img alt="image" src={data.url_image} />
-					</div>
-				</div>
-			);
-		});
-	}
+	// //Slider libreria Slick button-next
+	// function SampleNextArrow(props) {
+	// 	const { className, style, onClick } = props;
+	// 	return (
+	// 		<div className={className} style={{ ...style, display: "block", background: "red" }} onClick={onClick} />
+	// 	);
+	// }
 
-	//slick
+	// //Slider libreria Slick button-prev
+	// function SamplePrevArrow(props) {
+	// 	const { className, style, onClick } = props;
+	// 	return (
+	// 		<div className={className} style={{ ...style, display: "block", background: "green" }} onClick={onClick} />
+	// 	);
+	// }
+
+	//creating the ref
+	const customeSlider = createRef();
+
+	const gotoNext = () => {
+		customeSlider.current.slickNext();
+	};
+
+	const gotoPrev = () => {
+		customeSlider.current.slickPrev();
+	};
+
+	//slick settings
 	const settings = {
 		dots: true,
 		infinite: true,
 		speed: 500,
-		slidesToShow: 2,
-		slidesToScroll: 2
+		slidesToShow: 4,
+		slidesToScroll: 2,
+		arrows: true
+		// nextArrow: () => (
+		// 	<div
+		// 		style={{
+		// 			backgroundColor: "#ddd",
+		// 			padding: "5px",
+		// 			display: "flex"
+		// 		}}
+		// 	/>
+		// )
 	};
-
-	let slides;
-	if (images) {
-		slides = images.map(char => {
-			return <div key={char}>1</div>;
-		});
-	}
 
 	return (
 		<div className="carousel-container col-10 m-auto">
 			<div className>{images ? "" : ""}</div>
+			<button onClick={() => gotoNext()}>Next</button>
+			<button onClick={() => gotoPrev()}>Previous</button>
 			{images ? (
-				<Slider {...settings} style={{ clear: "both" }}>
+				<Slider {...settings} style={{ clear: "both" }} ref={customeSlider}>
 					{images.map(image => {
 						return (
-							// <CarouselItem key={image.url_image} />
 							<div className="carousel-item" key={image}>
 								<img src={image.url_image} alt="Image" />
 							</div>
 						);
 					})}
-
-					{/* <div className="carousel-item">
-						<img src="http://ipadel.s3.amazonaws.com/centerImage_01.jpg" alt="Image" />
-					</div> */}
-					{/* {slides} */}
 				</Slider>
 			) : (
 				""
 			)}
-			{/* <Slider {...settings}>
-				<div className="carousel-item">
-					<img src="http://ipadel.s3.amazonaws.com/centerImage_02.jpg" alt="Image" />
-				</div>
-				<div className="carousel-item">
-					<img src="http://ipadel.s3.amazonaws.com/centerImage_01.jpg" alt="Image" />
-				</div>
-				<div className="carousel-item">
-					<img src="http://ipadel.s3.amazonaws.com/centerImage_03.jpg" alt="Image" />
-				</div>
-				<div className="carousel-item">
-					<img src="http://ipadel.s3.amazonaws.com/centerImage_04.jpg" alt="Image" />
-				</div>
-				<div className="carousel-item">
-					<img src="http://ipadel.s3.amazonaws.com/centerImage_04.jpg" alt="Image" />
-				</div>
-				<div className="carousel-item">
-					<img src="http://ipadel.s3.amazonaws.com/centerImage_04.jpg" alt="Image" />
-				</div>
-			</Slider> */}
-			;
 		</div>
 	);
 }
