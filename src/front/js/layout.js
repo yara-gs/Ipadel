@@ -15,6 +15,7 @@ import CenterImages from "./pages/sportCenter/centerImages.jsx";
 import Mynavbar from "./component/navbar";
 import { Footer } from "./component/footer";
 import Profile from "./pages/profile";
+import Forgot from "./pages/forgot";
 //create your first component
 const Layout = () => {
 	//the basename is used when your project is published in a subdirectory and not in the root of the domain
@@ -42,7 +43,6 @@ const Layout = () => {
 						<Route exact path="/mired">
 							<MiRedComponentes />
 						</Route>
-
 						<Route exact path="/newcenter">
 							<Center />
 						</Route>
@@ -52,6 +52,10 @@ const Layout = () => {
 						<Route exact path="/uploadCenterImages">
 							<Mynavbar />
 							<CenterImages />
+						</Route>
+						<Route exact path="/forgot">
+							<Mynavbar />
+							<Forgot />
 						</Route>
 						<Route exact path="/demo">
 							<Demo />

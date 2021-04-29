@@ -34,6 +34,9 @@ export default function Mynavbar() {
 				<Link to="/configurecenter">
 					<Nav.Link href="#features">Configurar centro</Nav.Link>
 				</Link>
+				<Link to="/forgot-password">
+					<Nav.Link href="#features">Recuperar contraseña</Nav.Link>
+				</Link>
 				<Nav className="ml-auto">
 					<Link to="/sign">
 						<Nav.Link href="#pricing">Sign Up</Nav.Link>
