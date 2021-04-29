@@ -12,6 +12,7 @@ import LogoiPadel from "../component/logoiPadel.jsx";
 export default function Mynavbar() {
 	const { actions, store } = useContext(Context);
 	let user = actions.getUser();
+	console.log(user);
 	return (
 		<Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
 			<Navbar.Brand href="#home">

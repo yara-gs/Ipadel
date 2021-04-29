@@ -137,6 +137,7 @@ class Post(db.Model,BaseModel):
 
     #relacion many to one con tabla User (un post puede tener muchos comments)
     comments=db.relationship("Comment",back_populates="post")
+    likes=db.relationship("Like",back_populates="post")
 
 
      #metodo de instancia %r lo sustituty por %self.id
@@ -144,19 +145,19 @@ class Post(db.Model,BaseModel):
         return '<Post %r>' % self.id
 
     #metodo de instancia serializa el diccionario
-    def serialize(self):
-        return{
+    def serialize(self,with_comments=True):
+        post_serialize={
             "id": self.id,
             "text": self.text,
             "url_image": self.url_image
         }
 
-        # if with_comments:
-        #     comments_dict = []
-        #     comments=self.comments
-        #     for comment in comments:
-        #         comments_dict .append(comment.serialize())
-        #     post_serialize["comments"] =comments_dict
+        if with_comments:
+            comments_dict = []
+            comments=self.comments
+            for comment in comments:
+                comments_dict .append(comment.serialize())
+            post_serialize["comments"] =comments_dict
 
         # if with_likes:
         #     likes_dict = []
@@ -165,7 +166,7 @@ class Post(db.Model,BaseModel):
         #         likes_dict .append(like.serialize())
         #     post_serialize["likes"] =likes_dict
 
-        # return post_serialize
+        return post_serialize
 
     @classmethod
     def add_register(cls, request_json):
@@ -208,6 +209,97 @@ class Comment(db.Model,BaseModel):
     # relacion one to many con tabla Post(un post puede tener muchos comentarios)
     post_id=db.Column(db.Integer,db.ForeignKey('post.id'))
     post=db.relationship("Post",back_populates="comments")
+
+    #metodo de instancia %r lo sustituty por %self.id
+    def __repr__(self):
+        return '<Comment %r>' % self.id
+
+    #metodo de instancia serializa el diccionario
+    def serialize(self):
+        return {
+            "id": self.id,
+            "text": self.text,
+            "post_id": self.post_id,
+        }
+    
+    @classmethod
+    def add_register(cls, request_json):
+        
+        register=cls(request_json["post_id"],request_json["text"])
+        register.body(request_json)
+        return register
+    
+    #get body
+    def body(self, request_json):
+        self.user_id=request_json["post_id"]
+        self.text=request_json["text"]
+      
+    # save data in the database
+    def save(self):
+        db.session.add(self)
+        return db.session.commit()
+    
+    # delete data in the database
+    def delete(self):
+        db.session.delete(self)
+        return db.session.commit()
+
+    @classmethod
+    def items_by_post_id(cls, post_id):
+        return cls.query.filter_by(post_id=post_id).all()
+
+
+
+#PROFILE MI RED
+#POSTS
+#COMMENTS
+class Like(db.Model,BaseModel):
+    __tablename__ = 'like'
+
+    id=db.Column(db.Integer, primary_key=True)
+    user_like=text=db.Column(db.String(120), unique=False, nullable=False)
+  
+    # relacion one to many con tabla Post(un post puede tener muchos comentarios)
+    post_id=db.Column(db.Integer,db.ForeignKey('post.id'))
+    post=db.relationship("Post",back_populates="likes")
+
+    #metodo de instancia %r lo sustituty por %self.id
+    def __repr__(self):
+        return '<Like %r>' % self.id
+
+    #metodo de instancia serializa el diccionario
+    def serialize(self):
+        return {
+            "id": self.id,
+            "user_like": self.user_like,
+            "post_id": self.post_id,
+        }
+    
+    @classmethod
+    def add_register(cls, request_json):
+        
+        register=cls(request_json["post_id"],request_json["user_like"])
+        register.body(request_json)
+        return register
+    
+    #get body
+    def body(self, request_json):
+        self.user_id=request_json["post_id"]
+        self.like=request_json["user_like"]
+      
+    # save data in the database
+    def save(self):
+        db.session.add(self)
+        return db.session.commit()
+    
+    # delete data in the database
+    def delete(self):
+        db.session.delete(self)
+        return db.session.commit()
+
+    @classmethod
+    def items_by_post_id(cls, post_id):
+        return cls.query.filter_by(post_id=post_id).all()
 
 
 

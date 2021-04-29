@@ -95,12 +95,12 @@ def register_new_post():
 # POST: Get posts by user Id
 @api.route ('/posts/<int:user_id>', methods=['GET'])
 def get_posts(user_id):
-
+    with_comments=True
     posts=Post.items_by_user_id(user_id)
     posts_list = []
     print(posts)
     for post in posts:
-        posts_list.append(post.serialize())
+        posts_list.append(post.serialize(with_comments))
         print(posts_list)
     
     return jsonify(posts_list), 200
@@ -112,6 +112,74 @@ def delete_post(post_id):
 
     post=Post.get_id(post_id)
     post.delete()    
+
+    return jsonify({}), 200
+
+
+# COMMENTS
+
+# NEW COMMENT
+@api.route ('/comment', methods=['POST'])
+def register_new_comment():
+
+    body=request.get_json()
+    new_comment=Comment.add_register(body)
+    new_comment.save()
+  
+    return jsonify(new_comment.serialize()),200
+
+# COMMENT: Get comments by post Id
+@api.route ('/comments/<int:post_id>', methods=['GET'])
+def get_comments(post_id):
+    comments=Comment.items_by_post_id(post_id)
+    comments_list = []
+
+    for comment in comments:
+        comments_list.append(comment.serialize())
+    
+    return jsonify(comments_list), 200
+
+
+#COMMENT:  Delete comment by comment_id
+@api.route ('/commentdelete/<int:comment_id>', methods=['GET'])
+def delete_comment(comment_id):
+
+    comment=Comment.get_id(post_id)
+    comment.delete()    
+
+    return jsonify({}), 200
+
+
+# LIKES
+
+# NEW LIKE
+@api.route ('/like', methods=['POST'])
+def register_new_like():
+
+    body=request.get_json()
+    new_like=Like.add_register(body)
+    new_like.save()
+  
+    return jsonify(new_like.serialize()),200
+
+# LIKE: Get Likes by post Id
+@api.route ('/likes/<int:post_id>', methods=['GET'])
+def get_likes(post_id):
+    likes=Like.items_by_post_id(post_id)
+    likes_list = []
+
+    for like in likes:
+        likes_list.append(like.serialize())
+    
+    return jsonify(likes_list), 200
+
+
+#LIKE:  Delete like by like_id
+@api.route ('/likedelete/<int:like_id>', methods=['GET'])
+def delete_like(like_id):
+
+    like=Like.get_id(like_id)
+    like.delete()    
 
     return jsonify({}), 200
 

@@ -68,34 +68,31 @@ export default function CarouselImages() {
 		infinite: true,
 		speed: 500,
 		slidesToShow: 4,
-		slidesToScroll: 2,
-		arrows: true
-		// nextArrow: () => (
-		// 	<div
-		// 		style={{
-		// 			backgroundColor: "#ddd",
-		// 			padding: "5px",
-		// 			display: "flex"
-		// 		}}
-		// 	/>
-		// )
+		slidesToScroll: 3,
+		autoplay: true,
+		autoplaySpeed: 5000
 	};
 
 	return (
 		<div className="carousel-container col-10 m-auto">
 			<div className>{images ? "" : ""}</div>
-			<button onClick={() => gotoNext()}>Next</button>
-			<button onClick={() => gotoPrev()}>Previous</button>
+
 			{images ? (
-				<Slider {...settings} style={{ clear: "both" }} ref={customeSlider}>
-					{images.map(image => {
-						return (
-							<div className="carousel-item" key={image}>
-								<img src={image.url_image} alt="Image" />
-							</div>
-						);
-					})}
-				</Slider>
+				<span>
+					<div className="d-flex justify-content-between court-icon sporCenterImages next_step ">
+						<button className=" next_stepLink fas fa-chevron-left ml-1 p-1" onClick={() => gotoPrev()} />
+						<button className=" next_stepLink fas fa-chevron-right ml-1 p-1" onClick={() => gotoNext()} />
+					</div>
+					<Slider {...settings} style={{ clear: "both" }} ref={customeSlider}>
+						{images.map(image => {
+							return (
+								<div className="carousel-item" key={image}>
+									<img src={image.url_image} alt="Image" />
+								</div>
+							);
+						})}
+					</Slider>
+				</span>
 			) : (
 				""
 			)}
