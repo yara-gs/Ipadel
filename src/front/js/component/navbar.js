@@ -24,8 +24,8 @@ export default function Mynavbar() {
 			</Navbar.Brand>
 
 			{user ? (
-				<span>
-					<Navbar.Toggle aria-controls="responsive-navbar-nav" />
+				<div Classname="userExists">
+					<Navbar.Toggle aria-controls="responsive-navbar-nav " />
 					<Navbar.Collapse id="responsive-navbar-nav">
 						<Link to="/pistas">
 							<Nav.Link href="#features">Pistas</Nav.Link>
@@ -40,8 +40,17 @@ export default function Mynavbar() {
 						<Link to="/configure-courts">
 							<Nav.Link href="#features">Configurar centro</Nav.Link>
 						</Link>
+						<NavDropdown title="Dropdown" id="collasible-nav-dropdown">
+							<Link to="/configure-profile">
+								<NavDropdown.Item href="#action/3.1">Editar Perfil</NavDropdown.Item>
+							</Link>
+							<NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
+							<NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+							<NavDropdown.Divider />
+							<NavDropdown.Item href="#action/3.4">Log Out</NavDropdown.Item>
+						</NavDropdown>
 					</Navbar.Collapse>
-				</span>
+				</div>
 			) : (
 				<Nav className="ml-auto">
 					<Link to="/sign">
