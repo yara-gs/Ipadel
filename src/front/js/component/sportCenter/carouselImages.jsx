@@ -149,7 +149,7 @@ export default function CarouselImages() {
 {
 	/* <div className="d-flex justify-content-center ">
 				<div className="container">
-					<h1>Imagenes</h1>
+					<h1 className="h1carousel">Imagenes</h1>
 					<div className="row">
 						<div className="col-md-12">
 							<div className="carousel slide multi-item-carousel" id="theCarousel">

@@ -16,6 +16,7 @@ import CenterImages from "./pages/sportCenter/centerImages.jsx";
 import Mynavbar from "./component/navbar";
 import { Footer } from "./component/footer";
 import Profile from "./pages/profile";
+import ConfigureProfile from "./pages/configure-profile";
 //create your first component
 const Layout = () => {
 	//the basename is used when your project is published in a subdirectory and not in the root of the domain
@@ -36,6 +37,9 @@ const Layout = () => {
 						</Route>
 						<Route exact path="/profile">
 							<Profile />
+						</Route>
+						<Route exact path="/configure-profile">
+							<ConfigureProfile />
 						</Route>
 						<Route exact path="/home">
 							<Home />
