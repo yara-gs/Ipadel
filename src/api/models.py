@@ -17,10 +17,6 @@ class BaseModel():
         return cls.query.get(id)
     
 
-
-
-
-
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(120), unique=True, nullable=False)
@@ -30,7 +26,10 @@ class User(db.Model):
 
     # relacion one to many con tabla User (un usuario puede tener muchos centros)
     sportcenters=db.relationship("SportCenter",back_populates="user")
+    profile=db.relationship("Profile",back_populates="user")
+    posts=db.relationship("Post",back_populates="user")
   
+
 
 
     def __init__(self,username, email, password, is_active=True): 
@@ -69,6 +68,151 @@ class User(db.Model):
 
 
 
+#PROFILE MI RED
+class Profile(db.Model,BaseModel):
+    __tablename__ = 'profile'
+
+    id=db.Column(db.Integer, primary_key=True)
+    birth=db.Column(db.String(120), unique=False, nullable=True)
+    country=db.Column(db.String(120),unique=False, nullable=True)
+    city=db.Column(db.String(120),unique=False, nullable=True)
+   
+
+    # relacion one to many con tabla User (un usuario puede tener muchos centros)
+    user_id=db.Column(db.Integer,db.ForeignKey('user.id'))
+    user=db.relationship("User",back_populates="profile")
+
+
+     #metodo de instancia %r lo sustituty por %self.id
+    def __repr__(self):
+        return '<Profile %r>' % self.id
+
+    #metodo de instancia serializa el diccionario
+    def serialize(self):
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "country": self.country,
+            "city": self.city,
+        }
+
+    @classmethod
+    def add_register(cls, request_json):
+        
+        register=cls(request_json["user_id"],request_json["birth"],request_json["country"],request_json["city"])
+        register.body(request_json)
+        return register
+    
+    #get body
+    def body(self, request_json):
+        self.user_id=request_json["user_id"]
+        self.birth=request_json["birth"]
+        self.state=request_json["country"]
+        self.city=request_json["city"]
+        
+    # save data in the database
+    def save(self):
+        db.session.add(self)
+        return db.session.commit()
+    
+    @classmethod
+    def item_by_user_id(cls,user_id):
+        return cls.query.filter_by(user_id=user_id).one_or_none()
+
+
+
+# #PROFILE MI RED
+# #POSTS
+
+class Post(db.Model,BaseModel):
+    __tablename__ = 'post'
+
+    id=db.Column(db.Integer, primary_key=True)
+    text=db.Column(db.String(120), unique=False, nullable=True)
+    url_image=db.Column(db.String(120), unique=False, nullable=False)
+  
+    # relacion one to many con tabla User (un usuario puede tener muchos centros)
+    user_id=db.Column(db.Integer,db.ForeignKey('user.id'))
+    user=db.relationship("User",back_populates="posts")
+
+    #relacion many to one con tabla User (un post puede tener muchos comments)
+    comments=db.relationship("Comment",back_populates="post")
+
+
+     #metodo de instancia %r lo sustituty por %self.id
+    def __repr__(self):
+        return '<Post %r>' % self.id
+
+    #metodo de instancia serializa el diccionario
+    def serialize(self):
+        return{
+            "id": self.id,
+            "text": self.text,
+            "url_image": self.url_image
+        }
+
+        # if with_comments:
+        #     comments_dict = []
+        #     comments=self.comments
+        #     for comment in comments:
+        #         comments_dict .append(comment.serialize())
+        #     post_serialize["comments"] =comments_dict
+
+        # if with_likes:
+        #     likes_dict = []
+        #     likes=self.likes
+        #     for like in likes:
+        #         likes_dict .append(like.serialize())
+        #     post_serialize["likes"] =likes_dict
+
+        # return post_serialize
+
+    @classmethod
+    def add_register(cls, request_json):
+        
+        register=cls(request_json["user_id"],request_json["text"],request_json["url_image"])
+        register.body(request_json)
+        return register
+    
+    #get body
+    def body(self, request_json):
+        self.user_id=request_json["user_id"]
+        self.text=request_json["text"]
+        self.url_image=request_json["url_image"]
+       
+        
+    # save data in the database
+    def save(self):
+        db.session.add(self)
+        return db.session.commit()
+    
+    @classmethod
+    def items_by_user_id(cls, user_id):
+        return cls.query.filter_by(user_id=user_id).all()
+
+    # delete data in the database
+    def delete(self):
+        db.session.delete(self)
+        return db.session.commit()
+
+
+#PROFILE MI RED
+#POSTS
+#COMMENTS
+class Comment(db.Model,BaseModel):
+    __tablename__ = 'comment'
+
+    id=db.Column(db.Integer, primary_key=True)
+    text=db.Column(db.String(120), unique=False, nullable=True)
+  
+    # relacion one to many con tabla Post(un post puede tener muchos comentarios)
+    post_id=db.Column(db.Integer,db.ForeignKey('post.id'))
+    post=db.relationship("Post",back_populates="comments")
+
+
+
+
+    
 
 # REGISTER NEW SPORTS CENTER
 class SportCenter(db.Model,BaseModel):
@@ -259,9 +403,7 @@ class Image(db.Model,BaseModel,SportCenterId):
     #metodo de instancia serializa el diccionario
     def serialize(self):
         return {
-            "id": self.id,
             "url_image": self.url_image,
-            "sportcenter_id": self.sportcenter_id
         }       
 
     # save data in the database
