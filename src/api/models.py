@@ -143,6 +143,12 @@ class Post(db.Model,BaseModel):
      #metodo de instancia %r lo sustituty por %self.id
     def __repr__(self):
         return '<Post %r>' % self.id
+    
+    #metodo de instancia que obliga a que haya datos siempre que se llama       
+    def __init__(self,user_id,text,url_image):
+        self.user_id=user_id
+        self.text=text
+        self.url_image
 
     #metodo de instancia serializa el diccionario
     def serialize(self,with_comments=True):
@@ -252,7 +258,7 @@ class Comment(db.Model,BaseModel):
 
 #PROFILE MI RED
 #POSTS
-#COMMENTS
+#LIKES
 class Like(db.Model,BaseModel):
     __tablename__ = 'like'
 
@@ -285,7 +291,7 @@ class Like(db.Model,BaseModel):
     #get body
     def body(self, request_json):
         self.user_id=request_json["post_id"]
-        self.like=request_json["user_like"]
+        self.user_like=request_json["user_like"]
       
     # save data in the database
     def save(self):

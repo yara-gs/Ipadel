@@ -3,7 +3,7 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 import os
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, SportCenter,Court,Image,Profile,Post,Comment
+from api.models import db, User, SportCenter,Court,Image,Profile,Post,Comment,Like
 from api.utils import generate_sitemap, APIException
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import jwt_required
@@ -81,14 +81,21 @@ def update_profile(profile_id):
 
 
 # POSTS
-
 # NEW POST
 @api.route ('/post', methods=['POST'])
 def register_new_post():
 
-    body=request.get_json()
-    new_post=Post.add_register(body)
-    new_post.save()
+
+    file=request.files
+    user_id=request.form.get('user_id')
+    text=request.form.get('text')
+    try:
+        url_image=upload_file_to_s3(file, os.environ.get('S3_BUCKET_NAME'))
+        new_post=Post(user_id=user_id,text=text,url_image=url_image)
+        new_post.save()
+
+    except Exception as e:
+        raise APIException("Fallo al importar imagenes")
   
     return jsonify(new_post.serialize()),200
 

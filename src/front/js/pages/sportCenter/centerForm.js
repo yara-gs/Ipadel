@@ -12,7 +12,7 @@ export default function CenterForm() {
 	const history = useHistory();
 
 	//funcion que lleva a sign si no hay usario logueado
-	pushSignPage();
+	// pushSignPage();
 
 	return (
 		<div>
