@@ -54,8 +54,6 @@ def profile():
 def register_new_profile():
 
     body=request.get_json()
-    print("BODY:")
-    print(body)
     new_profile=Profile.add_register(body)
     new_profile.save()
   
@@ -87,16 +85,21 @@ def update_profile(profile_id):
 # NEW POST
 @api.route ('/post', methods=['POST'])
 def register_new_post():
-    file=request.files
+    files=request.files
     user_id=request.form.get('user_id')
     text=request.form.get('text')
+    print('USER_ID',user_id)
+    print('TEXT',text)
+   
     try:
-        url_image=upload_file_to_s3(file, os.environ.get('S3_BUCKET_NAME'))
+        url_image=upload_file_to_s3(files['image'], os.environ.get('S3_BUCKET_NAME'))
+        print('URL',url_image)
         new_post=Post(user_id=user_id,text=text,url_image=url_image)
         new_post.save()
 
     except Exception as e:
         raise APIException("Fallo al importar imagenes")
+
   
     return jsonify(new_post.serialize()),200
 
@@ -126,6 +129,29 @@ def delete_post(post_id):
 
 # COMMENTS
 
+# COMMENT: Get comments by user Id
+@api.route ('/comments/<int:user_id>', methods=['GET'])
+def get_comments(user_id):
+    comments=Comment.items_by_user_id(user_id)
+    comments_list = []
+
+    for comment in comments:
+        comments_list.append(comment.serialize())
+    
+    return jsonify(comments_list), 200
+
+# COMMENT: Get comments by post Id
+@api.route ('/comments_post/<int:post_id>', methods=['GET'])
+def get_comments_post(post_id):
+    comments=Comment.items_by_post_id(post_id)
+    comments_list = []
+
+    for comment in comments:
+        comments_list.append(comment.serialize())
+    
+    return jsonify(comments_list), 200
+
+
 # NEW COMMENT
 @api.route ('/comment', methods=['POST'])
 def register_new_comment():
@@ -136,29 +162,34 @@ def register_new_comment():
   
     return jsonify(new_comment.serialize()),200
 
-# COMMENT: Get comments by post Id
-@api.route ('/comments/<int:post_id>', methods=['GET'])
-def get_comments(post_id):
-    comments=Comment.items_by_post_id(post_id)
-    comments_list = []
 
-    for comment in comments:
-        comments_list.append(comment.serialize())
-    
-    return jsonify(comments_list), 200
 
 
 #COMMENT:  Delete comment by comment_id
 @api.route ('/commentdelete/<int:comment_id>', methods=['GET'])
 def delete_comment(comment_id):
 
-    comment=Comment.get_id(post_id)
+    comment=Comment.get_id(comment_id)
     comment.delete()    
 
     return jsonify({}), 200
 
 
 # LIKES
+
+
+# LIKES: Get likes by user Id
+@api.route ('/likes/<int:user_id>', methods=['GET'])
+def get_likes(user_id):
+    likes=Like.items_by_user_id(user_id)
+    likes_list = []
+
+    for like in likes:
+        likes_list.append(like.serialize())
+    
+    return jsonify(likes_list), 200
+
+
 
 # NEW LIKE
 @api.route ('/like', methods=['POST'])
@@ -171,8 +202,8 @@ def register_new_like():
     return jsonify(new_like.serialize()),200
 
 # LIKE: Get Likes by post Id
-@api.route ('/likes/<int:post_id>', methods=['GET'])
-def get_likes(post_id):
+@api.route ('/likes_post/<int:post_id>', methods=['GET'])
+def get_likes_post(post_id):
     likes=Like.items_by_post_id(post_id)
     likes_list = []
 
@@ -190,6 +221,10 @@ def delete_like(like_id):
     like.delete()    
 
     return jsonify({}), 200
+
+
+
+
 
 
 
