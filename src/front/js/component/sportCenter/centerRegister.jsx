@@ -28,7 +28,7 @@ export default function RegisterCenter() {
 	function createCenter(event) {
 		event.preventDefault();
 		let body = {
-			user_id: 1,
+			user_id: user.id,
 			nif: nif,
 			center_name: center_name,
 			phone: phone,

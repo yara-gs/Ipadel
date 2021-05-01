@@ -86,6 +86,13 @@ class Profile(db.Model,BaseModel):
      #metodo de instancia %r lo sustituty por %self.id
     def __repr__(self):
         return '<Profile %r>' % self.id
+    
+     #metodo de instancia que obliga a que haya datos siempre que se llama       
+    def __init__(self,user_id,birth,country,city):
+        self.user_id=user_id
+        self.birth=birth
+        self.country=country
+        self.city=city
 
     #metodo de instancia serializa el diccionario
     def serialize(self):
@@ -107,7 +114,7 @@ class Profile(db.Model,BaseModel):
     def body(self, request_json):
         self.user_id=request_json["user_id"]
         self.birth=request_json["birth"]
-        self.state=request_json["country"]
+        self.country=request_json["country"]
         self.city=request_json["city"]
         
     # save data in the database
