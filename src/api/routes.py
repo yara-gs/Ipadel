@@ -54,10 +54,13 @@ def profile():
 def register_new_profile():
 
     body=request.get_json()
+    print("BODY:")
+    print(body)
     new_profile=Profile.add_register(body)
     new_profile.save()
   
     return jsonify(new_profile.serialize()),200
+
 
 # PROFILE: Get profile by user Id
 @api.route ('/profile/<int:user_id>', methods=['GET'])
@@ -84,8 +87,6 @@ def update_profile(profile_id):
 # NEW POST
 @api.route ('/post', methods=['POST'])
 def register_new_post():
-
-
     file=request.files
     user_id=request.form.get('user_id')
     text=request.form.get('text')

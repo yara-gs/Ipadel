@@ -14,6 +14,9 @@ export default function MiRedComponentes() {
 	const { actions } = useContext(Context);
 	const history = useHistory();
 
+	let user = actions.getUser();
+	const [profile, setProfile] = useState(null);
+
 	useEffect(() => {
 		let acessToken = actions.getAccessToken();
 		if (!acessToken) {
@@ -32,6 +35,17 @@ export default function MiRedComponentes() {
 				actions.saveUser(responseJson);
 			});
 	}, []);
+
+	if (user) {
+		useEffect(() => {
+			fetch(process.env.BACKEND_URL + "/api/profile/" + user.id, {
+				method: "GET",
+				headers: { "Content-Type": "application/json" }
+			})
+				.then(response => response.json())
+				.then(resultJson => setProfile(resultJson));
+		}, []);
+	}
 
 	return (
 		<div className="w3-margin-top">
