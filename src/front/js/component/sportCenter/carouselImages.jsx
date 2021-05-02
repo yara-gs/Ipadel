@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, Component, createRef } from "react";
+import React, { useState, useContext, useEffect } from "react";
 
 import { Context } from "../../store/appContext";
 //importar librería slick
@@ -35,59 +35,38 @@ export default function CarouselImages() {
 			.then(resultJson => setImages(resultJson));
 	}
 
-	// //Slider libreria Slick button-next
-	// function SampleNextArrow(props) {
-	// 	const { className, style, onClick } = props;
-	// 	return (
-	// 		<div className={className} style={{ ...style, display: "block", background: "red" }} onClick={onClick} />
-	// 	);
-	// }
-
-	// //Slider libreria Slick button-prev
-	// function SamplePrevArrow(props) {
-	// 	const { className, style, onClick } = props;
-	// 	return (
-	// 		<div className={className} style={{ ...style, display: "block", background: "green" }} onClick={onClick} />
-	// 	);
-	// }
-
-	//creating the ref
-	const customeSlider = createRef();
-
-	const gotoNext = () => {
-		customeSlider.current.slickNext();
-	};
-
-	const gotoPrev = () => {
-		customeSlider.current.slickPrev();
-	};
+	let slidesToShow = 5;
+	if (images) {
+		if (images.length < 5) {
+			slidesToShow = images.length;
+		}
+	}
 
 	//slick settings
 	const settings = {
 		dots: true,
 		infinite: true,
 		speed: 500,
-		slidesToShow: 4,
+		slidesToShow: slidesToShow,
 		slidesToScroll: 1,
 		autoplay: true,
 		autoplaySpeed: 2000
 	};
 
 	return (
-		<div className="carousel-container col-10 m-auto">
+		<div className="carousel-container col-10 m-auto justify-content-center ">
 			<div className>{images ? "" : ""}</div>
-
 			{images ? (
 				<span>
-					<div className="d-flex justify-content-between court-icon sporCenterImages next_step ">
-						<button className=" next_stepLink fas fa-chevron-left ml-1 p-1" onClick={() => gotoPrev()} />
-						<button className=" next_stepLink fas fa-chevron-right ml-1 p-1" onClick={() => gotoNext()} />
-					</div>
-					<Slider {...settings} style={{ clear: "both" }} ref={customeSlider}>
+					<div className=" court-icon sporCenterImages next_step " />
+					<Slider {...settings}>
 						{images.map(image => {
 							return (
-								<div className="carousel-item" key={image}>
-									<img src={image.url_image} alt="Image" />
+								<div key={image} className="carousel-item">
+									<div
+										className="carousel-img"
+										style={{ backgroundImage: `url(${image.url_image})` }}
+									/>
 								</div>
 							);
 						})}

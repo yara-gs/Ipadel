@@ -36,16 +36,17 @@ export default function MiRedComponentes() {
 			});
 	}, []);
 
-	if (user) {
-		useEffect(() => {
+	useEffect(
+		() => {
 			fetch(process.env.BACKEND_URL + "/api/profile/" + user.id, {
 				method: "GET",
 				headers: { "Content-Type": "application/json" }
 			})
 				.then(response => response.json())
 				.then(resultJson => setProfile(resultJson));
-		}, []);
-	}
+		},
+		[user]
+	);
 
 	return (
 		<div className="w3-margin-top">
