@@ -51,6 +51,9 @@ export default function CarouselImages() {
 		slidesToScroll: 1,
 		autoplay: true,
 		autoplaySpeed: 2000
+		// className: "center",
+		// centerMode: true,
+		// centerPadding: "60px"
 	};
 
 	return (
