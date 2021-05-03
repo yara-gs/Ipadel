@@ -60,10 +60,26 @@
 
 // END COMPLETE FROM PROGRESS BAR
 
+//SIDEBAR
+
+
+
+
+
+    .chooseCenter-form {
+    
+    align-items: left;
+    padding: 0rem 1rem;
+    
+
+}
+
+
+
 //ELEGIR CENTRO DE RESERVA
  .carousel-img{
         width: 250px;
-        height: 200px;
+        height:100%;
         background-size: cover;
         background-position: 50%;
         background-repeat: no-repeat;
@@ -77,8 +93,31 @@
         }
     
 
-        .card, .w3-hover-shadow:hover {
-    box-shadow: 0 4px 10px 0 rgba(0,0,0,0.2), 0 4px 20px rgba(0,0,0,0.19);
+        .card, .card-hover-shadow:hover {
+    //box-shadow: 0 4px 10px 0 rgba(0,0,0,0.2), 0 4px 20px rgba(0,0,0,0.19);
+    border-color: white;
+   
 }
 
-    
+
+.court-icon{
+.booktime {
+    display: block;
+    position: relative;
+    float: left;
+    color: #FFF;
+    font-weight: bold;
+    padding: 3px;
+    margin: 2px;
+    text-align: center;
+
+    font: normal 12px/1.8em Arial, Helvetica, sans-serif;
+}
+.red {
+    background-color: #f12245;
+    cursor: default;
+    text-decoration: none;
+}
+}
+
+

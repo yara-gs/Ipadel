@@ -157,7 +157,7 @@ export default function Centers() {
 								</tr>
 								<tr>
 									<td className="first-column">
-										<i className="fas fa-map-marker w3-text-red w3-large" />
+										<i className="fas fa-map-marker-alt w3-text-red w3-large" />
 										Dirección
 									</td>
 									<td>C/ Lopez Bravo, 2 09001 Burgos</td>
