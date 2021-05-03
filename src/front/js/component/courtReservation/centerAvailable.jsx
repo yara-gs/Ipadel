@@ -11,70 +11,57 @@ export default function CenterAvailable() {
 
 	//funcion que lleva a sign si no hay usario logueado
 	// pushSignPage();
+	let url_image = "http://ipadel.s3.amazonaws.com/centerImage_03.jpg";
 
 	return (
 		<div>
-			<div className="w3-panel">
-				<div className="w3-row-padding">
-					<div className="w3-twothird">
-						<table className="w3-table w3-striped w3-white w3-card-4  ">
-							<tr>
-								<td className="first-column carousel-item">
-									<div
-										className="carousel-img"
-										style={{
-											backgroundImage: `url("http://ipadel.s3.amazonaws.com/centerImage_03.jpg")`,
-											width: "500px"
-										}}
-									/>
-								</td>
-							</tr>
-
-							<tr>
-								<td className="first-column">
-									<i className="fas fa-baseball-ball w3-text-amber  " />
-									Centro
-								</td>
-								<td>Burpadel</td>
-								<td>
-									<button className="fas fa-pen center-edit-btn" />
-								</td>
-							</tr>
-
-							<tr>
-								<td className="first-column">
-									<i className="far fa-file w3-text-gray " />
-									NIF
-								</td>
-								<td>754125daf7e1</td>
-								<td>
-									<button className="fas fa-pen center-edit-btn" />
-								</td>
-							</tr>
-							<tr>
-								<td className="first-column">
-									<i className="fas fa-map-marker w3-text-red w3-large" />
-									Dirección
-								</td>
-								<td>C/ Lopez Bravo, 2 09001 Burgos</td>
-								<td>
-									<button className="fas fa-pen center-edit-btn" />
-								</td>
-							</tr>
-							<tr>
-								<td className="first-column">
-									<i className="fas fa-phone w3-text-grey w3-large" />
-									Tlf
-								</td>
-								<td>61789562</td>
-								<td>
-									<button className="fas fa-pen center-edit-btn" />
-								</td>
-							</tr>
-						</table>
+			<div className="card mb-3 " style={{ width: "800px" }}>
+				<div className="row">
+					<div className="col-md-4">
+						<div className="carousel-img" style={{ backgroundImage: `url(${url_image})` }} />
+					</div>
+					<div className="col-md-8">
+						<div className="card-body">
+							<div className="card-title d-flex justify-content-between">
+								<div>
+									<i className="fas fa-baseball-ball w3-text-amber" />
+									<strong className="pl-2 fs-3">Burpadel</strong>
+								</div>
+								<small className="text-muted text-right">
+									C/Lope de Vega 2<br /> 09002, Burgos
+								</small>
+							</div>
+							<p className="card-text">
+								This is a wider card with supporting text below as a natural lead-in to additional
+								content. This content is a little bit longer.
+							</p>
+							<br />
+							<div className=" court-icon text-right">
+								<button className="p-1">Reservar</button>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
+
+			{/* <div className="card mb-3" style={{ max_width: "540px" }} />
+			<div className="row g-0">
+				<div className="col-md-4">
+					<img className="p-2" src="http://ipadel.s3.amazonaws.com/centerImage_03.jpg" alt="" />
+				</div>
+				<div className="col-md-8">
+					<div className="card-body">
+						<h5 className="card-title">Card title</h5>
+						<p className="card-text">
+							This is a wider card with supporting text below as a natural lead-in to additional content.
+							This content is a little bit longer.
+						</p>
+						<p className="card-text">
+							<small className="text-muted">Last updated 3 mins ago</small>
+						</p>
+					</div>
+				</div>
+            </div> */}
 		</div>
 	);
 }

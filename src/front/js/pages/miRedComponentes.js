@@ -36,17 +36,19 @@ export default function MiRedComponentes() {
 			});
 	}, []);
 
-	useEffect(
-		() => {
-			fetch(process.env.BACKEND_URL + "/api/profile/" + user.id, {
-				method: "GET",
-				headers: { "Content-Type": "application/json" }
-			})
-				.then(response => response.json())
-				.then(resultJson => setProfile(resultJson));
-		},
-		[user]
-	);
+	if (user) {
+		useEffect(
+			() => {
+				fetch(process.env.BACKEND_URL + "/api/profile/" + user.id, {
+					method: "GET",
+					headers: { "Content-Type": "application/json" }
+				})
+					.then(response => response.json())
+					.then(resultJson => setProfile(resultJson));
+			},
+			[user]
+		);
+	}
 
 	return (
 		<div className="w3-margin-top">
