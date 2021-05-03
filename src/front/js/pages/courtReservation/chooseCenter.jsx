@@ -20,39 +20,23 @@ export default function ChooseCenter() {
 	// Get the DIV with overlay effect
 	var overlayBg = document.getElementById("myOverlay");
 
-	// Toggle between showing and hiding the sidebar, and add overlay effect
-	function w3_open() {
-		if (mySidebar.style.display === "block") {
-			mySidebar.style.display = "none";
-			overlayBg.style.display = "none";
-		} else {
-			mySidebar.style.display = "block";
-			overlayBg.style.display = "block";
-		}
-	}
-
-	// Close the sidebar with the close button
-	function w3_close() {
-		mySidebar.style.display = "none";
-		overlayBg.style.display = "none";
-	}
-
 	return (
 		<div>
 			{/* <!-- Sidebar/menu --> */}
-			<nav className="w3-sidebar w3-light-grey w3-collapse w3-white w3-animate-left" id="mySidebar">
+			<nav
+				className="w3-sidebar w3-light-grey w3-collapse w3-white w3-animate-left chooseCenter-nav"
+				id="mySidebar">
 				<div className="w3-container w3-display-container w3-padding-16">
 					<i onClick="w3_close()" className="fa fa-remove w3-hide-large w3-button w3-transparent t" />
 					<h3>Reservar Pista</h3>
 
 					<hr />
 
-					<form>
-						<p>
-							<label>
-								<i className="fa fa-calendar-check-o" /> Localidad
-							</label>
-						</p>
+					<form className="chooseCenter-form">
+						<label>
+							<i className="fas fa-map-marker-alt" /> Localidad
+						</label>
+
 						<input
 							className="w3-input w3-border"
 							type="text"
@@ -60,11 +44,11 @@ export default function ChooseCenter() {
 							name="Localidad"
 							required
 						/>
-						<p>
-							<label>
-								<i className="fa fa-calendar-o" /> Fecha
-							</label>
-						</p>
+
+						<label className="pt-3">
+							<i className="far fa-calendar-alt" /> Fecha
+						</label>
+
 						<input
 							className="w3-input w3-border"
 							type="text"
@@ -72,21 +56,19 @@ export default function ChooseCenter() {
 							name="CheckOut"
 							required
 						/>
-						<p>
-							<label>
-								<i aclassName="fa fa-male" /> Plazas
-							</label>
-						</p>
+
+						<label className="pt-3">
+							<i className="fa fa-male" /> Plazas
+						</label>
 						<input className="w3-input w3-border" type="number" value="1" name="Plazas" min="1" max="4" />
-						<p>
-							<label>
-								<i className="fa fa-child" /> Centro
-							</label>
-						</p>
+
+						<label className="pt-3 ">
+							<i className="fas fa-baseball-ball" /> Centro
+						</label>
 						<input className="w3-input w3-border" type="number" value="0" name="Kids" min="0" max="6" />
 						<p>
-							<button className="w3-button w3-block w3-green w3-left-align" type="submit">
-								<i className="fa fa-search w3-margin-right" /> Search availability
+							<button className="w3-button w3-block w3-green w3-left-align mt-4" type="submit">
+								<i className="fa fa-search w3-margin-right" /> Buscar
 							</button>
 						</p>
 					</form>
@@ -108,18 +90,6 @@ export default function ChooseCenter() {
 				</div>
 			</nav>
 
-			{/* <!-- multistep form --> */}
-			{/* <form className="msform_3" method="post">
-				{/* <!-- progressbar --> */}
-			{/* <ul className="progressbar">
-					<li className="active">Centros</li>
-					<li>Reserva</li>
-					<li>Pago</li>
-				</ul>
-			</form> */}
-			{/* <h4 className=" fs-title d-flex justify-content-center ">Reservar Pista</h4> */}
-			{/* <RegisterCenter /> */}
-
 			<div>
 				{/* <!-- Overlay effect when opening sidebar on small screens --> */}
 				<div
@@ -131,15 +101,10 @@ export default function ChooseCenter() {
 				/>
 
 				{/* <!-- !PAGE CONTENT! --> */}
-				<div className="w3-main">
+				<div className="w3-main ">
 					{/* <!-- Header --> */}
-					<header className="w3-container">
-						<h5>
-							<b>
-								<i className="fa fa-dashboard" /> Centros deportivos
-							</b>
-						</h5>
-					</header>
+
+					<h3 className="pt-2 pb-2 ">Centros Deportivos </h3>
 
 					<CenterAvailable />
 					<CenterAvailable />
