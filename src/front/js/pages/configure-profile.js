@@ -10,7 +10,6 @@ export default function ConfigureProfile() {
 	const { actions, store } = useContext(Context);
 	let user = actions.getUser();
 
-
 	const [birth, setBirth] = useState("");
 	const [country, setCountry] = useState("");
 	const [city, setCity] = useState("");
@@ -30,16 +29,16 @@ export default function ConfigureProfile() {
 
 	//PROFILE
 	//GET PROFILE
-	if (user !== null) {
-		useEffect(() => {
+	useEffect(() => {
+		if (user !== null) {
 			fetch(process.env.BACKEND_URL + "/api/profile/" + user.id, {
 				method: "GET",
 				headers: { "Content-Type": "application/json" }
 			})
 				.then(response => response.json())
 				.then(resultJson => setProfile(resultJson));
-		}, []);
-	}
+		}
+	}, []);
 
 	//PROFILE
 	//SAVE NEW PROFILE
@@ -94,8 +93,8 @@ export default function ConfigureProfile() {
 
 	//POST
 	//GET ALL POSTS with comments&likes
-	if (user !== null) {
 		useEffect(() => {
+            if (user !== null) {
 			fetch(process.env.BACKEND_URL + "/api/posts/" + user.id, {
 				method: "GET",
 				headers: { "Content-Type": "application/json" }
@@ -104,8 +103,8 @@ export default function ConfigureProfile() {
 				.then(resultJson => {
 					setPosts(resultJson);
 				});
-		}, []);
-	}
+		}}, []);
+
 
 	//POST
 	//CREATE POST
@@ -154,8 +153,8 @@ export default function ConfigureProfile() {
 
 	//COMMENTS
 	//GET ALL COMMENTS+LIKES by user_id
-	if (user !== null) {
 		useEffect(() => {
+            if (user !== null) {
 			fetch(process.env.BACKEND_URL + "/api/comments/" + user.id, {
 				method: "GET",
 				headers: { "Content-Type": "application/json" }
@@ -173,8 +172,8 @@ export default function ConfigureProfile() {
 				.then(resultJson => {
 					setLikes(resultJson);
 				});
-		}, []);
-	}
+		}}, []);
+	
 
 	//CREATE COMMENT OF A POST
 	function createComment(post_id) {
@@ -218,8 +217,8 @@ export default function ConfigureProfile() {
 
 	//LIKES
 	//GET ALL LIKES by user_id
-	if (user !== null) {
 		useEffect(() => {
+            if (user !== null) {
 			fetch(process.env.BACKEND_URL + "/api/comments/" + user.id, {
 				method: "GET",
 				headers: { "Content-Type": "application/json" }
@@ -228,8 +227,8 @@ export default function ConfigureProfile() {
 				.then(resultJson => {
 					setComments(resultJson);
 				});
-		}, []);
-	}
+		}}, []);
+	
 
 	//LIKES
 	//SET LIKE OF A POST

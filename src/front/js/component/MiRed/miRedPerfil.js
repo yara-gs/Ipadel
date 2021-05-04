@@ -9,9 +9,9 @@ export default function MiRedPerfil() {
 	const [city, setCity] = useState("");
 	let user = actions.getUser();
 
-	if (user !== null) {
 		useEffect(() => {
-			fetch("https://3001-gray-mouse-66g1qyrp.ws-eu04.gitpod.io/api/profile/1", {
+            if (user !== null) {
+			fetch(process.env.BACKEND_URL + "/api/profile/" + user.id, {
 				method: "GET",
 				headers: {
 					"Content-Type": "application/json"
@@ -29,8 +29,8 @@ export default function MiRedPerfil() {
 					console.log(responseJson);
 					setProfile(responseJson);
 				});
-		}, []);
-	}
+		}}, []);
+	
 	return (
 		<div className="w3-col">
 			<div className="w3-card w3-round w3-white">
