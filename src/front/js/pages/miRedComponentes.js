@@ -37,14 +37,17 @@ export default function MiRedComponentes() {
 	}, []);
 
 	if (user) {
-		useEffect(() => {
-			fetch(process.env.BACKEND_URL + "/api/profile/" + user.id, {
-				method: "GET",
-				headers: { "Content-Type": "application/json" }
-			})
-				.then(response => response.json())
-				.then(resultJson => setProfile(resultJson));
-		}, []);
+		useEffect(
+			() => {
+				fetch(process.env.BACKEND_URL + "/api/profile/" + user.id, {
+					method: "GET",
+					headers: { "Content-Type": "application/json" }
+				})
+					.then(response => response.json())
+					.then(resultJson => setProfile(resultJson));
+			},
+			[user]
+		);
 	}
 
 	return (

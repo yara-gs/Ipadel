@@ -15,6 +15,16 @@ class BaseModel():
     @classmethod
     def get_id(cls,id):
         return cls.query.get(id)
+
+
+class UserId():
+    @classmethod
+    def items_by_user_id(cls, user_id):
+        return cls.query.filter_by(user_id=user_id).all()
+
+    @classmethod
+    def item_by_user_id(cls, user_id):
+        return cls.query.filter_by(user_id=user_id).one_or_none()
     
 
 class User(db.Model):
@@ -28,6 +38,8 @@ class User(db.Model):
     sportcenters=db.relationship("SportCenter",back_populates="user")
     profile=db.relationship("Profile",back_populates="user")
     posts=db.relationship("Post",back_populates="user")
+    comments=db.relationship("Comment",back_populates="user")
+    likes=db.relationship("Like",back_populates="user")
   
 
 
@@ -69,7 +81,7 @@ class User(db.Model):
 
 
 #PROFILE MI RED
-class Profile(db.Model,BaseModel):
+class Profile(db.Model,BaseModel,UserId):
     __tablename__ = 'profile'
 
     id=db.Column(db.Integer, primary_key=True)
@@ -121,17 +133,14 @@ class Profile(db.Model,BaseModel):
     def save(self):
         db.session.add(self)
         return db.session.commit()
-    
-    @classmethod
-    def item_by_user_id(cls,user_id):
-        return cls.query.filter_by(user_id=user_id).one_or_none()
+
 
 
 
 # #PROFILE MI RED
 # #POSTS
 
-class Post(db.Model,BaseModel):
+class Post(db.Model,BaseModel,UserId):
     __tablename__ = 'post'
 
     id=db.Column(db.Integer, primary_key=True)
@@ -155,7 +164,7 @@ class Post(db.Model,BaseModel):
     def __init__(self,user_id,text,url_image):
         self.user_id=user_id
         self.text=text
-        self.url_image
+        self.url_image=url_image
 
     #metodo de instancia serializa el diccionario
     def serialize(self,with_comments=True):
@@ -200,9 +209,6 @@ class Post(db.Model,BaseModel):
         db.session.add(self)
         return db.session.commit()
     
-    @classmethod
-    def items_by_user_id(cls, user_id):
-        return cls.query.filter_by(user_id=user_id).all()
 
     # delete data in the database
     def delete(self):
@@ -213,12 +219,16 @@ class Post(db.Model,BaseModel):
 #PROFILE MI RED
 #POSTS
 #COMMENTS
-class Comment(db.Model,BaseModel):
+class Comment(db.Model,BaseModel,UserId):
     __tablename__ = 'comment'
 
     id=db.Column(db.Integer, primary_key=True)
     text=db.Column(db.String(120), unique=False, nullable=True)
-  
+
+
+   # relacion one to many con tabla User(un user puede tener muchos comentarios)
+    user_id=db.Column(db.Integer,db.ForeignKey('user.id'))
+    user=db.relationship("User",back_populates="comments")
     # relacion one to many con tabla Post(un post puede tener muchos comentarios)
     post_id=db.Column(db.Integer,db.ForeignKey('post.id'))
     post=db.relationship("Post",back_populates="comments")
@@ -227,24 +237,32 @@ class Comment(db.Model,BaseModel):
     def __repr__(self):
         return '<Comment %r>' % self.id
 
+     #metodo de instancia que obliga a que haya datos siempre que se llama       
+    def __init__(self,user_id,post_id,text):
+        self.user_id=user_id
+        self.post_id=post_id
+        self.text=text
+
     #metodo de instancia serializa el diccionario
     def serialize(self):
         return {
             "id": self.id,
-            "text": self.text,
+            "user_id":self.user_id,
             "post_id": self.post_id,
+            "text": self.text,     
         }
     
     @classmethod
     def add_register(cls, request_json):
         
-        register=cls(request_json["post_id"],request_json["text"])
+        register=cls(request_json["user_id"],request_json["post_id"],request_json["text"])
         register.body(request_json)
         return register
     
     #get body
     def body(self, request_json):
-        self.user_id=request_json["post_id"]
+        self.user_id=request_json["user_id"]
+        self.post_id=request_json["post_id"]
         self.text=request_json["text"]
       
     # save data in the database
@@ -260,18 +278,23 @@ class Comment(db.Model,BaseModel):
     @classmethod
     def items_by_post_id(cls, post_id):
         return cls.query.filter_by(post_id=post_id).all()
+        
 
 
 
 #PROFILE MI RED
 #POSTS
 #LIKES
-class Like(db.Model,BaseModel):
+class Like(db.Model,BaseModel,UserId):
     __tablename__ = 'like'
 
     id=db.Column(db.Integer, primary_key=True)
-    user_like=text=db.Column(db.String(120), unique=False, nullable=False)
-  
+    user_like=db.Column(db.String(120), unique=False, nullable=False)
+    is_active = db.Column(db.Boolean(), unique=False, nullable=False)
+
+    # relacion one to many con tabla User(un user puede tener muchos comentarios)
+    user_id=db.Column(db.Integer,db.ForeignKey('user.id'))
+    user=db.relationship("User",back_populates="likes")
     # relacion one to many con tabla Post(un post puede tener muchos comentarios)
     post_id=db.Column(db.Integer,db.ForeignKey('post.id'))
     post=db.relationship("Post",back_populates="likes")
@@ -284,20 +307,24 @@ class Like(db.Model,BaseModel):
     def serialize(self):
         return {
             "id": self.id,
-            "user_like": self.user_like,
+            "user_id": self.user_id,
             "post_id": self.post_id,
+            "is_active":self.is_active,
+            "user_like": self.user_like,
         }
     
     @classmethod
     def add_register(cls, request_json):
         
-        register=cls(request_json["post_id"],request_json["user_like"])
+        register=cls(request_json["user_id"],request_json["post_id"],request_json["is_active"],request_json["user_like"])
         register.body(request_json)
         return register
     
     #get body
     def body(self, request_json):
-        self.user_id=request_json["post_id"]
+        self.user_id=request_json["user_id"]
+        self.post_id=request_json["post_id"]
+        self.is_active=request_json["is_active"]
         self.user_like=request_json["user_like"]
       
     # save data in the database

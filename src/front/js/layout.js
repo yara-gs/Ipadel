@@ -7,16 +7,20 @@ import { Demo } from "./pages/demo";
 
 import { Single } from "./pages/single";
 import injectContext from "./store/appContext";
+import Mynavbar from "./component/navbar";
+
 import MiRedComponentes from "./pages/miRedComponentes";
 import Sign from "./pages/sign";
 import Centers from "./pages/sportCenter/centers";
 import CenterForm from "./pages/sportCenter/centerForm";
 import ConfigureCourts from "./pages/sportCenter/configure-courts.jsx";
 import CenterImages from "./pages/sportCenter/centerImages.jsx";
-import Mynavbar from "./component/navbar";
-import { Footer } from "./component/footer";
+import ChooseCenter from "./pages/courtReservation/chooseCenter.jsx";
+
 import Profile from "./pages/profile";
 import ConfigureProfile from "./pages/configure-profile";
+
+import { Footer } from "./component/footer";
 //create your first component
 const Layout = () => {
 	//the basename is used when your project is published in a subdirectory and not in the root of the domain
@@ -62,6 +66,10 @@ const Layout = () => {
 						</Route>
 						<Route exact path="/demo">
 							<Demo />
+						</Route>
+
+						<Route exact path="/choose-center">
+							<ChooseCenter />
 						</Route>
 						<Route exact path="/single/:theid">
 							<Single />
