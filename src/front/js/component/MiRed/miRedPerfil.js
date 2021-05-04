@@ -49,7 +49,7 @@ export default function MiRedPerfil() {
 						<i className="fa fa-pencil fa-fw w3-margin-right w3-text-theme" /> Profesion
 					</p>
 					<p>
-						<i className="fa fa-home fa-fw w3-margin-right w3-text-theme" /> {profile["city"]}, Pais
+						<i className="fa fa-home fa-fw w3-margin-right w3-text-theme" /> {}, Pais
 					</p>
 					<p>
 						<i className="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme" /> Fecha de Nacimiento
