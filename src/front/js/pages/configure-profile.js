@@ -10,12 +10,11 @@ export default function ConfigureProfile() {
 	const { actions, store } = useContext(Context);
 	let user = actions.getUser();
 
-	const [message, setMessage] = useState(" ");
-	//variables Profile
-	const [profile, setProfile] = useState(null);
-	const [birth, setBirth] = useState("05/05/2000");
-	const [country, setCountry] = useState("España");
-	const [city, setCity] = useState("Madrid");
+
+	const [birth, setBirth] = useState("");
+	const [country, setCountry] = useState("");
+	const [city, setCity] = useState("");
+
 	const [gender, setGender] = useState("Mujer");
 	const [image, setImage] = useState("");
 	//variables Post
@@ -73,7 +72,7 @@ export default function ConfigureProfile() {
 		let body_profile = {
 			user_id: user.id,
 			birth: birth,
-			city: "Santander",
+			city: city,
 			country: country
 			// gender: gender
 		};
@@ -326,7 +325,15 @@ export default function ConfigureProfile() {
 						<i className="w3-xxlarge fa fa-user" />
 					</div>
 					<div className="w3-rest">
-						<input className="w3-input w3-border" name="last" type="text" placeholder="Ciudad" />
+						<input
+							className="w3-input w3-border"
+							name="last"
+							type="text"
+							placeholder="Ciudad"
+							onChange={event => {
+								setCity(event.target.value);
+							}}
+						/>
 					</div>
 				</div>
 				<div className="w3-row w3-section">
@@ -334,7 +341,15 @@ export default function ConfigureProfile() {
 						<i className="w3-xxlarge fa fa-user" />
 					</div>
 					<div className="w3-rest">
-						<input className="w3-input w3-border" name="last" type="text" placeholder="Pais" />
+						<input
+							className="w3-input w3-border"
+							name="last"
+							type="text"
+							placeholder="Pais"
+							onChange={event => {
+								setCountry(event.target.value);
+							}}
+						/>
 					</div>
 				</div>
 
@@ -343,7 +358,7 @@ export default function ConfigureProfile() {
 						<i className="w3-xxlarge fa fa-envelope-o" />
 					</div>
 					<div className="w3-rest">
-						<input className="w3-input w3-border" name="email" type="text" placeholder="Email" />
+						<input className="w3-input w3-border" name="email" type="text" placeholder={user.email} />
 					</div>
 				</div>
 
@@ -352,7 +367,15 @@ export default function ConfigureProfile() {
 						<i className="w3-xxlarge fa fa-phone" />
 					</div>
 					<div className="w3-rest">
-						<input className="w3-input w3-border" name="phone" type="text" placeholder="Phone" />
+						<input
+							className="w3-input w3-border"
+							name="birth"
+							type="text"
+							placeholder="Birth Date"
+							onChange={event => {
+								setBirth(event.target.value);
+							}}
+						/>
 					</div>
 				</div>
 
