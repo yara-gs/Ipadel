@@ -359,6 +359,8 @@ class SportCenter(db.Model,BaseModel):
     state=db.Column(db.String(120),unique=False, nullable=True)
     city=db.Column(db.String(120),unique=False, nullable=True)
     cp=db.Column(db.String(120), unique=False, nullable=True)
+    opening_time=db.Column(db.Integer, unique=False, nullable=True)
+    closing_time=db.Column(db.Integer, unique=False, nullable=True)
 
     # relacion one to many con tabla User (un usuario puede tener muchos centros)
     user_id=db.Column(db.Integer,db.ForeignKey('user.id'))
@@ -384,6 +386,8 @@ class SportCenter(db.Model,BaseModel):
             "cp": self.cp,
             "phone": self.phone,
             "webpage": self.webpage,
+            "opening_time": self.opening_time,
+            "closing_time": self.closing_time,
         }
 
         if with_courts:
@@ -404,12 +408,15 @@ class SportCenter(db.Model,BaseModel):
         self.state=state
         self.city=city
         self.cp=cp
+        self.opening_time,
+        self.closing_time,
 
     #create register
     @classmethod
     def add_register(cls, request_json):
         
-        register=cls(request_json["user_id"],request_json["center_name"],request_json["nif"],request_json["state"],request_json["address"],request_json["city"],request_json["cp"])
+        register=cls(request_json["user_id"],request_json["center_name"],request_json["nif"],request_json["state"],request_json["address"],request_json["city"],request_json["cp"],request_json["opening_time"], request_json["closing_time"])
+        
         register.body(request_json)
         return register
     
@@ -424,6 +431,8 @@ class SportCenter(db.Model,BaseModel):
         self.cp=request_json["cp"]
         self.phone=request_json["phone"]
         self.webpage=request_json["webpage"]
+        self.opening_time=request_json["opening_time"]
+        self.closing_time=request_json["closing_time"]
 
     # save data in the database
     def save(self):
@@ -448,7 +457,7 @@ class SportCenterId():
 
 
 
-
+#COURTS
 # For Many to One (Many Courts to one SportCenter)
 class Court(db.Model,BaseModel,SportCenterId):
     __tablename__ = 'court'
@@ -461,6 +470,9 @@ class Court(db.Model,BaseModel,SportCenterId):
     # relacion one to many con tabla SportCenter (un sportCenter puede tener muchas pistas)
     sportcenter_id=db.Column(db.Integer,db.ForeignKey('sportcenter.id'))
     sportcenter=db.relationship("SportCenter",back_populates="courts")
+
+    #relacion many to one con tabla booking (muchas reservas para una pista)
+    bookings=db.relationship("Booking",back_populates="court")
     
         #metodo de instancia %r lo sustituty por %self.id
     def __repr__(self):
@@ -543,3 +555,67 @@ class Image(db.Model,BaseModel,SportCenterId):
         db.session.add(self)
         return db.session.commit()
         
+    
+
+#COURT
+#COURT BOOKING
+class Booking(db.Model,BaseModel,SportCenterId):
+        __tablename__ = 'booking'
+        id=db.Column(db.Integer, primary_key=True)
+        booking_date_time_start=db.Column(db.DateTime, unique=False, nullable=False)
+        booking_date_time_end=db.Column(db.DateTime, unique=False, nullable=False)
+        players=db.Column(db.Integer, unique=False, nullable=False)
+ 
+        # relacion one to many con tabla SportCenter (un sportCenter puede tener muchas pistas)
+        court_id=db.Column(db.Integer,db.ForeignKey('court.id'))
+        court=db.relationship("Court",back_populates="bookings")
+        
+            #metodo de instancia %r lo sustituty por %self.id
+        def __repr__(self):
+            return '<Booking %r>' % self.id
+
+        #metodo de instancia que obliga a que haya datos siempre que se llama       
+        def __init__(self,booking_date_time_start,booking_date_time_end,players,court_id):
+            self.booking_date_time_start=booking_date_time_start
+            self.booking_date_time_end=booking_date_time_end
+            self.players=players
+            self.court_id=court_id
+            
+                    
+        #metodo de instancia serializa el diccionario
+        def serialize(self):
+            return {
+                "id": self.id,
+                "booking_date_time_start": self.booking_date_time_start,
+                "booking_date_time_end": self.booking_date_time_end,
+                "players": self.players,
+                "court_id": self.court_id,
+                
+            }       
+
+        
+        #create register
+        @classmethod
+        def add_register(cls, request_json):
+            
+            register=cls(request_json["booking_date_time_start"],request_json["booking_date_time_end"],request_json["players"],request_json["court_id"])
+            register.body(request_json)
+            return register
+        
+        #get body
+        def body(self, request_json):
+            self.court_name=request_json["booking_date_time_start"]
+            self.request_json["booking_date_time_end"]
+            self.sportcenter_id=request_json["players"]
+            self.court_name=request_json["court_id"]    
+            
+
+        # save data in the database
+        def save(self):
+            db.session.add(self)
+            return db.session.commit()
+        
+        # delete data in the database
+        def delete(self):
+            db.session.delete(self)
+            return db.session.commit()
