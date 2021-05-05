@@ -11,6 +11,10 @@ export default function ChooseCenter() {
 	const { actions, store } = useContext(Context);
 	const history = useHistory();
 
+	const [locationFilter, setLocationFilter] = useState("");
+	const [dateFilter, setDateFilter] = useState(null);
+	const [playersFilter, setPlayersFilter] = useState(1);
+
 	//funcion que lleva a sign si no hay usario logueado
 	// pushSignPage();
 
@@ -19,6 +23,37 @@ export default function ChooseCenter() {
 
 	// Get the DIV with overlay effect
 	var overlayBg = document.getElementById("myOverlay");
+
+	//POST NEW SPORT CENTER
+	function booking() {
+		let body = {
+			booking_date_time_start: setDateFilter + " 10:00",
+			booking_date_time_end: setDateFilter + " 11:00",
+			players: playersFilter,
+			court_id: 3
+		};
+
+		// setMessage("");
+		// setError("");
+
+		//envio datos a la base de datos
+		fetch(process.env.BACKEND_URL + "/api/booking/" + body.court_id, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify(body)
+		})
+			.then(response => response.json())
+			.then(responseJson => {
+				// actions.saveSportCenter(responseJson);
+				// history.push("/configure-courts");
+				console.log(body);
+			})
+			.catch(error => {
+				// setError(error.message);
+			});
+	}
 
 	return (
 		<div>
@@ -51,16 +86,25 @@ export default function ChooseCenter() {
 
 						<input
 							className="w3-input w3-border"
-							type="text"
+							type="date"
 							placeholder="DD MM YYYY"
 							name="CheckOut"
 							required
+							onChange={() => setDateFilter(event.target.value)}
 						/>
 
 						<label className="pt-3">
 							<i className="fa fa-male" /> Plazas
 						</label>
-						<input className="w3-input w3-border" type="number" value="1" name="Plazas" min="1" max="4" />
+						<input
+							className="w3-input w3-border"
+							type="number"
+							value="1"
+							name="Plazas"
+							min="1"
+							max="4"
+							onChange={() => setPlayers(event.target.value)}
+						/>
 
 						<label className="pt-3 ">
 							<i className="fas fa-baseball-ball" /> Centro
@@ -105,6 +149,7 @@ export default function ChooseCenter() {
 					{/* <!-- Header --> */}
 
 					<h3 className="pt-2 pb-2 ">Centros Deportivos </h3>
+					<button onClick={() => booking()}>Reservar</button>
 
 					<CenterAvailable />
 					<CenterAvailable />

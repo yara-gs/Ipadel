@@ -400,7 +400,7 @@ class SportCenter(db.Model,BaseModel):
         return sportcenter_serialized
 
     #metodo de instancia que obliga a que haya datos siempre que se llama       
-    def __init__(self,user_id,center_name,nif,address,state,city,cp):
+    def __init__(self,user_id,center_name,nif,address,state,city,cp,opening_time,closing_time):
         self.user_id=user_id
         self.center_name=center_name
         self.nif=nif
@@ -619,3 +619,8 @@ class Booking(db.Model,BaseModel,SportCenterId):
         def delete(self):
             db.session.delete(self)
             return db.session.commit()
+
+      
+
+        
+
