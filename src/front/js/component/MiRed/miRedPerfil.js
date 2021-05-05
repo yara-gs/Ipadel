@@ -9,8 +9,8 @@ export default function MiRedPerfil() {
 	const [city, setCity] = useState("");
 	let user = actions.getUser();
 
-		useEffect(() => {
-            if (user !== null) {
+	useEffect(() => {
+		if (user !== null) {
 			fetch(process.env.BACKEND_URL + "/api/profile/" + user.id, {
 				method: "GET",
 				headers: {
@@ -29,8 +29,9 @@ export default function MiRedPerfil() {
 					console.log(responseJson);
 					setProfile(responseJson);
 				});
-		}}, []);
-	
+		}
+	}, []);
+
 	return (
 		<div className="w3-col">
 			<div className="w3-card w3-round w3-white">

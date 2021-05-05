@@ -93,8 +93,8 @@ export default function ConfigureProfile() {
 
 	//POST
 	//GET ALL POSTS with comments&likes
-		useEffect(() => {
-            if (user !== null) {
+	useEffect(() => {
+		if (user !== null) {
 			fetch(process.env.BACKEND_URL + "/api/posts/" + user.id, {
 				method: "GET",
 				headers: { "Content-Type": "application/json" }
@@ -103,8 +103,8 @@ export default function ConfigureProfile() {
 				.then(resultJson => {
 					setPosts(resultJson);
 				});
-		}}, []);
-
+		}
+	}, []);
 
 	//POST
 	//CREATE POST
@@ -153,8 +153,8 @@ export default function ConfigureProfile() {
 
 	//COMMENTS
 	//GET ALL COMMENTS+LIKES by user_id
-		useEffect(() => {
-            if (user !== null) {
+	useEffect(() => {
+		if (user !== null) {
 			fetch(process.env.BACKEND_URL + "/api/comments/" + user.id, {
 				method: "GET",
 				headers: { "Content-Type": "application/json" }
@@ -172,8 +172,8 @@ export default function ConfigureProfile() {
 				.then(resultJson => {
 					setLikes(resultJson);
 				});
-		}}, []);
-	
+		}
+	}, []);
 
 	//CREATE COMMENT OF A POST
 	function createComment(post_id) {
@@ -217,8 +217,8 @@ export default function ConfigureProfile() {
 
 	//LIKES
 	//GET ALL LIKES by user_id
-		useEffect(() => {
-            if (user !== null) {
+	useEffect(() => {
+		if (user !== null) {
 			fetch(process.env.BACKEND_URL + "/api/comments/" + user.id, {
 				method: "GET",
 				headers: { "Content-Type": "application/json" }
@@ -227,8 +227,8 @@ export default function ConfigureProfile() {
 				.then(resultJson => {
 					setComments(resultJson);
 				});
-		}}, []);
-	
+		}
+	}, []);
 
 	//LIKES
 	//SET LIKE OF A POST
