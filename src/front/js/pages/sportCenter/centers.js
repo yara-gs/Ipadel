@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useState, useContext, useEffect } from "react";
+import { Context } from "../../store/appContext";
 import CarouselImages from "../../component/sportCenter/carouselImages.jsx";
 
 export default function Centers() {
+	const { actions, store } = useContext(Context);
+	const [sportCenter, setSportCenter] = useState(actions.getSportCenter());
+	const [images, setImages] = useState(null);
 	// /* <script>
 	// Get the Sidebar
 	var mySidebar = document.getElementById("mySidebar");
@@ -26,6 +30,29 @@ export default function Centers() {
 		overlayBg.style.display = "none";
 	}
 	// </script> */
+
+	useEffect(
+		() => {
+			//GET COURTS OF A SPORT CENTER
+			if (sportCenter) {
+				getImages();
+			}
+		},
+
+		[]
+	);
+
+	function getImages() {
+		//GET COURTS OF A SPORT CENTER
+		fetch(process.env.BACKEND_URL + "/api/" + sportCenter.id + "/images", {
+			method: "GET",
+			headers: { "Content-Type": "application/json" }
+		})
+			.then(response => response.json())
+			.then(resultJson => {
+				setImages(resultJson);
+			});
+	}
 
 	return (
 		<div>
@@ -199,7 +226,7 @@ export default function Centers() {
 						</div>
 					</div>
 
-					<CarouselImages />
+					<div className="mt-5">{sportCenter && images ? <CarouselImages images={images} /> : ""}</div>
 				</div>
 
 				<hr />

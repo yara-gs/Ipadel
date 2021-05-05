@@ -12,8 +12,10 @@ export default function CarouselImages(props) {
 	const { actions, store } = useContext(Context);
 
 	let slidesToShow = 5;
-	if (props.images.length < 5) {
-		slidesToShow = props.images.length;
+	if (props.images) {
+		if (props.images.length < 5) {
+			slidesToShow = props.images.length;
+		}
 	}
 
 	//slick settings
@@ -33,15 +35,19 @@ export default function CarouselImages(props) {
 	return (
 		<div className="carousel-container col-10 m-auto justify-content-center ">
 			<div className=" court-icon sporCenterImages next_step " />
-			<Slider {...settings}>
-				{props.images.map(image => {
-					return (
-						<div key={image} className="carousel-item">
-							<div className="carousel-img" style={{ backgroundImage: `url(${image.url_image})` }} />
-						</div>
-					);
-				})}
-			</Slider>
+			{props.images ? (
+				<Slider {...settings}>
+					{props.images.map(image => {
+						return (
+							<div key={image} className="carousel-item">
+								<div className="carousel-img" style={{ backgroundImage: `url(${image.url_image})` }} />
+							</div>
+						);
+					})}
+				</Slider>
+			) : (
+				""
+			)}
 		</div>
 	);
 }
