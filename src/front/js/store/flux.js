@@ -4,7 +4,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			accessToken: "",
 			user: null,
 			localstorage: {},
-			sportCenter: null
+			sportCenter: null,
+			sportCenterImages: []
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -50,6 +51,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 
 				return sportCenter;
+			},
+			setSportCenterImages: newImages => {
+				let store = getStore();
+				let arrayCopy = store.sportCenterImages;
+
+				for (let i = 0; i < newImages.length; i++) {
+					arrayCopy.push(newImages[i]);
+					setStore({ sportCenterImages: newImages });
+					// localStorage.setItem("sportCenterImages", JSON.stringify(sportCenter));
+				}
 			}
 		}
 	};

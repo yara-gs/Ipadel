@@ -1,27 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
+import { Context } from "../../store/appContext";
 import PropTypes from "prop-types";
 
 import "../../../styles/center.scss";
 
-import fetchFiles from "../../fetchFunctions";
 import setTimeout_useEffect from "../../setTimeout";
 
 export default function ImportImages(props) {
+	const { actions, store } = useContext(Context);
 	const [centerImages, setCenterImages] = useState([]);
-	const [uploadImagesBtn, setUploadImagesBtn] = useState(false);
 	const [sportCenterId, setSportCenterId] = useState(props.sportCenter_id);
 	const [error, setError] = useState("");
 	const [message, setMessage] = useState("");
 	const [importing, setImporting] = useState(false);
-
-	// async function uploadImages(event) {
-	// 	const formData = new FormData();
-	// 	formData.append("sportcenter_id", sportCenterId);
-	// 	for (let i = 0; i < centerImages.length; i++) {
-	// 		formData.append("image_" + i, setCenterImages[i]);
-	// 	}
-	// 	await fetchFiles(process.env.BACKEND_URL + "/api/upload-images", formData);
-	// }
 
 	function uploadImages() {
 		const formData = new FormData();
@@ -40,15 +31,13 @@ export default function ImportImages(props) {
 			method: "POST",
 			body: formData
 		})
-			.then(response => {
-				responseOk = response.ok;
-				if (response.ok) {
-					setMessage("Imagenes importadas correctamente");
-				} else {
-					setMessage("Fallo al importar imagenes");
-				}
+			.then(response => response.json())
+			.then(resultJson => {
+				props.importedImages(resultJson);
+				setMessage("Imagenes importadas correctamente");
 				setImporting(false);
 			})
+
 			.catch(error => {
 				setError(error.message);
 				setImporting(false);
@@ -70,5 +59,6 @@ export default function ImportImages(props) {
 }
 
 ImportImages.propTypes = {
-	sportCenter_id: PropTypes.number
+	sportCenter_id: PropTypes.number,
+	importedImages: PropTypes.func
 };
