@@ -25,19 +25,21 @@ export default function ChooseCenter() {
 	var overlayBg = document.getElementById("myOverlay");
 
 	//POST NEW SPORT CENTER
-	function booking() {
+	function prebooking() {
 		let body = {
-			booking_date_time_start: setDateFilter + " 10:00",
-			booking_date_time_end: setDateFilter + " 11:00",
-			players: playersFilter,
-			court_id: 3
+			date: dateFilter,
+			time_start: "10:00",
+			time_end: "11:00",
+			players: parseInt(playersFilter),
+			sportcenter_id: 2
 		};
 
+		console.log(body);
 		// setMessage("");
 		// setError("");
 
 		//envio datos a la base de datos
-		fetch(process.env.BACKEND_URL + "/api/booking/" + body.court_id, {
+		fetch(process.env.BACKEND_URL + "/api/prebooking/" + body.sportcenter_id, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json"
@@ -99,11 +101,11 @@ export default function ChooseCenter() {
 						<input
 							className="w3-input w3-border"
 							type="number"
-							value="1"
+							placeholder="1"
 							name="Plazas"
 							min="1"
 							max="4"
-							onChange={() => setPlayers(event.target.value)}
+							onChange={() => setPlayersFilter(event.target.value)}
 						/>
 
 						<label className="pt-3 ">
@@ -149,7 +151,7 @@ export default function ChooseCenter() {
 					{/* <!-- Header --> */}
 
 					<h3 className="pt-2 pb-2 ">Centros Deportivos </h3>
-					<button onClick={() => booking()}>Reservar</button>
+					<button onClick={() => prebooking()}>Reservar</button>
 
 					<CenterAvailable />
 					<CenterAvailable />

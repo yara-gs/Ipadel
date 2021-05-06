@@ -41,7 +41,8 @@ export default function RegisterCenter() {
 			city: city,
 			cp: cp,
 			opening_time: openningTime,
-			closing_time: closingTime
+			closing_time: closingTime,
+			capacity: 10
 		};
 
 		setMessage("");
