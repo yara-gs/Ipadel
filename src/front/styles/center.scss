@@ -3,8 +3,9 @@
 
 /*form styles*/
 .msform {
-	margin-top: 50px ;
-	text-align: center;
+	padding-top: 50px ;
+    text-align: center;
+    margin:auto;
 
 }
 /*progressbar*/
@@ -19,7 +20,7 @@
 	list-style-type: none;
 	text-transform: uppercase;
 	font-size: 11px;
-	width: 33.33%;
+	width: 25%;
 	float: left;
 	position: relative;
 }
@@ -116,6 +117,12 @@
     margin-top:10px;
 }
 
+.card.newcard{
+    border-color:#F9CB40;
+    margin-top: 0px;
+
+}
+
 .courtcardtitle{
 background-color:white;
 }
@@ -153,9 +160,17 @@ border-radius: 3px;
 
 
 }
+
+.newcourts_message{
+    color:rgb(112, 112, 112);
+    font-size:x-small;
+    padding-left: 230px;
+
+
+}
 .next_step{
     font-size: small;
-    padding-left: 170px;
+    // padding-left: 170px;
 }
 
 .next_step a{
@@ -164,5 +179,135 @@ background-color: #f0f0f0;
 border-color:white;
 border-width: thin;
 border-radius: 3px;
+
+}
+
+.sporCenterImages{
+    margin:auto;
+    width:500px ;
+    margin-top:15px;
+    padding-top:10px;
+}
+
+.carousel-inner{
+    margin:auto;
+    width:100% ;
+    margin-top:15px;
+    padding-top:10px;
+    justify-content: center;
+   
+}
+.carouselImages{
+    margin:auto;
+    justify-content: center;
+}
+
+//Center courts configuration
+.carouselImages img{
+    max-width: 300px;
+    width: auto;
+    height:200px;
+    
+
+}
+
+
+
+
+// RESUMEN CENTRO DEPORTIVO - TABLA
+.styled-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.styled-table thead tr {
+    background-color: #F9CB40;
+    color: #ffffff;
+    text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #F9CB40;
+}
+
+.styled-table tbody tr.active-row {
+    font-weight: bold;
+    color: #F9CB40;
+}
+
+
+.fa-circle {
+color: rgb(187, 187, 187);
+
+
+}
+
+.w3-sidebar{
+    z-index:3;
+    width:300px;
+}
+
+.w3-main{
+    margin-top: 10px;
+    margin-left: 350px;
+}
+
+.w3-container{
+    padding-top:22px;
+}
+.w3-row-padding{
+    margin:0;
+    padding:-16px;
+}
+
+
+.w3-table td, .w3-table th, .w3-table-all td, .w3-table-all th{
+    padding: 20px 20px ;
+    display: table-cell;
+    text-align: left;
+    vertical-align: top;
+}
+
+// .w3-row-padding, 
+// .w3-row-padding > .w3-half, 
+// .w3-row-padding > .w3-third, 
+// .w3-row-padding > .w3-twothird, 
+// .w3-row-padding > .w3-threequarter, 
+// .w3-row-padding > .w3-quarter, 
+// .w3-row-padding > .w3-col {
+//     padding: 0;
+// }
+
+.w3-table td i{
+    margin-left:20px;
+    padding-right: 15px;
+}
+
+.center-edit-btn{
+    color:rgb(187, 187, 187);
+    background-color: transparent;
+    border:none;
+    padding-left:20px;
+
+}
+.first-column{
+    font-weight:600;
 
 }

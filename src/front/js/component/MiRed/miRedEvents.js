@@ -10,7 +10,7 @@ export default function MiRedEvents() {
 	const [show, setShow] = useState(false);
 
 	return (
-		<div className="w3-col m2">
+		<div className="w3-col">
 			<div className="w3-card w3-round w3-white w3-center">
 				<div className="w3-container">
 					<p>Proximos Eventos:</p>

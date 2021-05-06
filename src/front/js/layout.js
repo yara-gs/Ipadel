@@ -7,15 +7,21 @@ import { Demo } from "./pages/demo";
 
 import { Single } from "./pages/single";
 import injectContext from "./store/appContext";
+import Mynavbar from "./component/navbar";
+
 import MiRedComponentes from "./pages/miRedComponentes";
 import Sign from "./pages/sign";
-import Center from "./pages/sportCenter/center";
-import CenterConfiguration from "./pages/sportCenter/courts.jsx";
+import Centers from "./pages/sportCenter/centers";
+import CenterForm from "./pages/sportCenter/centerForm";
+import ConfigureCourts from "./pages/sportCenter/configure-courts.jsx";
 import CenterImages from "./pages/sportCenter/centerImages.jsx";
-import Mynavbar from "./component/navbar";
-import { Footer } from "./component/footer";
+import ChooseCenter from "./pages/courtReservation/chooseCenter.jsx";
+
 import Profile from "./pages/profile";
-import Forgot from "./pages/forgot";
+import ConfigureProfile from "./pages/configure-profile";
+
+import { Footer } from "./component/footer";
+import { Forgot } from "./pages/forgot";
 //create your first component
 const Layout = () => {
 	//the basename is used when your project is published in a subdirectory and not in the root of the domain
@@ -37,6 +43,9 @@ const Layout = () => {
 						<Route exact path="/profile">
 							<Profile />
 						</Route>
+						<Route exact path="/configure-profile">
+							<ConfigureProfile />
+						</Route>
 						<Route exact path="/home">
 							<Home />
 						</Route>
@@ -44,21 +53,26 @@ const Layout = () => {
 							<MiRedComponentes />
 						</Route>
 						<Route exact path="/newcenter">
-							<Center />
+							<CenterForm />
 						</Route>
-						<Route exact path="/configurecenter">
-							<CenterConfiguration />
+						<Route exact path="/configure-courts">
+							<ConfigureCourts />
 						</Route>
 						<Route exact path="/uploadCenterImages">
-							<Mynavbar />
 							<CenterImages />
 						</Route>
+						<Route exact path="/centers">
+							<Centers />
+						</Route>
 						<Route exact path="/forgot">
-							<Mynavbar />
 							<Forgot />
 						</Route>
 						<Route exact path="/demo">
 							<Demo />
+						</Route>
+
+						<Route exact path="/choose-center">
+							<ChooseCenter />
 						</Route>
 						<Route exact path="/single/:theid">
 							<Single />

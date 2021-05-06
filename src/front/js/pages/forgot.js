@@ -33,7 +33,9 @@ export const Forgot = () => {
 							setEmail(event.target.value);
 						}}
 					/>
-					{emailError ? <span>{emailError}</span> : ""}
+					<div>
+						<div>{emailError ? <span>{emailError}</span> : ""}</div>
+					</div>
 				</label>
 				<input type="button" value="Recuperar" onClick={requestForgotPassword} />
 			</form>

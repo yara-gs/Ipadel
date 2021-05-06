@@ -5,7 +5,7 @@ import "w3-css/w3.css";
 
 export default function MiRedPosts() {
 	return (
-		<div className="w3-col m7">
+		<div className="w3-col">
 			<div className="w3-container w3-card w3-white w3-round w3-margin">
 				<br />
 				<img
