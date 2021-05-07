@@ -448,6 +448,10 @@ class SportCenter(db.Model,BaseModel):
     def delete(self):
         db.session.delete(self)
         return db.session.commit()
+    
+    @classmethod
+    def items_by_city(cls, city):
+        return cls.query.filter_by(city=city).all()
 
 
 class SportCenterId():

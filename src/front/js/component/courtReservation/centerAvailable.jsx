@@ -1,14 +1,41 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../../store/appContext";
+import PropTypes from "prop-types";
 
 import "../../../styles/court-reservation.scss";
 import "../../../styles/imgcarousel.scss";
 
 import BookTime from "./bookTime.jsx";
 
-export default function CenterAvailable() {
+export default function CenterAvailable(props) {
 	const { actions, store } = useContext(Context);
 	let url_image = "http://ipadel.s3.amazonaws.com/centerImage_03.jpg";
+	let opening_hours = [];
+
+	//GET ALL PREBOOKINGS
+	function getprebookings() {
+		//envio datos a la base de datos
+		fetch(process.env.BACKEND_URL + "/api/getprebookings/" + props.center.id + dateFilter, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json"
+			}
+		})
+			.then(response => response.json())
+			.then(responseJson => {
+				// actions.saveSportCenter(responseJson);
+			})
+			.catch(error => {
+				// setError(error.message);
+			});
+	}
+
+	if (props.center) {
+		let total_hours = props.center.closing_time - props.center.opening_time;
+		for (let i = 0; i < total_hours; i++) {
+			opening_hours[i] = props.center.opening_time + i;
+		}
+	}
 
 	return (
 		<div>
@@ -22,32 +49,21 @@ export default function CenterAvailable() {
 							<div className="card-title d-flex justify-content-between">
 								<div>
 									<i className="fas fa-baseball-ball w3-text-amber" />
-									<strong className="pl-2 fs-3">Burpadel</strong>
+									<strong className="pl-2 fs-3">{props.center.center_name}</strong>
 									<p />
 								</div>
 								<div className="text-muted text-right">
 									<small>
-										C/Lope de Vega 2 09002, Burgos
+										{props.center.address} {props.center.city}
 										<br />
-										<span className="fas fa-phone"> 68954879</span>
+										<span className="fas fa-phone"> {props.center.phone}</span>
 									</small>
 								</div>
 							</div>
 							<div className="d-flex align-content-end flex-wrap">
-								<BookTime />
-								<BookTime />
-								<BookTime />
-								<BookTime />
-								<BookTime />
-								<BookTime />
-								<BookTime />
-								<BookTime />
-								<BookTime />
-								<BookTime />
-								<BookTime />
-								<BookTime />
-								<BookTime />
-								<BookTime />
+								{opening_hours.map(hour => {
+									return <BookTime key={hour} hour={hour} />;
+								})}
 							</div>
 
 							<br />
@@ -61,3 +77,7 @@ export default function CenterAvailable() {
 		</div>
 	);
 }
+
+CenterAvailable.propTypes = {
+	center: PropTypes.object
+};

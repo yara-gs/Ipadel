@@ -14,6 +14,7 @@ export default function ChooseCenter() {
 	const [locationFilter, setLocationFilter] = useState("");
 	const [dateFilter, setDateFilter] = useState(null);
 	const [playersFilter, setPlayersFilter] = useState(1);
+	const [centersbyCity, setCentersbyCity] = useState(null);
 
 	//funcion que lleva a sign si no hay usario logueado
 	// pushSignPage();
@@ -25,12 +26,12 @@ export default function ChooseCenter() {
 	var overlayBg = document.getElementById("myOverlay");
 
 	//GET ALL PREBOOKINGS
-	function getprebookings() {
+	function get_sportcenters() {
 		// setMessage("");
 		// setError("");
 
 		//envio datos a la base de datos
-		fetch(process.env.BACKEND_URL + "/api/prebookings/2/" + dateFilter, {
+		fetch(process.env.BACKEND_URL + "/api/sportcenters_city/", {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json"
@@ -38,7 +39,7 @@ export default function ChooseCenter() {
 		})
 			.then(response => response.json())
 			.then(responseJson => {
-				// actions.saveSportCenter(responseJson);
+				setCentersbyCity(responseJson);
 				console.log(responseJson);
 			})
 			.catch(error => {
@@ -49,12 +50,12 @@ export default function ChooseCenter() {
 	//POST NEW PREBOOKING
 	function prebooking() {
 		let body = {
-			datetime: dateFilter + "11:00",
+			datetime: dateFilter + " 10:00",
 			date: dateFilter,
 			time_start: "11:00",
 			time_end: "12:00",
 			players: parseInt(playersFilter),
-			sportcenter_id: 4
+			sportcenter_id: 2
 		};
 
 		console.log(body);
@@ -103,6 +104,7 @@ export default function ChooseCenter() {
 							placeholder="Localidad"
 							name="Localidad"
 							required
+							onChange={() => setLocationFilter(event.target.value)}
 						/>
 
 						<label className="pt-3">
@@ -136,28 +138,20 @@ export default function ChooseCenter() {
 						</label>
 						<input className="w3-input w3-border" type="number" value="0" name="Kids" min="0" max="6" />
 						<p>
-							{/* <button className="w3-button w3-block w3-green w3-left-align mt-4" type="submit"  >
+							{/* <button
+								className="w3-button w3-block w3-green w3-left-align mt-4"
+								type="submit"
+								onClick={() => getprebookings()}>
 								<i className="fa fa-search w3-margin-right" /> Buscar
-                              
 							</button> */}
 						</p>
 					</form>
-					<button onClick={() => getprebookings()}>Buscar</button>
-
-					<div className="w3-bar-block">
-						<a href="#apartment" className="w3-bar-item w3-button w3-padding-16">
-							<i className="fa fa-building" /> Apartment
-						</a>
-						<a
-							href="javascript:void(0)"
-							className="w3-bar-item w3-button w3-padding-16"
-							onClick="document.getElementById('subscribe').style.display='block'">
-							<i className="fa fa-rss" /> Subscribe
-						</a>
-						<a href="#contact" className="w3-bar-item w3-button w3-padding-16">
-							<i className="fa fa-envelope" /> Contact
-						</a>
-					</div>
+					<button
+						className="w3-button w3-block w3-green w3-left-align mt-4"
+						type="submit"
+						onClick={() => get_sportcenters()}>
+						<i className="fa fa-search w3-margin-right" /> Buscar
+					</button>
 				</div>
 			</nav>
 
@@ -178,9 +172,15 @@ export default function ChooseCenter() {
 					<h3 className="pt-2 pb-2 ">Centros Deportivos </h3>
 					<button onClick={() => prebooking()}>Reservar</button>
 
-					<CenterAvailable />
-					<CenterAvailable />
-					<CenterAvailable />
+					{centersbyCity != null ? (
+						<ul>
+							{centersbyCity.map(center => {
+								return <CenterAvailable key={center.id} center={center} />;
+							})}
+						</ul>
+					) : (
+						" "
+					)}
 				</div>
 			</div>
 		</div>

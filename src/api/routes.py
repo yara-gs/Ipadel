@@ -253,6 +253,17 @@ def get_centers():
     
     return jsonify(centers_dict), 200
 
+# SPORTCENTER: Get all sports center by location
+@api.route ('/sportcenters_city/', methods=['GET'])
+def get_centers_bycity():
+    
+    centers=SportCenter.items_by_city("Burgos")
+    centers_dict = []
+    for center in centers:
+        centers_dict.append(center.serialize(with_courts=False))
+    
+    return jsonify(centers_dict), 200
+
 
 # SPORTCENTER: Get a sportCenter by Id
 @api.route ('/sportcenters/<int:id>', methods=['GET'])
@@ -381,34 +392,23 @@ def get_images(sportcenter_id):
 
 
 # PREBOOKING-OBTENER RESERVAS GIMNASIOS POR DIA
-@api.route ('getprebookings/<int:sportcenter_id>/<datetime>', methods=['GET'])
-def get_prebooking(sportcenter_id,datetime):
+@api.route ('getprebookings/<int:sportcenter_id>/<date>', methods=['GET'])
+def get_prebooking(sportcenter_id,date):
 
+    #  #se obtiene el centro
+    # center_capacity=SportCenter.get_id(sportcenter_id).capacity
     
-    # prebookings=PreBooking.query.filter_by(sportcenter_id=sportcenter_id).filter_by(date=date).all()
-    # print(prebookings)
-    
-    prebookings= db.session.query(func.sum(PreBooking.players).label("sum_players"),PreBooking.date).filter(PreBooking.sportcenter_id==1).group_by(PreBooking.date).all()
+    prebookings= db.session.query(func.sum(PreBooking.players).label("sum_players"),PreBooking.time_start).filter(PreBooking.sportcenter_id==sportcenter_id).filter(PreBooking.date==date).group_by(PreBooking.time_start).all()
     print("PREBOOKINGs",prebookings)
     prebooking_list=[]
     prebooking_dict={}
     for prebooking in prebookings:
-        
-        print("PREBOOKING",prebooking)
-        print("PREBOOKING",prebooking.date)
         prebooking_dict={
-            "date":str(prebooking.date),
-            "players":prebooking.sum_players
-        }
-        
-        
+            "time_start":str(prebooking.time_start),
+            "availables":prebooking.sum_players
+        }   
         prebooking_list.append(prebooking_dict)
-    
-    # prebooking_list=[]
-    # for prebooking in prebookings:
-    #     prebooking_list.append(prebooking.serialize())
-    
-    print(prebooking_list)
+
     return jsonify(prebooking_list), 200
 
 
