@@ -24,14 +24,37 @@ export default function ChooseCenter() {
 	// Get the DIV with overlay effect
 	var overlayBg = document.getElementById("myOverlay");
 
-	//POST NEW SPORT CENTER
+	//GET ALL PREBOOKINGS
+	function getprebookings() {
+		// setMessage("");
+		// setError("");
+
+		//envio datos a la base de datos
+		fetch(process.env.BACKEND_URL + "/api/prebookings/2/" + dateFilter, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json"
+			}
+		})
+			.then(response => response.json())
+			.then(responseJson => {
+				// actions.saveSportCenter(responseJson);
+				console.log(responseJson);
+			})
+			.catch(error => {
+				// setError(error.message);
+			});
+	}
+
+	//POST NEW PREBOOKING
 	function prebooking() {
 		let body = {
+			datetime: dateFilter + "11:00",
 			date: dateFilter,
-			time_start: "10:00",
-			time_end: "11:00",
+			time_start: "11:00",
+			time_end: "12:00",
 			players: parseInt(playersFilter),
-			sportcenter_id: 2
+			sportcenter_id: 4
 		};
 
 		console.log(body);
@@ -113,11 +136,13 @@ export default function ChooseCenter() {
 						</label>
 						<input className="w3-input w3-border" type="number" value="0" name="Kids" min="0" max="6" />
 						<p>
-							<button className="w3-button w3-block w3-green w3-left-align mt-4" type="submit">
+							{/* <button className="w3-button w3-block w3-green w3-left-align mt-4" type="submit"  >
 								<i className="fa fa-search w3-margin-right" /> Buscar
-							</button>
+                              
+							</button> */}
 						</p>
 					</form>
+					<button onClick={() => getprebookings()}>Buscar</button>
 
 					<div className="w3-bar-block">
 						<a href="#apartment" className="w3-bar-item w3-button w3-padding-16">

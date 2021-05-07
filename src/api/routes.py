@@ -3,12 +3,13 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 import os
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, SportCenter,Court,Image,Profile,Post,Comment,Like,Booking,PreBooking
+from api.models import db, User, SportCenter,Court,Image,Profile,Post,Comment,Like,Booking,PreBooking,Booking
 from api.utils import generate_sitemap, APIException
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import get_jwt_identity
 
+from sqlalchemy import func
 from aws import upload_file_to_s3
 
 api = Blueprint('api', __name__)
@@ -279,10 +280,15 @@ def get_courts(sportcenter_id):
     courts=center.courts
     courts_list = []
     capacity=0
+
     for court in courts:
         players=court.players
         courts_list.append(court.serialize())
+        capacity=capacity+court.players
 
+    center.capacity=capacity    
+    center.save()
+    
     return jsonify(courts_list), 200
 
 
@@ -298,6 +304,7 @@ def register_new_court():
     center=SportCenter.get_id(court.sportcenter_id)
     center.capacity=center.capacity+court.players
     center.save()
+    
   
     return jsonify(court.serialize()),200
 
@@ -309,12 +316,13 @@ def update_court(court_id):
 
     body=request.get_json()
     court=Court.get_id(court_id)
-    court.body(body)    
-    court.save()
 
-    #se actualiza las cantidad de plazas del centro
     center=SportCenter.get_id(court.sportcenter_id)
-    center.capacity=center.capacity+court.players
+    center.capacity=center.capacity-court.players+body["players"]
+
+    court.body(body)    
+    court.save()  
+    #se actualiza las cantidad de plazas del centro
     center.save()
 
     return jsonify(court.serialize()), 200
@@ -331,8 +339,6 @@ def delete_court(court_id):
     center=SportCenter.get_id(court.sportcenter_id)
     center.capacity=center.capacity-court.players
     center.save()
-
-   
 
     return jsonify(court.serialize()), 200
 
@@ -373,32 +379,62 @@ def get_images(sportcenter_id):
     return jsonify(images_list), 200
 
 
-# SPORTCENTER: MOSTRAR LAS IMAGES DEL CENTRO
+
+# PREBOOKING-OBTENER RESERVAS GIMNASIOS POR DIA
+@api.route ('getprebookings/<int:sportcenter_id>/<datetime>', methods=['GET'])
+def get_prebooking(sportcenter_id,datetime):
+
+    
+    # prebookings=PreBooking.query.filter_by(sportcenter_id=sportcenter_id).filter_by(date=date).all()
+    # print(prebookings)
+    
+    prebookings= db.session.query(func.sum(PreBooking.players).label("sum_players"),PreBooking.date).filter(PreBooking.sportcenter_id==1).group_by(PreBooking.date).all()
+    print("PREBOOKINGs",prebookings)
+    prebooking_list=[]
+    prebooking_dict={}
+    for prebooking in prebookings:
+        
+        print("PREBOOKING",prebooking)
+        print("PREBOOKING",prebooking.date)
+        prebooking_dict={
+            "date":str(prebooking.date),
+            "players":prebooking.sum_players
+        }
+        
+        
+        prebooking_list.append(prebooking_dict)
+    
+    # prebooking_list=[]
+    # for prebooking in prebookings:
+    #     prebooking_list.append(prebooking.serialize())
+    
+    print(prebooking_list)
+    return jsonify(prebooking_list), 200
+
+
+# PREBOOKING: POST UNA PRERESERVA
 @api.route ('prebooking/<int:sportcenter_id>', methods=['POST'])
 def prebooking(sportcenter_id):
-
 
     #se obtiene el centro
     center_capacity=SportCenter.get_id(sportcenter_id).capacity
 
     #Se recibe la nueva preserva
-  
     body=request.get_json()
     prebooking=PreBooking.add_register(body)
     # prebooking.save()
     prebooking_players=prebooking.players
     
-
     #Se comprueba el numero de personas que ha hecho preserva
-    bookings=PreBooking.query.filter_by(sportcenter_id=sportcenter_id).filter_by(booking_date_time_start=prebooking.booking_date_time_start).all()
+    bookings=PreBooking.query.filter_by(sportcenter_id=sportcenter_id).filter_by(date=prebooking.date).all()
 
-    # PreBooking.query.filter(PreBooking.booking_date_time_start.month == today.month, PreBooking.booking_date_time_start.year == today.year, PreBooking.booking_date_time_start.day >= today.day).all()
-  
     booking_list=[]
     booking_players=0
    
     for booking in bookings:
+
         booking_players=booking_players+booking.players
+        # booking_list.append(booking.serialize())
     
     availabilty_players=center_capacity-booking_players
 
@@ -409,9 +445,9 @@ def prebooking(sportcenter_id):
     else:
         availability= False
 
-    print("AVAILABITY",availability)
+    print("AVAILABITY",availability,availabilty_players,center_capacity)
     
-    return jsonify(availability), 200
+    return jsonify(availability,booking_list), 200
 
 
 
