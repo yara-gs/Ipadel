@@ -30,11 +30,10 @@ export default function ConfigureCourts() {
 	//funcion que lleva a sign si no hay usario logueado
 	// pushSignPage();
 
-	if (user != null && sportCenter != null) {
-		court_aux.sportcenter_id = sportCenter.id;
-
-		useEffect(
-			() => {
+	useEffect(
+		() => {
+			if (user != null && sportCenter != null) {
+				court_aux.sportcenter_id = sportCenter.id;
 				//GET COURTS OF A SPORT CENTER
 				fetch(process.env.BACKEND_URL + "/api/" + sportCenter.id + "/courts", {
 					method: "GET",
@@ -42,11 +41,11 @@ export default function ConfigureCourts() {
 				})
 					.then(response => response.json())
 					.then(resultJson => setCourts(resultJson));
-			},
+			}
+		},
 
-			[]
-		);
-	}
+		[]
+	);
 
 	//SELECT CONFIGURE NEW COURT
 	if (addCourtBtn && court_aux["court_name"] === "") {

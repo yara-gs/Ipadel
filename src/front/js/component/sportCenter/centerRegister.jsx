@@ -18,6 +18,9 @@ export default function RegisterCenter() {
 	const [state, setState] = useState("");
 	const [city, setCity] = useState("");
 	const [cp, setCp] = useState("");
+	const [openningTime, setOpenningTime] = useState(9);
+	const [closingTime, setClosingTime] = useState(22);
+
 	const [error, setError] = useState("");
 	const [message, setMessage] = useState("");
 
@@ -36,7 +39,10 @@ export default function RegisterCenter() {
 			address: address,
 			state: state,
 			city: city,
-			cp: cp
+			cp: cp,
+			opening_time: openningTime,
+			closing_time: closingTime,
+			capacity: 10
 		};
 
 		setMessage("");
@@ -63,7 +69,7 @@ export default function RegisterCenter() {
 	return (
 		<div className="container col-12 col-xl-8 col-md-9 d-flex d-flex justify-content-center ">
 			<Form className="registerForm d-flex justify-content-start" onSubmit={event => createCenter(event)}>
-				<Form.Row className="password">
+				<Form.Row>
 					<Form.Group as={Col} controlId="formCenterName">
 						<Form.Label>Nombre Centro Deportivo</Form.Label>
 						<Form.Control
@@ -217,6 +223,67 @@ export default function RegisterCenter() {
 							<Form.Check type="checkbox" label="Pago en centro" />
 						</Form.Group>
 					</Form.Row> */}
+				<Form.Row>
+					<Form.Group as={Col} controlId="formGridState">
+						<Form.Label>Apertura</Form.Label>
+						<Form.Control
+							required
+							className="form_inputfield"
+							as="select"
+							onChange={() => setOpenningTime(event.target.value)}
+							autoComplete="off">
+							<option value="6">6:00</option>
+							<option value="7">7:00</option>
+							<option value="8">8:00</option>
+							<option value="9">9:00</option>
+							<option value="10">10:00</option>
+							<option value="11">11:00</option>
+							<option value="12">12:00</option>
+							<option value="13">13:00</option>
+							<option value="14">14:00</option>
+							<option value="15">15:00</option>
+							<option value="16">16:00</option>
+							<option value="17">17:00</option>
+							<option value="18">18:00</option>
+							<option value="19">19:00</option>
+							<option value="20">20:00</option>
+							<option value="21">21:00</option>
+							<option value="22">22:00</option>
+							<option value="23">23:00</option>
+							<option value="24">24:00</option>
+						</Form.Control>
+					</Form.Group>
+
+					<Form.Group as={Col} controlId="formNIF">
+						<Form.Label>Cierre</Form.Label>
+						<Form.Control
+							required
+							className="form_inputfield"
+							as="select"
+							onChange={() => setClosingTime(event.target.value)}
+							autoComplete="off">
+							<option value="6">6:00</option>
+							<option value="7">7:00</option>
+							<option value="8">8:00</option>
+							<option value="9">9:00</option>
+							<option value="10">10:00</option>
+							<option value="11">11:00</option>
+							<option value="12">12:00</option>
+							<option value="13">13:00</option>
+							<option value="14">14:00</option>
+							<option value="15">15:00</option>
+							<option value="16">16:00</option>
+							<option value="17">17:00</option>
+							<option value="18">18:00</option>
+							<option value="19">19:00</option>
+							<option value="20">20:00</option>
+							<option value="21">21:00</option>
+							<option value="22">22:00</option>
+							<option value="23">23:00</option>
+							<option value="24">24:00</option>
+						</Form.Control>
+					</Form.Group>
+				</Form.Row>
 
 				<div className=" d-flex justify-content-center">
 					<Button className="btn solid" variant="primary" type="submit">
