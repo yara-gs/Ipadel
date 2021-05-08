@@ -20,20 +20,23 @@ export default function ConfigureCourts() {
 	let DefaultLabel_placeholder = "Etiqueta: " + courtDefaultLabel;
 	let user = actions.getUser();
 	let sportCenter = actions.getSportCenter();
+	console.log(sportCenter);
+
 	let court_aux = {
 		court_name: "",
 		light: false,
 		players: 4,
 		sportcenter_id: ""
 	};
+	if (sportCenter) {
+		court_aux.sportcenter_id = sportCenter.id;
+	}
 
 	//funcion que lleva a sign si no hay usario logueado
 	// pushSignPage();
-
-	useEffect(
-		() => {
-			if (user != null && sportCenter != null) {
-				court_aux.sportcenter_id = sportCenter.id;
+	if (user != null && sportCenter != null) {
+		useEffect(
+			() => {
 				//GET COURTS OF A SPORT CENTER
 				fetch(process.env.BACKEND_URL + "/api/" + sportCenter.id + "/courts", {
 					method: "GET",
@@ -41,12 +44,11 @@ export default function ConfigureCourts() {
 				})
 					.then(response => response.json())
 					.then(resultJson => setCourts(resultJson));
-			}
-		},
+			},
 
-		[]
-	);
-
+			[]
+		);
+	}
 	//SELECT CONFIGURE NEW COURT
 	if (addCourtBtn && court_aux["court_name"] === "") {
 		defineDefault_CourtNewName();

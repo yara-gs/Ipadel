@@ -11,24 +11,34 @@ export default function CenterAvailable(props) {
 	const { actions, store } = useContext(Context);
 	let url_image = "http://ipadel.s3.amazonaws.com/centerImage_03.jpg";
 	let opening_hours = [];
+	let availabity = [
+		{
+			time_start: "",
+			available_players: 0
+		}
+	];
+	const [prebookings, setPrebookings] = useState(null);
 
-	//GET ALL PREBOOKINGS
-	function getprebookings() {
-		//envio datos a la base de datos
-		fetch(process.env.BACKEND_URL + "/api/getprebookings/" + props.center.id + dateFilter, {
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json"
-			}
-		})
-			.then(response => response.json())
-			.then(responseJson => {
-				// actions.saveSportCenter(responseJson);
+	useEffect(
+		() => {
+			//GET COURTS OF A SPORT CENTER
+			fetch(process.env.BACKEND_URL + "/api/getprebookings/" + props.center.id + "/" + props.date, {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json"
+				}
 			})
-			.catch(error => {
-				// setError(error.message);
-			});
-	}
+				.then(response => response.json())
+				.then(responseJson => {
+					setPrebookings(responseJson);
+				})
+				.catch(error => {
+					// setError(error.message);
+				});
+		},
+
+		[]
+	);
 
 	if (props.center) {
 		let total_hours = props.center.closing_time - props.center.opening_time;
@@ -62,14 +72,20 @@ export default function CenterAvailable(props) {
 							</div>
 							<div className="d-flex align-content-end flex-wrap">
 								{opening_hours.map(hour => {
-									return <BookTime key={hour} hour={hour} />;
+									return (
+										<BookTime
+											key={hour}
+											hour={hour}
+											prebookings={prebookings}
+											center={props.center}
+											players={props.players}
+											date={props.date}
+										/>
+									);
 								})}
 							</div>
 
 							<br />
-							<div className=" court-icon ">
-								<button className="p-1">Reservar</button>
-							</div>
 						</div>
 					</div>
 				</div>
@@ -79,5 +95,7 @@ export default function CenterAvailable(props) {
 }
 
 CenterAvailable.propTypes = {
-	center: PropTypes.object
+	center: PropTypes.object,
+	date: PropTypes.string,
+	players: PropTypes.number
 };
