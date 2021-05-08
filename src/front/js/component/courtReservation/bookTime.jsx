@@ -6,10 +6,13 @@ import { Modal, Button } from "react-bootstrap";
 import "../../../styles/court-reservation.scss";
 import "../../../styles/imgcarousel.scss";
 
+import setTimeout_useEffect from "../../setTimeout";
+
 export default function BookTime(props) {
 	const { actions, store } = useContext(Context);
 	const [showReservation, setShowReservation] = useState(false);
 	const handleClose = () => setShowReservation(false);
+	const [message, setMessage] = useState("");
 
 	let hour_start = "";
 	let availability_players = props.center.capacity;
@@ -62,7 +65,10 @@ export default function BookTime(props) {
 			body: JSON.stringify(body)
 		})
 			.then(response => response.json())
-			.then(responseJson => {})
+			.then(responseJson => {
+				props.updatePrebookings();
+				setMessage("Reserva realizada con éxito");
+			})
 			.catch(error => {
 				// setError(error.message);
 			});
@@ -74,6 +80,8 @@ export default function BookTime(props) {
 		} else setShowReservation(false);
 	}
 
+	//call funcion setTimeout
+	setTimeout_useEffect(message, setMessage, 2000);
 	return (
 		<div className="court-icon">
 			<div className="availability_players">{availability_players}</div>
@@ -96,6 +104,10 @@ export default function BookTime(props) {
 					<p>
 						<strong>Jugadores: </strong> {props.players}
 					</p>
+					<p>
+						{" "}
+						<strong>{message} </strong>{" "}
+					</p>
 				</Modal.Body>
 				<Modal.Footer>
 					<Button onClick={() => create_prebooking()}>Reservar</Button>
@@ -110,5 +122,6 @@ BookTime.propTypes = {
 	prebookings: PropTypes.object,
 	center: PropTypes.object,
 	players: PropTypes.number,
-	date: PropTypes.string
+	date: PropTypes.string,
+	updatePrebookings: PropTypes.func
 };

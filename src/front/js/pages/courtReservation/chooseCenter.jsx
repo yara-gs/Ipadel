@@ -135,7 +135,6 @@ export default function ChooseCenter() {
 					{/* <!-- Header --> */}
 
 					<h3 className="pt-2 pb-2 ">Centros Deportivos </h3>
-					<button onClick={() => prebooking()}>Reservar</button>
 
 					{centersbyCity != null ? (
 						<ul>
