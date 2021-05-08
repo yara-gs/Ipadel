@@ -254,10 +254,10 @@ def get_centers():
     return jsonify(centers_dict), 200
 
 # SPORTCENTER: Get all sports center by location
-@api.route ('/sportcenters_city/', methods=['GET'])
-def get_centers_bycity():
+@api.route ('/sportcenters/<city>', methods=['GET'])
+def get_centers_bycity(city):
     
-    centers=SportCenter.items_by_city("Burgos")
+    centers=SportCenter.items_by_city(city)
     centers_dict = []
     for center in centers:
         centers_dict.append(center.serialize(with_courts=False))
@@ -395,17 +395,18 @@ def get_images(sportcenter_id):
 @api.route ('getprebookings/<int:sportcenter_id>/<date>', methods=['GET'])
 def get_prebooking(sportcenter_id,date):
 
-    #  #se obtiene el centro
-    # center_capacity=SportCenter.get_id(sportcenter_id).capacity
-    
+
     prebookings= db.session.query(func.sum(PreBooking.players).label("sum_players"),PreBooking.time_start).filter(PreBooking.sportcenter_id==sportcenter_id).filter(PreBooking.date==date).group_by(PreBooking.time_start).all()
-    print("PREBOOKINGs",prebookings)
     prebooking_list=[]
     prebooking_dict={}
     for prebooking in prebookings:
+        time=prebooking.time_start
+        hour = time.strftime('%H')
+        minutes = time.strftime('%M')
+        time=hour + ":" + minutes
         prebooking_dict={
-            "time_start":str(prebooking.time_start),
-            "availables":prebooking.sum_players
+            "time_start":str(time),
+            "prebooking_players":prebooking.sum_players
         }   
         prebooking_list.append(prebooking_dict)
 

@@ -31,7 +31,7 @@ export default function ChooseCenter() {
 		// setError("");
 
 		//envio datos a la base de datos
-		fetch(process.env.BACKEND_URL + "/api/sportcenters_city/", {
+		fetch(process.env.BACKEND_URL + "/api/sportcenters/" + locationFilter, {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json"
@@ -40,41 +40,6 @@ export default function ChooseCenter() {
 			.then(response => response.json())
 			.then(responseJson => {
 				setCentersbyCity(responseJson);
-				console.log(responseJson);
-			})
-			.catch(error => {
-				// setError(error.message);
-			});
-	}
-
-	//POST NEW PREBOOKING
-	function prebooking() {
-		let body = {
-			datetime: dateFilter + " 10:00",
-			date: dateFilter,
-			time_start: "11:00",
-			time_end: "12:00",
-			players: parseInt(playersFilter),
-			sportcenter_id: 2
-		};
-
-		console.log(body);
-		// setMessage("");
-		// setError("");
-
-		//envio datos a la base de datos
-		fetch(process.env.BACKEND_URL + "/api/prebooking/" + body.sportcenter_id, {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify(body)
-		})
-			.then(response => response.json())
-			.then(responseJson => {
-				// actions.saveSportCenter(responseJson);
-				// history.push("/configure-courts");
-				console.log(body);
 			})
 			.catch(error => {
 				// setError(error.message);
@@ -136,7 +101,7 @@ export default function ChooseCenter() {
 						<label className="pt-3 ">
 							<i className="fas fa-baseball-ball" /> Centro
 						</label>
-						<input className="w3-input w3-border" type="number" value="0" name="Kids" min="0" max="6" />
+						<input className="w3-input w3-border" type="text" value="" name="centro" />
 						<p>
 							{/* <button
 								className="w3-button w3-block w3-green w3-left-align mt-4"
@@ -175,7 +140,14 @@ export default function ChooseCenter() {
 					{centersbyCity != null ? (
 						<ul>
 							{centersbyCity.map(center => {
-								return <CenterAvailable key={center.id} center={center} />;
+								return (
+									<CenterAvailable
+										key={center.id}
+										center={center}
+										date={dateFilter}
+										players={playersFilter}
+									/>
+								);
 							})}
 						</ul>
 					) : (
