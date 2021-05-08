@@ -28,14 +28,15 @@ class UserId():
     
 # Forgot password  
 class ForgotPasswordEmail():
-    def __init__(self):
+    def __init__(self, email, token):
         super().__init__()
         self.email = email
         self.token = token
     
-    def send(self):
+    def send(self, token):
         #send.io
-        return True
+        url = "https://3000-white-mockingbird-cp1h8n3z.ws-eu04.gitpod.io/new-password?token"+token
+        return url
 
 
 class User(db.Model):
@@ -44,6 +45,8 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
+    token = db.Column(db.String(254), unique=True, nullable=True)
+
 
     # relacion one to many con tabla User (un usuario puede tener muchos centros)
     sportcenters=db.relationship("SportCenter",back_populates="user")
@@ -73,6 +76,10 @@ class User(db.Model):
     @classmethod
     def get_with_login_credentials(cls, username, password):
         return cls.query.filter_by(username=username).filter_by(password=password).one_or_none()
+
+    @classmethod
+    def get_with_email(cls, email):
+        return cls.query.filter_by(email=email).one_or_none()
 
     @classmethod
     def get(cls, id):

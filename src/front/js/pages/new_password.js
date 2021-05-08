@@ -1,32 +1,30 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
-export const Forgot = () => {
-	const [email, setEmail] = useState("");
-	const [emailError, setEmailError] = useState("");
+export const NewPassword = () => {
+	const [password, setPassword] = useState("");
 	const history = useHistory();
 
-	function requestForgotPassword(event) {
+	function requestNewPassword(event) {
 		event.preventDefault();
-		if (email.trim() == "") {
-			setEmailError("Email obligatorio");
+		if (password.trim() == "") {
 			return;
 		}
 
 		let responseOk = false;
 
-		fetch(process.env.BACKEND_URL + "/api/forgot-password", {
+		fetch(process.env.BACKEND_URL + "/api'/reset-password'", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json"
 			},
 			body: JSON.stringify({
-				email: email
+				password: password
 			})
 		}).then(response => {
 			responseOk = response.ok;
 			if (response.ok) {
-				history.push("/new_password");
+				history.push("/login");
 			}
 			return response.json();
 		});
@@ -36,19 +34,16 @@ export const Forgot = () => {
 		<div className="jumbotron">
 			<form>
 				<label>
-					<div>Email</div>
+					<div>Nueva Contraseña</div>
 					<input
-						type="email"
+						type="password"
 						required
 						onChange={event => {
-							setEmail(event.target.value);
+							setPassword(event.target.value);
 						}}
 					/>
-					<div>
-						<div>{emailError ? <span>{emailError}</span> : ""}</div>
-					</div>
 				</label>
-				<input type="button" value="Recuperar" onClick={requestForgotPassword} />
+				<input type="button" value="Recuperar" onClick={requestNewPassword} />
 			</form>
 		</div>
 	);

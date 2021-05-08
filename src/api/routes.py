@@ -3,7 +3,7 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 import os
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, SportCenter,Court,Image,Profile,Post,Comment,Like
+from api.models import db, User, SportCenter,Court,Image,Profile,Post,Comment,Like,ForgotPasswordEmail 
 from api.utils import generate_sitemap, APIException
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import jwt_required
@@ -52,17 +52,36 @@ def profile():
 # Forgot Password
 @api.route('/forgot-password', methods=['POST'])
 def forgot_password():
-    request_json = request.request_json()
+    request_json = request.get_json()
 
     email = request_json["email"]
 
     if email is None:
         raise APIException("Email required")
 
-    n = random.randint(10000000000000000,1999999999999000000000000)
+    token = random.randint(10000000000000000,1999999999999000000000000)
+
+    user = User.get_with_email(email)
+    user.token = str(token)
+
+    db.session.commit()
 
     forgot_password_email = ForgotPasswordEmail(email, token)
-    forgot_password_email.send()
+    url = forgot_password_email.send(str(token))
+
+    return jsonify({url: url}), 200
+
+@api.route('/reset-password', methods=['POST'])
+def reset_password():
+    request_json = request.get_json()
+    email = request_json["email"]
+    token = request_json["token"]
+    password = request_json["password"]
+
+    user = User.get_for_forgot(email, token)
+    user.password = password
+    user.token = None
+    db.session.commit()
 
     return jsonify({}), 200
 

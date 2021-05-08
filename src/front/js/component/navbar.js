@@ -15,41 +15,39 @@ export default function Mynavbar() {
 	console.log(user);
 	return (
 		<Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-			<Navbar.Brand href="#home">
-				<Link to="/">
-					<span className="iPadel ">
-						<LogoiPadel />
-					</span>
-					<p className="slogan">padel social network </p>
-				</Link>
-			</Navbar.Brand>
+			<Link className="navbar-brand" to="/">
+				<span className="iPadel ">
+					<LogoiPadel />
+				</span>
+				<p className="slogan">padel social network </p>
+			</Link>
 
 			{/* {user ? ( */}
-			<div Classname="userExists">
+			<div className="userExists">
 				<Navbar.Toggle aria-controls="responsive-navbar-nav " />
 				<Navbar.Collapse id="responsive-navbar-nav">
-					<Link to="/pistas">
-						<Nav.Link href="#features">Pistas</Nav.Link>
+					<Link className="nav-link" to="/pistas">
+						Pistas
 					</Link>
-					<Link to="/mired">
-						<Nav.Link href="#features">Mi Red</Nav.Link>
+					<Link className="nav-link" to="/mired">
+						Mi Red
 					</Link>
 					<Nav.Link href="#features">Mis Reservas</Nav.Link>
-					<Link to="/newcenter">
-						<Nav.Link href="#features">Alta Centros Deportivos</Nav.Link>
+					<Link className="nav-link" to="/newcenter">
+						Alta Centros Deportivos
 					</Link>
-					<Link to="/configure-courts">
-						<Nav.Link href="#features">Configurar centro</Nav.Link>
+					<Link className="nav-link" to="/configure-courts">
+						Configurar centro
 					</Link>
-					<Link to="/choose-center">
-						<Nav.Link href="#features">Reservar Pista</Nav.Link>
+					<Link className="nav-link" to="/choose-center">
+						Reservar Pista
 					</Link>
-					<Link to="/forgot">
-						<Nav.Link href="#features">Recuperar Contraseña</Nav.Link>
+					<Link className="nav-link" to="/forgot">
+						Recuperar Contraseña
 					</Link>
 					<NavDropdown title="Dropdown" id="collasible-nav-dropdown">
-						<Link to="/configure-profile">
-							<NavDropdown.Item href="#action/3.1">Editar Perfil</NavDropdown.Item>
+						<Link className="dropdown-item" to="/configure-profile">
+							Editar Perfil
 						</Link>
 						<NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
 						<NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
@@ -60,10 +58,12 @@ export default function Mynavbar() {
 			</div>
 			{/* ) : ( */}
 			<Nav className="ml-auto">
-				<Link to="/sign">
-					<Nav.Link href="#pricing">Sign Up</Nav.Link>
+				<Link className="nav-link" to="/sign">
+					Sign Up
 				</Link>
-				<Nav.Link href="#deets">login</Nav.Link>
+				<Link className="nav-link" to="/login">
+					Login
+				</Link>
 			</Nav>
 			{/* )} */}
 		</Navbar>
