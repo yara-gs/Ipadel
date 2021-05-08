@@ -21,24 +21,28 @@ export default function CenterAvailable(props) {
 
 	useEffect(
 		() => {
+			updatePrebookings();
 			//GET COURTS OF A SPORT CENTER
-			fetch(process.env.BACKEND_URL + "/api/getprebookings/" + props.center.id + "/" + props.date, {
-				method: "GET",
-				headers: {
-					"Content-Type": "application/json"
-				}
-			})
-				.then(response => response.json())
-				.then(responseJson => {
-					setPrebookings(responseJson);
-				})
-				.catch(error => {
-					// setError(error.message);
-				});
 		},
 
-		[]
+		[props.date]
 	);
+
+	function updatePrebookings() {
+		fetch(process.env.BACKEND_URL + "/api/getprebookings/" + props.center.id + "/" + props.date, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json"
+			}
+		})
+			.then(response => response.json())
+			.then(responseJson => {
+				setPrebookings(responseJson);
+			})
+			.catch(error => {
+				// setError(error.message);
+			});
+	}
 
 	if (props.center) {
 		let total_hours = props.center.closing_time - props.center.opening_time;
@@ -80,6 +84,7 @@ export default function CenterAvailable(props) {
 											center={props.center}
 											players={props.players}
 											date={props.date}
+											updatePrebookings={updatePrebookings}
 										/>
 									);
 								})}

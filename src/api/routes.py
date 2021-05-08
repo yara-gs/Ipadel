@@ -427,7 +427,7 @@ def prebooking(sportcenter_id):
     prebooking_players=prebooking.players
     
     #Se comprueba el numero de personas que ha hecho preserva
-    bookings=PreBooking.query.filter_by(sportcenter_id=sportcenter_id).filter_by(date=prebooking.date).all()
+    bookings=PreBooking.query.filter_by(sportcenter_id=sportcenter_id).filter_by(datetime=prebooking.datetime).all()
 
     booking_list=[]
     booking_players=0
@@ -446,7 +446,7 @@ def prebooking(sportcenter_id):
     else:
         availability= False
 
-    print("AVAILABITY",availability,availabilty_players,center_capacity)
+    print(availability,"AVAILABITY:",availabilty_players,"capacity:",center_capacity,"plazasReservadas:",booking_players)
     
     return jsonify(availability,booking_list), 200
 
