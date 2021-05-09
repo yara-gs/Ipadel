@@ -22,8 +22,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 			saveUser(user) {
-				setStore({ user: user });
-				localStorage.setItem("user", JSON.stringify(user));
+				let user_store = user;
+				user_store["msg"] = "";
+				setStore({ user: user_store });
+				console.log(user_store);
+				localStorage.setItem("user", JSON.stringify(user_store));
 			},
 			getUser: () => {
 				let store = getStore();

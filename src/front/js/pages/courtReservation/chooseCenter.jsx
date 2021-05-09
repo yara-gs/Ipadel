@@ -17,7 +17,7 @@ export default function ChooseCenter() {
 	const [centersbyCity, setCentersbyCity] = useState(null);
 
 	//funcion que lleva a sign si no hay usario logueado
-	// pushSignPage();
+	pushSignPage();
 
 	// Get the Sidebar
 	var mySidebar = document.getElementById("mySidebar");

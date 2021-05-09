@@ -109,7 +109,10 @@ export default function BookTime(props) {
 						<strong>Centro Deportivo: </strong>
 						{props.center.center_name}
 					</p>
-					<strong> Hora: </strong> {hour_start}-{hour_end}
+					<strong> Fecha: </strong> {props.date}
+					<p>
+						<strong> Hora: </strong> {hour_start}-{hour_end}
+					</p>
 					<p>
 						<strong>Jugadores: </strong> {props.players}
 					</p>

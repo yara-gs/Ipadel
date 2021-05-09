@@ -13,6 +13,9 @@ from sqlalchemy import func
 from aws import upload_file_to_s3
 from datetime import datetime,date,timedelta
 import datetime
+import pytz 
+from tzlocal import get_localzone # $ pip install tzlocal
+
 
 api = Blueprint('api', __name__)
 
@@ -461,20 +464,27 @@ def prebooking(sportcenter_id):
 @api.route ('prebookings_user/<int:user_id>', methods=['GET'])
 def get_prebookings_by_user_id(user_id):
 
-    # date_aux = date.today()
-    # date_start=date_aux
-    # date_start.strftime(date_aux)
-    today =date.today()
-    date_start=today
-  
-    # date_start = today.strftime("%m/%D/%Y, %H:%M:%S")
+    utc_date = datetime.datetime.now()
+    local_date=utc_date+datetime.timedelta(hours=2)
+    # local_date = datetime.datetime.now(pytz.timezone('Europe/Paris')) 
 
-    print(date_start)
-    prebookings=PreBooking.query.filter_by(user_id=user_id).filter_by(date = date_start).all()
-    print(prebookings)
+    prebookings=PreBooking.query.filter_by(user_id=user_id).all()
+  
     prebooking_list = []
     for prebooking in prebookings:
-        prebooking_list.append(prebooking.serialize())
+        date=prebooking.datetime
+        if date>=local_date:
+            center_name=SportCenter.get_id(prebooking.sportcenter_id).center_name
+           
+            prebooking_dict={
+            "id":prebooking.id,
+            "datetime":str(prebooking.datetime),
+            "players":prebooking.players,
+            "user_id":prebooking.user_id,
+            "sportcenter_id":prebooking.sportcenter_id,
+            "center_name":center_name,
+            }   
+            prebooking_list.append(prebooking_dict)
 
     return jsonify(prebooking_list), 200
     

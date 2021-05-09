@@ -33,6 +33,7 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
+    
 
     # relacion one to many con tabla User (un usuario puede tener muchos centros)
     sportcenters=db.relationship("SportCenter",back_populates="user")
