@@ -11,13 +11,12 @@ export default function Center(props) {
 	const { actions, store } = useContext(Context);
 	const history = useHistory();
 
-	const [sportCenter, setSportCenter] = useState(actions.getSportCenter());
 	const [images, setImages] = useState(null);
 
 	useEffect(
 		() => {
 			//GET COURTS OF A SPORT CENTER
-			if (sportCenter) {
+			if (props.center) {
 				getImages();
 			}
 		},
@@ -27,7 +26,7 @@ export default function Center(props) {
 
 	function getImages() {
 		//GET COURTS OF A SPORT CENTER
-		fetch(process.env.BACKEND_URL + "/api/" + sportCenter.id + "/images", {
+		fetch(process.env.BACKEND_URL + "/api/" + props.center.id + "/images", {
 			method: "GET",
 			headers: { "Content-Type": "application/json" }
 		})
@@ -113,7 +112,7 @@ export default function Center(props) {
 					</table>
 
 					<div className=" mt-3 mb-6 ">
-						{sportCenter && images ? <CarouselImages images={images} slidesToShow={3} dots={false} /> : ""}
+						{props.center && images ? <CarouselImages images={images} slidesToShow={3} dots={false} /> : ""}
 					</div>
 
 					<br />
