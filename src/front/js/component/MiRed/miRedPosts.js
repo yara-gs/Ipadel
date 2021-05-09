@@ -4,6 +4,22 @@ import "../../../styles/mired.scss";
 import "w3-css/w3.css";
 
 export default function MiRedPosts() {
+	const [posts, setPosts] = useState(null);
+	const [postText, setPostText] = useState("Mi post");
+
+	useEffect(() => {
+		if (user !== null) {
+			fetch(process.env.BACKEND_URL + "/api/posts/" + user.id, {
+				method: "GET",
+				headers: { "Content-Type": "application/json" }
+			})
+				.then(response => response.json())
+				.then(resultJson => {
+					setPosts(resultJson);
+				});
+		}
+	}, []);
+
 	return (
 		<div className="w3-col">
 			<div className="w3-container w3-card w3-white w3-round w3-margin">

@@ -5,6 +5,9 @@ import "w3-css/w3.css";
 import "../../../styles/buttons.scss";
 
 export default function MiRedPostText() {
+	const { actions, store } = useContext(Context);
+	let user = actions.getUser();
+
 	const [postsList, setPostsList] = React.useState([]);
 	const [post, setPost] = React.useState("");
 	//const [liNewTask, setLiNewTask] = React.useState(null);
@@ -38,14 +41,10 @@ export default function MiRedPostText() {
 					id="image7"
 				/>
 				<span className="w3-right w3-opacity">{hour + ".00"}</span>
-				<h4>{eachPost}</h4>
+				{user ? <h4>{user.username}</h4> : ""}
 				<br />
 				<hr className="w3-clear" />
-				<p>
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
-					et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-					aliquip ex ea commodo consequat.
-				</p>
+				<p>{eachPost}</p>
 				<div className="w3-row-padding" id="container2">
 					<div className="w3-half">
 						<img

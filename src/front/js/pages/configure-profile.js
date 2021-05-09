@@ -9,7 +9,7 @@ export default function ConfigureProfile() {
 
 	const { actions, store } = useContext(Context);
 	let user = actions.getUser();
-
+	const [profile, setProfile] = useState("");
 	const [birth, setBirth] = useState("");
 	const [country, setCountry] = useState("");
 	const [city, setCity] = useState("");
@@ -21,6 +21,7 @@ export default function ConfigureProfile() {
 	const [postText, setPostText] = useState("Mi post");
 
 	//variables Comments
+	const [message, setMessage] = useState("");
 	const [comments, setComments] = useState(null);
 	const [commentText, setCommentText] = useState("Mi primer comentario");
 
