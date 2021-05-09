@@ -1,4 +1,5 @@
-import React, { useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
+
 import { Context } from "../../store/appContext";
 import "../../../styles/mired.scss";
 import "w3-css/w3.css";
@@ -6,6 +7,9 @@ import "w3-css/w3.css";
 export default function MiRedPosts() {
 	const [posts, setPosts] = useState(null);
 	const [postText, setPostText] = useState("Mi post");
+
+	const { actions, store } = useContext(Context);
+	let user = actions.getUser();
 
 	useEffect(() => {
 		if (user !== null) {
@@ -31,23 +35,18 @@ export default function MiRedPosts() {
 					id="image7"
 				/>
 				<span className="w3-right w3-opacity">1 min</span>
-				<h4>Nico Balcells</h4>
+				{user ? <h4>{user.username}</h4> : ""}
 				<br />
 				<hr className="w3-clear" />
-				<p>
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
-					et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-					aliquip ex ea commodo consequat.
-				</p>
+				{posts ? <p>{posts.text}</p> : ""}
 				<div className="w3-row-padding" id="container2">
-					<div className="w3-half">
-						<img
-							src="https://www.w3schools.com/w3images/lights.jpg"
-							id="image8"
-							alt="Northern Lights"
-							className="w3-margin-bottom"
-						/>
-					</div>
+					{posts ? (
+						<div className="w3-half">
+							<img src={posts.url_image} id="image8" alt="Northern Lights" className="w3-margin-bottom" />
+						</div>
+					) : (
+						""
+					)}
 					<div className="w3-half">
 						<img
 							src="https://www.w3schools.com/w3images/nature.jpg"

@@ -13,13 +13,39 @@ export default function MiRedPostText() {
 	//const [liNewTask, setLiNewTask] = React.useState(null);
 
 	function addPost() {
-		//	let newList = tasksList.push(task);
-		let newList = [post, ...postsList];
+		const formData = new FormData();
+		formData.append("user_id", user.id);
+		formData.append("image", image[0]);
+		formData.append("text", "mi primer post");
+		let responseOk = false;
+		console.log(formData);
 
-		setPostsList(newList);
-		console.log(postsList.indexOf(post));
-		setPost("");
+		setMessage("");
+		fetch(process.env.BACKEND_URL + "/api/post", {
+			method: "POST",
+			body: formData
+		})
+			.then(response => {
+				responseOk = response.ok;
+				if (response.ok) {
+					setMessage("Imagenes importadas correctamente");
+				} else {
+					setMessage("Fallo al importar imagenes");
+				}
+			})
+			.catch(error => {
+				setMessage("Fallo al importar imagenes");
+			});
 	}
+
+	// function addPost() {
+	// 	//	let newList = tasksList.push(task);
+	// 	let newList = [post, ...postsList];
+
+	// 	setPostsList(newList);
+	// 	console.log(postsList.indexOf(post));
+	// 	setPost("");
+	// }
 
 	function deletePost(postsListIndex) {
 		const newList = postsList.filter((_, index) => index !== postsListIndex);
