@@ -10,6 +10,7 @@ import setTimeout_useEffect from "../../setTimeout";
 
 export default function BookTime(props) {
 	const { actions, store } = useContext(Context);
+	let user = actions.getUser();
 	const [showReservation, setShowReservation] = useState(false);
 	const [showReservationBtn, setShowReservationBtn] = useState(true);
 
@@ -57,7 +58,8 @@ export default function BookTime(props) {
 			time_start: hour_start,
 			time_end: hour_end,
 			players: parseInt(props.players),
-			sportcenter_id: props.center.id
+			sportcenter_id: props.center.id,
+			user_id: user.id
 		};
 
 		// setMessage("");
@@ -107,7 +109,10 @@ export default function BookTime(props) {
 						<strong>Centro Deportivo: </strong>
 						{props.center.center_name}
 					</p>
-					<strong> Hora: </strong> {hour_start}-{hour_end}
+					<strong> Fecha: </strong> {props.date}
+					<p>
+						<strong> Hora: </strong> {hour_start}-{hour_end}
+					</p>
 					<p>
 						<strong>Jugadores: </strong> {props.players}
 					</p>

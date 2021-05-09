@@ -9,7 +9,8 @@ export default function pushSignPage() {
 	useEffect(() => {
 		let user = null;
 		user = actions.getUser();
-		if (user === null) {
+		console.log(user);
+		if (user === null || user.msg != "") {
 			history.push("/sign");
 		}
 	}, []);

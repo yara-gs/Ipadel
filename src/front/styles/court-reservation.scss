@@ -80,3 +80,31 @@
 }
 
 
+//MIS RESERVAS
+.table-reservations{
+.w3-table td, .w3-table th, .w3-table-all td, .w3-table-all th{
+    padding: 20px 2px ;
+    display: table-cell;
+    text-align: left;
+    vertical-align: top;
+}
+
+.w3-table td i{
+    margin-left:40px;
+    padding-right: px;
+}
+
+.w3-table td {
+    max-width: 10px;
+    margin-left:20px;
+    padding-right: px;
+}
+
+.first-column{
+    font-weight:600;
+
+}
+.w3-card-4{
+    max-width: 500px;
+}
+}

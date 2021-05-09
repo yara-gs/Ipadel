@@ -11,6 +11,11 @@ from flask_jwt_extended import get_jwt_identity
 
 from sqlalchemy import func
 from aws import upload_file_to_s3
+from datetime import datetime,date,timedelta
+import datetime
+import pytz 
+from tzlocal import get_localzone # $ pip install tzlocal
+
 
 api = Blueprint('api', __name__)
 
@@ -459,12 +464,30 @@ def prebooking(sportcenter_id):
 @api.route ('prebookings_user/<int:user_id>', methods=['GET'])
 def get_prebookings_by_user_id(user_id):
 
-    prebookings=PreBooking.items_by_user_id(user_id)
+    utc_date = datetime.datetime.now()
+    local_date=utc_date+datetime.timedelta(hours=2)
+    # local_date = datetime.datetime.now(pytz.timezone('Europe/Paris')) 
+
+    prebookings=PreBooking.query.filter_by(user_id=user_id).all()
+  
     prebooking_list = []
-    for prebooking in prebooking:
-        prebooking_list.append(prebooking.serialize())
+    for prebooking in prebookings:
+        date=prebooking.datetime
+        if date>=local_date:
+            center_name=SportCenter.get_id(prebooking.sportcenter_id).center_name
+           
+            prebooking_dict={
+            "id":prebooking.id,
+            "datetime":str(prebooking.datetime),
+            "players":prebooking.players,
+            "user_id":prebooking.user_id,
+            "sportcenter_id":prebooking.sportcenter_id,
+            "center_name":center_name,
+            }   
+            prebooking_list.append(prebooking_dict)
 
     return jsonify(prebooking_list), 200
+    
 
 
 
