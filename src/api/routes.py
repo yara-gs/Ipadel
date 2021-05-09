@@ -11,6 +11,8 @@ from flask_jwt_extended import get_jwt_identity
 
 from sqlalchemy import func
 from aws import upload_file_to_s3
+from datetime import datetime,date,timedelta
+import datetime
 
 api = Blueprint('api', __name__)
 
@@ -459,12 +461,23 @@ def prebooking(sportcenter_id):
 @api.route ('prebookings_user/<int:user_id>', methods=['GET'])
 def get_prebookings_by_user_id(user_id):
 
-    prebookings=PreBooking.items_by_user_id(user_id)
+    # date_aux = date.today()
+    # date_start=date_aux
+    # date_start.strftime(date_aux)
+    today =date.today()
+    date_start=today
+  
+    # date_start = today.strftime("%m/%D/%Y, %H:%M:%S")
+
+    print(date_start)
+    prebookings=PreBooking.query.filter_by(user_id=user_id).filter_by(date = date_start).all()
+    print(prebookings)
     prebooking_list = []
-    for prebooking in prebooking:
+    for prebooking in prebookings:
         prebooking_list.append(prebooking.serialize())
 
     return jsonify(prebooking_list), 200
+    
 
 
 

@@ -40,6 +40,7 @@ class User(db.Model):
     posts=db.relationship("Post",back_populates="user")
     comments=db.relationship("Comment",back_populates="user")
     likes=db.relationship("Like",back_populates="user")
+    prebookings=db.relationship("PreBooking",back_populates="user")
   
 
 
@@ -580,19 +581,25 @@ class PreBooking(db.Model,BaseModel,SportCenterId,UserId):
         # relacion one to many con tabla SportCenter (un sportCenter puede tener muchas pistas)
         sportcenter_id=db.Column(db.Integer,db.ForeignKey('sportcenter.id'))
         sportcenter=db.relationship("SportCenter",back_populates="prebookings")
+
+        # relacion one to many con tabla SportCenter (un sportCenter puede tener muchas pistas)
+        user_id=db.Column(db.Integer,db.ForeignKey('user.id'))
+        user=db.relationship("User",back_populates="prebookings")
         
             #metodo de instancia %r lo sustituty por %self.id
         def __repr__(self):
             return '<PreBooking %r>' % self.id
 
         #metodo de instancia que obliga a que haya datos siempre que se llama       
-        def __init__(self,datetime,date,time_start,time_end,players,sportcenter_id):
+        def __init__(self,datetime,date,time_start,time_end,players,sportcenter_id,user_id):
             self.datetime=datetime
             self.date=date
             self.time_start=time_start
             self.time_end=time_end
             self.players=players
             self.sportcenter_id=sportcenter_id
+            self.user_id=user_id
+
             
                     
         #metodo de instancia serializa el diccionario
@@ -605,6 +612,7 @@ class PreBooking(db.Model,BaseModel,SportCenterId,UserId):
                 "time_end": str(self.time_end),
                 "players": self.players,
                 "sportcenter_id": self.sportcenter_id,
+                "user_id": self.user_id,
                 
             }       
 
@@ -613,7 +621,7 @@ class PreBooking(db.Model,BaseModel,SportCenterId,UserId):
         @classmethod
         def add_register(cls, request_json):
             
-            register=cls(request_json["datetime"],request_json["date"],request_json["time_start"],request_json["time_end"],request_json["players"],request_json["sportcenter_id"])
+            register=cls(request_json["datetime"],request_json["date"],request_json["time_start"],request_json["time_end"],request_json["players"],request_json["sportcenter_id"],request_json["user_id"])
             register.body(request_json)
             return register
         
@@ -624,7 +632,8 @@ class PreBooking(db.Model,BaseModel,SportCenterId,UserId):
             self.time_start=request_json["time_start"]
             self.time_end=request_json["time_end"]
             self.players=request_json["players"]
-            self.sportcenter_id=request_json["sportcenter_id"]    
+            self.sportcenter_id=request_json["sportcenter_id"]   
+            self.user_id=request_json["user_id"]    
             
 
         # save data in the database
