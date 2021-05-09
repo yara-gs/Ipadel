@@ -11,8 +11,15 @@ import setTimeout_useEffect from "../../setTimeout";
 export default function BookTime(props) {
 	const { actions, store } = useContext(Context);
 	const [showReservation, setShowReservation] = useState(false);
-	const handleClose = () => setShowReservation(false);
-	const [message, setMessage] = useState("");
+	const [showReservationBtn, setShowReservationBtn] = useState(true);
+
+	const [message, setMessage] = useState("Confirmar Reserva");
+
+	const handleClose = () => {
+		setShowReservation(false);
+		setMessage("Confirmar Reserva");
+		setShowReservationBtn(true);
+	};
 
 	let hour_start = "";
 	let availability_players = props.center.capacity;
@@ -27,19 +34,19 @@ export default function BookTime(props) {
 
 	if (props.prebookings != null && props.center != null) {
 		for (let i = 0; i < props.prebookings.length; i++) {
-			console.log(props.prebookings[i].time_start, "==", hour_start);
 			// console.log(hour_start);
 			if (props.prebookings[i].time_start == hour_start) {
 				availability_players = props.center.capacity - props.prebookings[i].prebooking_players;
-				console.log(props.prebookings[i].time_start);
-				console.log(props.prebookings[i].prebooking_players);
-				console.log(availability_players);
 
 				if (availability_players >= props.players) {
 					className = "booktime green";
 				} else className = "booktime red";
 			}
 		}
+	}
+
+	if (props.center.capacity < props.players) {
+		className = "booktime red";
 	}
 
 	//POST NEW PREBOOKING
@@ -68,31 +75,31 @@ export default function BookTime(props) {
 			.then(responseJson => {
 				props.updatePrebookings();
 				setMessage("Reserva realizada con éxito");
+				setShowReservationBtn(false);
 			})
 			.catch(error => {
-				// setError(error.message);
+				setMessage("Error al procesar la reserva");
 			});
 	}
 
 	function showConfirmation() {
-		if (availability_players >= props.players) {
+		if (availability_players >= props.players && props.players > 0) {
 			setShowReservation(true);
 		} else setShowReservation(false);
 	}
 
-	//call funcion setTimeout
-	setTimeout_useEffect(message, setMessage, 2000);
+	// //call funcion setTimeout
+	// setTimeout_useEffect(message, setMessage, 2000);
 	return (
 		<div className="court-icon">
 			<div className="availability_players">{availability_players}</div>
 			<button className={className} onClick={() => showConfirmation()}>
 				{hour_start}-{hour_end}
 			</button>
-
 			<Modal show={showReservation} onHide={handleClose}>
 				<Modal.Header closeButton>
 					<Modal.Title>
-						<i className="far fa-trash-alt fa-s" /> Confirmar Reserva
+						<i className="fas fa-baseball-ball w3-text-amber" /> <strong>{message} </strong>
 					</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
@@ -104,13 +111,10 @@ export default function BookTime(props) {
 					<p>
 						<strong>Jugadores: </strong> {props.players}
 					</p>
-					<p>
-						{" "}
-						<strong>{message} </strong>{" "}
-					</p>
+					<p> </p>
 				</Modal.Body>
 				<Modal.Footer>
-					<Button onClick={() => create_prebooking()}>Reservar</Button>
+					{showReservationBtn ? <Button onClick={() => create_prebooking()}>Reservar</Button> : ""}
 				</Modal.Footer>
 			</Modal>
 		</div>

@@ -446,35 +446,13 @@ def prebooking(sportcenter_id):
     else:
         availability= False
 
-    print(availability,"AVAILABITY:",availabilty_players,"capacity:",center_capacity,"plazasReservadas:",booking_players)
     
-    return jsonify(availability,booking_list), 200
-
-
-
-
-
-
-# # SPORTCENTER: MOSTRAR LAS IMAGES DEL CENTRO
-# @api.route ('booking/<int:court_id>', methods=['POST'])
-# def booking(court_id):
-
-#     court=Court.get_id(court_id).serialize()
-#     court_capacity=court["players"]
-
-#     court_id=3
-#     players=2
-#     booking_date_time_start='2021-05-05 9:00:00'
-
-#     check_players=court_capacity-players
-   
-#     exists_db = db.session.query(db.session.query(Booking).filter_by(players=players,court_id=court_id,booking_date_time_start=booking_date_time_start).exists()).scalar()
-
-#     if exists_db :
-#         availability= False
-        
-#     else:
-#         availability= True
     
+    return jsonify(availability), 200
 
-#     return jsonify(availability), 200
+
+
+
+
+
+
