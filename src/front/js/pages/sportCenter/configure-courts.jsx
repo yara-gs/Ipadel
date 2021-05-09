@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../../store/appContext";
 import { Link } from "react-router-dom";
 import "../../../styles/center.scss";
+import "../../../styles/court-reservation.scss";
 
 import Court from "../../component/sportCenter/court.jsx";
 import setTimeout_useEffect from "../../setTimeout";
@@ -154,8 +155,9 @@ export default function ConfigureCourts() {
 	return (
 		<div>
 			<form className="msform" method="post">
+				<div className="text_large pb-2"> {sportCenter.center_name}</div>
 				{/* <!-- progressbar --> */}
-				<ul className="progressbar">
+				<ul className="progressbar pb-2">
 					<li>Dar de alta</li>
 					<li className="active">Configurar Pistas</li>
 					<li>Subir imagenes</li>
@@ -163,7 +165,7 @@ export default function ConfigureCourts() {
 				</ul>
 			</form>
 			<div className="d-flex justify-content-center  ">
-				<div className=" courtcard  mb-0 mt-4 d-flex justify-content-start">
+				<div className=" courtcard  mb-0 mt-5 d-flex justify-content-start">
 					<div className=" court-icon pt-1 ">
 						<button
 							type="button "
@@ -196,7 +198,7 @@ export default function ConfigureCourts() {
 								/>
 							</span>
 						)}
-						<span className=" next_step ">Siguiente paso</span>
+						<span className=" next_step pl-2 ">Siguiente paso</span>
 
 						<Link to="/uploadCenterImages">
 							<button type="button " className=" next_stepLink fas fa-chevron-right ml-1 p-1" />

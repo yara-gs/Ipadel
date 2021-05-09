@@ -5,10 +5,12 @@ import PropTypes from "prop-types";
 import "../../../styles/court-reservation.scss";
 import "../../../styles/imgcarousel.scss";
 
+import CarouselImages from "../sportCenter/carouselImages.jsx";
 import BookTime from "./bookTime.jsx";
 
 export default function CenterAvailable(props) {
 	const { actions, store } = useContext(Context);
+	const [images, setImages] = useState(null);
 	let url_image = "http://ipadel.s3.amazonaws.com/centerImage_03.jpg";
 	let opening_hours = [];
 	let availabity = [
@@ -22,11 +24,26 @@ export default function CenterAvailable(props) {
 	useEffect(
 		() => {
 			updatePrebookings();
+			if (props.center && images == null) {
+				getImages();
+			}
 			//GET COURTS OF A SPORT CENTER
 		},
 
 		[props.date]
 	);
+
+	function getImages() {
+		//GET COURTS OF A SPORT CENTER
+		fetch(process.env.BACKEND_URL + "/api/" + props.center.id + "/images", {
+			method: "GET",
+			headers: { "Content-Type": "application/json" }
+		})
+			.then(response => response.json())
+			.then(resultJson => {
+				setImages(resultJson);
+			});
+	}
 
 	function updatePrebookings() {
 		fetch(process.env.BACKEND_URL + "/api/getprebookings/" + props.center.id + "/" + props.date, {
@@ -51,26 +68,36 @@ export default function CenterAvailable(props) {
 		}
 	}
 
+	if (images) {
+		if (images.length > 0) {
+			url_image = images[0].url_image;
+		}
+	}
+
 	return (
 		<div>
 			<div className="card mb-4 shadow bg-white rounded " style={{ width: "800px" }}>
 				<div className="row">
-					<div className="col-md-4">
+					<div className="col-md-4 ">
+						{/* {props.center && images ? <CarouselImages images={images} slidesToShow={1} dots={false} /> : ""} */}
 						<div className="carousel-img" style={{ backgroundImage: `url(${url_image})` }} />
 					</div>
 					<div className="col-md-8 court-icon">
 						<div className="card-body">
 							<div className="card-title d-flex justify-content-between">
-								<div>
-									<i className="fas fa-baseball-ball w3-text-amber" />
-									<strong className="pl-2 fs-3">{props.center.center_name}</strong>
+								<div className="text_large">
+									<i className="fas fa-baseball-ball w3-text-amber pr-2" />
+									{props.center.center_name}
 									<p />
 								</div>
 								<div className="text-muted text-right">
 									<small>
 										{props.center.address} {props.center.city}
 										<br />
-										<span className="fas fa-phone"> {props.center.phone}</span>
+										<div className="text_xs">
+											<i className="fas fa-phone pr-1" />
+											{props.center.phone}
+										</div>
 									</small>
 								</div>
 							</div>

@@ -44,6 +44,10 @@ export default function Mynavbar() {
 					<Link to="/choose-center">
 						<Nav.Link href="#features">Reservar Pista</Nav.Link>
 					</Link>
+					<Link to="/centers">
+						<Nav.Link href="#features">Mis Centros</Nav.Link>
+					</Link>
+
 					<NavDropdown title="Dropdown" id="collasible-nav-dropdown">
 						<Link to="/configure-profile">
 							<NavDropdown.Item href="#action/3.1">Editar Perfil</NavDropdown.Item>

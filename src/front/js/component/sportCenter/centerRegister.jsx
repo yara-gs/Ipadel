@@ -81,7 +81,7 @@ export default function RegisterCenter() {
 						/>
 					</Form.Group>
 					<Form.Group as={Col} controlId="formNIF">
-						<Form.Label>NIF</Form.Label>
+						<Form.Label>CIF</Form.Label>
 						<Form.Control
 							required
 							className="form_inputfield"

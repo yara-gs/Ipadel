@@ -265,6 +265,18 @@ def get_centers_bycity(city):
     return jsonify(centers_dict), 200
 
 
+# SPORTCENTER: Get all sports by user
+@api.route ('/sportcenters/<int:user_id>', methods=['GET'])
+def get_centers_by_user_id(user_id):
+    
+    centers=SportCenter.items_by_user_id(user_id)
+    centers_list = []
+    for center in centers:
+        centers_list.append(center.serialize(with_courts=False))
+    
+    return jsonify(centers_list), 200
+
+
 # SPORTCENTER: Get a sportCenter by Id
 @api.route ('/sportcenters/<int:id>', methods=['GET'])
 def get_sportcenter(id):
@@ -419,36 +431,41 @@ def prebooking(sportcenter_id):
 
     #se obtiene el centro
     center_capacity=SportCenter.get_id(sportcenter_id).capacity
-
     #Se recibe la nueva preserva
     body=request.get_json()
     prebooking=PreBooking.add_register(body)
     # prebooking.save()
     prebooking_players=prebooking.players
-    
     #Se comprueba el numero de personas que ha hecho preserva
     bookings=PreBooking.query.filter_by(sportcenter_id=sportcenter_id).filter_by(datetime=prebooking.datetime).all()
-
     booking_list=[]
     booking_players=0
    
     for booking in bookings:
-
         booking_players=booking_players+booking.players
-        # booking_list.append(booking.serialize())
-    
+        
     availabilty_players=center_capacity-booking_players
 
     if availabilty_players >= prebooking_players:
         prebooking.save()
         availability= True
-
     else:
         availability= False
-
-    
     
     return jsonify(availability), 200
+
+
+# PREBOOKING: OBTENER TODAS LAS RESERVAS POR USUARIO
+@api.route ('prebookings_user/<int:user_id>', methods=['GET'])
+def get_prebookings_by_user_id(user_id):
+
+    prebookings=PreBooking.items_by_user_id(user_id)
+    prebooking_list = []
+    for prebooking in prebooking:
+        prebooking_list.append(prebooking.serialize())
+
+    return jsonify(prebooking_list), 200
+
 
 
 

@@ -347,7 +347,7 @@ class Like(db.Model,BaseModel,UserId):
     
 
 # REGISTER NEW SPORTS CENTER
-class SportCenter(db.Model,BaseModel):
+class SportCenter(db.Model,BaseModel,UserId):
     __tablename__ = 'sportcenter'
 
     id=db.Column(db.Integer, primary_key=True)
@@ -568,7 +568,7 @@ class Image(db.Model,BaseModel,SportCenterId):
 
 #COURT
 #COURT PREBOOKING
-class PreBooking(db.Model,BaseModel,SportCenterId):
+class PreBooking(db.Model,BaseModel,SportCenterId,UserId):
         __tablename__ = 'prebooking'
         id=db.Column(db.Integer, primary_key=True)
         datetime=db.Column(db.DateTime,unique=False,nullable=False)
