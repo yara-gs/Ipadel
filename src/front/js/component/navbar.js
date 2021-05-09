@@ -42,9 +42,6 @@ export default function Mynavbar() {
 					<Link className="nav-link" to="/choose-center">
 						Reservar Pista
 					</Link>
-					<Link className="nav-link" to="/forgot">
-						Recuperar Contraseña
-					</Link>
 					<NavDropdown title="Dropdown" id="collasible-nav-dropdown">
 						<Link className="dropdown-item" to="/configure-profile">
 							Editar Perfil

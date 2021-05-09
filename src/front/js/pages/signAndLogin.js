@@ -7,6 +7,7 @@ import SignInSvg from "../component/signIn_svg.jsx";
 import LogoiPadel from "../component/logoiPadel.jsx";
 import TennisBall from "../../img/tennisball.png";
 import { Context } from "../store/appContext";
+import { Forgot } from "./forgot";
 
 export default function SignAndLogin(props) {
 	const [signUpMode, setSignUpMode] = useState(props.sign);
@@ -130,16 +131,14 @@ export default function SignAndLogin(props) {
 								}}
 							/>
 						</div>
-						<input type="submit" value="Login" className="btn solid" onClick={logUser} />
-						<p className="social-text">Or Sign in with social platforms</p>
-						<div className="social-media">
-							<a href="#" className="social-icon">
-								<i className="fab fa-facebook-f" onClick={fbLogin} />
-							</a>
-							<a href="#" className="social-icon">
-								<i className="fab fa-google" />
-							</a>
+
+						<div>
+							<Link className="nav-link text-secondary font-weight-bold" to="/forgot">
+								Recuperar Contraseña
+							</Link>
 						</div>
+
+						<input type="submit" value="Login" className="btn solid" onClick={logUser} />
 					</form>
 					<form action="#" className="sign-up-form" onSubmit={createUser}>
 						<div>{error ? <h1>{error}</h1> : ""}</div>
@@ -191,15 +190,6 @@ export default function SignAndLogin(props) {
 							/>
 						</div>
 						<input type="submit" className="btn" value="Sign up" />
-						<p className="social-text">Or Sign up with social platforms</p>
-						<div className="social-media">
-							<a href="#" className="social-icon">
-								<i className="fab fa-facebook-f" />
-							</a>
-							<a href="#" className="social-icon">
-								<i className="fab fa-google" />
-							</a>
-						</div>
 					</form>
 				</div>
 			</div>
@@ -207,10 +197,11 @@ export default function SignAndLogin(props) {
 			<div className="panels-container">
 				<div className="panel left-panel">
 					<div className="content">
-						<h2>Todavía no formas parte de la comunidad </h2>
+						<h4>Todavía no formas parte de la comunidad </h4>
 						<span className="iPadel ">
 							<LogoiPadel />?
 						</span>
+
 						<p className="sign-text">Introduce tus datos para unirte!</p>
 						<Link to="/sign">
 							<button className="btn transparent" id="sign-up-btn">

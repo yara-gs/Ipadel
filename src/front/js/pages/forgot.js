@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+//import { Link, useHistory } from "react-router-dom";
 
 export const Forgot = () => {
 	const [email, setEmail] = useState("");
 	const [emailError, setEmailError] = useState("");
-	const history = useHistory();
+	//const history = useHistory();
 
 	function requestForgotPassword(event) {
 		event.preventDefault();
@@ -26,7 +26,7 @@ export const Forgot = () => {
 		}).then(response => {
 			responseOk = response.ok;
 			if (response.ok) {
-				history.push("/new_password");
+				//history.push("/new_password");
 			}
 			return response.json();
 		});
