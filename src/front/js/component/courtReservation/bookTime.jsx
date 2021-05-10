@@ -119,7 +119,11 @@ export default function BookTime(props) {
 					<p> </p>
 				</Modal.Body>
 				<Modal.Footer>
-					{showReservationBtn ? <Button onClick={() => create_prebooking()}>Reservar</Button> : ""}
+					{showReservationBtn ? (
+						<Button onClick={() => create_prebooking()}>Reservar</Button>
+					) : (
+						<Button onClick={() => handleClose()}>Cerrar</Button>
+					)}
 				</Modal.Footer>
 			</Modal>
 		</div>

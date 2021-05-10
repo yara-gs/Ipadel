@@ -13,6 +13,12 @@ export default function Center(props) {
 
 	const [images, setImages] = useState(null);
 
+	let state = props.center.state;
+
+	if (state) {
+		state = props.center.state.charAt(0).toUpperCase() + props.center.state.slice(1);
+	}
+
 	useEffect(
 		() => {
 			//GET COURTS OF A SPORT CENTER
@@ -73,7 +79,7 @@ export default function Center(props) {
 								Dirección
 							</td>
 							<td>
-								{props.center.address} {props.center.cp} {props.center.city}
+								{props.center.address} , {props.center.cp} {state}
 							</td>
 							<td>
 								<button className="fas fa-pen center-edit-btn" />

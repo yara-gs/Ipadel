@@ -297,10 +297,10 @@ def get_centers():
     return jsonify(centers_dict), 200
 
 # SPORTCENTER: Get all sports center by location
-@api.route ('/sportcenters/<city>', methods=['GET'])
-def get_centers_bycity(city):
+@api.route ('/sportcenters/<state>', methods=['GET'])
+def get_centers_bycity(state):
     
-    centers=SportCenter.items_by_city(city)
+    centers=SportCenter.items_by_state(state)
     centers_dict = []
     for center in centers:
         centers_dict.append(center.serialize(with_courts=False))

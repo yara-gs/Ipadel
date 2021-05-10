@@ -65,7 +65,7 @@ export default function Mynavbar() {
 					<Link to="/sign">
 						<Nav.Link href="#pricing">Sign Up</Nav.Link>
 					</Link>
-					<Nav.Link href="#deets">login</Nav.Link>
+					<Nav.Link href="/login">login</Nav.Link>
 				</Nav>
 			)}
 		</Navbar>

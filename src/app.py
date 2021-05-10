@@ -12,6 +12,8 @@ from api.routes import api
 from api.admin import setup_admin
 #from models import Person
 from flask_jwt_extended import JWTManager
+from datetime import datetime,date,timedelta
+import datetime
 
 
 ENV = os.getenv("FLASK_ENV")
@@ -30,6 +32,7 @@ else:
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:////tmp/test.db"
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = datetime.timedelta(minutes=200)
 MIGRATE = Migrate(app, db)
 db.init_app(app)
 

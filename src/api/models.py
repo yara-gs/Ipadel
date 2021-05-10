@@ -469,8 +469,8 @@ class SportCenter(db.Model,BaseModel,UserId):
         return db.session.commit()
     
     @classmethod
-    def items_by_city(cls, city):
-        return cls.query.filter_by(city=city).all()
+    def items_by_state(cls, state):
+        return cls.query.filter_by(state=state).all()
 
 
 class SportCenterId():
