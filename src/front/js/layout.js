@@ -16,6 +16,7 @@ import CenterForm from "./pages/sportCenter/centerForm";
 import ConfigureCourts from "./pages/sportCenter/configure-courts.jsx";
 import CenterImages from "./pages/sportCenter/centerImages.jsx";
 import ChooseCenter from "./pages/courtReservation/chooseCenter.jsx";
+import Reservations from "./pages/courtReservation/reservations.jsx";
 
 import Profile from "./pages/profile";
 import ConfigureProfile from "./pages/configure-profile";
@@ -85,6 +86,10 @@ const Layout = () => {
 						<Route exact path="/choose-center">
 							<ChooseCenter />
 						</Route>
+						<Route exact path="/my-reservations">
+							<Reservations />
+						</Route>
+
 						<Route exact path="/single/:theid">
 							<Single />
 						</Route>

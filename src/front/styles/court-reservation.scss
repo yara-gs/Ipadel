@@ -1,63 +1,14 @@
 // COMPLETE FORM PROGRESS BAR
 
-/*form styles*/
-.msform_3 {
-	padding-top: 50px ;
-    text-align: center;
-    margin:auto;
-    /*progressbar*/
-    .progressbar {
-        overflow: hidden;
-        /*CSS counters to number the steps*/
-        counter-reset: step;
-        width: 60%;
-        margin: 0 auto 0px;
-    }
-    .progressbar li {
-        list-style-type: none;
-        text-transform: uppercase;
-        font-size: 11px;
-        width: 33%;
-        float: left;
-        position: relative;
-    }
-    .progressbar li:before {
-        content: counter(step);
-        counter-increment: step;
-        width: 40px;
-        line-height: 40px;
-        display: block;
-        font-size: 20px;
-        border-radius: 50%;
-        margin: 0 auto 5px auto;
-        background: #ececec;
-        color: rgb(187, 187, 187);
-    }
-    /*progressbar connectors*/
-    .progressbar li:after {
-        content: '';
-        width: 100%;
-        height: 2px;
-        background: #ececec;
-        position: absolute;
-        left: -50%;
-        top: 20px;
-        z-index: -1; /*put it behind the numbers*/
-    }
-    .progressbar li:first-child:after {
-        /*connector not needed before the first step*/
-        content: none; 
-    }
-    /*marking active/completed steps green*/
-    /*The number of the step and the connector before it = green*/
-    .progressbar li.active:before,  .progressbar li.active:after{
-        background: #F9A826;
-        color: white;
-        
-    }
+.text_xs{
+    font-size: x-small;
 }
 
+.text_large{
+    font-size: large;
+    font-weight: 600;
 
+}
 // END COMPLETE FROM PROGRESS BAR
 
 //SIDEBAR
@@ -118,6 +69,42 @@
     cursor: default;
     text-decoration: none;
 }
+.green {
+    background-color: #0e8b23;
+    cursor: default;
+    text-decoration: none;
+}
+.availability_players{
+    font-size: x-small;
+}
 }
 
 
+//MIS RESERVAS
+.table-reservations{
+.w3-table td, .w3-table th, .w3-table-all td, .w3-table-all th{
+    padding: 20px 2px ;
+    display: table-cell;
+    text-align: left;
+    vertical-align: top;
+}
+
+.w3-table td i{
+    margin-left:40px;
+    padding-right: px;
+}
+
+.w3-table td {
+    max-width: 10px;
+    margin-left:20px;
+    padding-right: px;
+}
+
+.first-column{
+    font-weight:600;
+
+}
+.w3-card-4{
+    max-width: 500px;
+}
+}

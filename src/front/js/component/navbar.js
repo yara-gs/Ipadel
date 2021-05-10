@@ -11,8 +11,14 @@ import LogoiPadel from "../component/logoiPadel.jsx";
 
 export default function Mynavbar() {
 	const { actions, store } = useContext(Context);
+
 	let user = actions.getUser();
-	console.log(user);
+	let loginDone = false;
+
+	if (user === null || user.msg != "") {
+		loginDone = false;
+	} else loginDone = true;
+
 	return (
 		<Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
 			<Link className="navbar-brand" to="/">
@@ -22,47 +28,46 @@ export default function Mynavbar() {
 				<p className="slogan">padel social network </p>
 			</Link>
 
-			{/* {user ? ( */}
-			<div className="userExists">
-				<Navbar.Toggle aria-controls="responsive-navbar-nav " />
-				<Navbar.Collapse id="responsive-navbar-nav">
-					<Link className="nav-link" to="/pistas">
-						Pistas
-					</Link>
-					<Link className="nav-link" to="/mired">
-						Mi Red
-					</Link>
-					<Nav.Link href="#features">Mis Reservas</Nav.Link>
-					<Link className="nav-link" to="/newcenter">
-						Alta Centros Deportivos
-					</Link>
-					<Link className="nav-link" to="/configure-courts">
-						Configurar centro
-					</Link>
-					<Link className="nav-link" to="/choose-center">
-						Reservar Pista
-					</Link>
-					<NavDropdown title="Dropdown" id="collasible-nav-dropdown">
-						<Link className="dropdown-item" to="/configure-profile">
-							Editar Perfil
+			{loginDone ? (
+				<div Classname="userExists">
+					<Navbar.Toggle aria-controls="responsive-navbar-nav " />
+					<Navbar.Collapse id="responsive-navbar-nav">
+						<Link to="/mired">
+							<Nav.Link href="#features">Mi Red</Nav.Link>
 						</Link>
-						<NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-						<NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-						<NavDropdown.Divider />
-						<NavDropdown.Item href="#action/3.4">Log Out</NavDropdown.Item>
-					</NavDropdown>
-				</Navbar.Collapse>
-			</div>
-			{/* ) : ( */}
-			<Nav className="ml-auto">
-				<Link className="nav-link" to="/sign">
-					Sign Up
-				</Link>
-				<Link className="nav-link" to="/login">
-					Login
-				</Link>
-			</Nav>
-			{/* )} */}
+
+						<Link to="/my-reservations">
+							<Nav.Link href="#features">Mis Reservas</Nav.Link>
+						</Link>
+						<Link to="/choose-center">
+							<Nav.Link href="#features">Reservar Pista</Nav.Link>
+						</Link>
+						<Link to="/centers">
+							<Nav.Link href="#features">Mis Centros</Nav.Link>
+						</Link>
+						<Link to="/newcenter">
+							<Nav.Link href="#features">Alta Centros Deportivos</Nav.Link>
+						</Link>
+
+						<NavDropdown title="Dropdown" id="collasible-nav-dropdown">
+							<Link to="/configure-profile">
+								<NavDropdown.Item href="#action/3.1">Editar Perfil</NavDropdown.Item>
+							</Link>
+							<NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
+							<NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+							<NavDropdown.Divider />
+							<NavDropdown.Item href="#action/3.4">Log Out</NavDropdown.Item>
+						</NavDropdown>
+					</Navbar.Collapse>
+				</div>
+			) : (
+				<Nav className="ml-auto">
+					<Link to="/sign">
+						<Nav.Link href="#pricing">Sign Up</Nav.Link>
+					</Link>
+					<Nav.Link href="#deets">login</Nav.Link>
+				</Nav>
+			)}
 		</Navbar>
 	);
 }

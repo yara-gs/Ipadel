@@ -1,22 +1,102 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Context } from "../../store/appContext";
 import "../../../styles/mired.scss";
 import "w3-css/w3.css";
 import "../../../styles/buttons.scss";
 
 export default function MiRedPostText() {
+	const { actions, store } = useContext(Context);
+	let user = actions.getUser();
+
+	const [message, setMessage] = useState("");
+	const [image, setImage] = React.useState("");
 	const [postsList, setPostsList] = React.useState([]);
+
 	const [post, setPost] = React.useState("");
-	//const [liNewTask, setLiNewTask] = React.useState(null);
+	// const [liNewTask, setLiNewTask] = React.useState([]);
 
-	function addPost() {
-		//	let newList = tasksList.push(task);
-		let newList = [post, ...postsList];
+	// function uploadImages() {
+	// 	const formData = new FormData();
+	// 	setImporting(true);
+	// 	formData.append("sportcenter_id", sportCenterId);
+	// 	for (let i = 0; i < centerImages.length; i++) {
+	// 		let data = "image_" + i;
+	// 		formData.append(data, centerImages[i]);
+	// 	}
 
-		setPostsList(newList);
-		console.log(postsList.indexOf(post));
-		setPost("");
+	// 	setMessage("");
+	// 	setError("");
+	// 	let responseOk = false;
+
+	// 	fetch(process.env.BACKEND_URL + "/api/upload-images", {
+	// 		method: "POST",
+	// 		body: formData
+	// 	})
+	// 		.then(response => response.json())
+	// 		.then(resultJson => {
+	// 			props.importedImages(resultJson);
+	// 			setMessage("Imagenes importadas correctamente");
+	// 			setImporting(false);
+	// 		})
+
+	// 		.catch(error => {
+	// 			setError(error.message);
+	// 			setImporting(false);
+	// 			setMessage("Fallo al importar imagenes");
+	// 		});
+	// }
+
+	function createPost() {
+		const formData = new FormData();
+		formData.append("user_id", user.id);
+		formData.append("image", image[0]);
+		formData.append("text", post);
+		let responseOk = false;
+		console.log(formData);
+
+		setMessage("");
+		fetch(process.env.BACKEND_URL + "/api/post", {
+			method: "POST",
+			body: formData
+		})
+			.then(response => {
+				responseOk = response.ok;
+				if (response.ok) {
+					setMessage("Imagenes importadas correctamente");
+				} else {
+					setMessage("Fallo al importar imagenes");
+				}
+			})
+			.catch(error => {
+				setMessage("Fallo al importar imagenes");
+			});
 	}
+
+	//POST
+	//DELETE POST
+
+	function deletePost(post_id) {
+		fetch(process.env.BACKEND_URL + "/api/postdelete/" + post_id, {
+			method: "GET",
+			headers: { "Content-Type": "application/json" }
+		})
+			.then(response => response.json())
+			.then(resultJson => {
+				let arrayCopy = [...posts];
+				let arrayPos = arrayCopy.findIndex(item => item.id === post_id);
+				arrayCopy.splice(arrayPos, 1);
+				setPosts(arrayCopy);
+			});
+	}
+
+	// function addPost() {
+	// 	//	let newList = tasksList.push(task);
+	// 	let newList = [post, ...postsList];
+
+	// 	setPostsList(newList);
+	// 	console.log(postsList.indexOf(post));
+	// 	setPost("");
+	// }
 
 	function deletePost(postsListIndex) {
 		const newList = postsList.filter((_, index) => index !== postsListIndex);
@@ -26,7 +106,7 @@ export default function MiRedPostText() {
 	var d = new Date();
 	var hour = d.getHours();
 
-	//useEffect(() => {
+	// useEffect(() => {
 	const liNewTask = postsList.map((eachPost, index) => {
 		return (
 			<div className="w3-container w3-card w3-white w3-round w3-margin" key={index}>
@@ -38,14 +118,10 @@ export default function MiRedPostText() {
 					id="image7"
 				/>
 				<span className="w3-right w3-opacity">{hour + ".00"}</span>
-				<h4>{eachPost}</h4>
+				{user ? <h4>{user.username}</h4> : ""}
 				<br />
 				<hr className="w3-clear" />
-				<p>
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
-					et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-					aliquip ex ea commodo consequat.
-				</p>
+				<p>{eachPost.text}</p>
 				<div className="w3-row-padding" id="container2">
 					<div className="w3-half">
 						<img
@@ -73,7 +149,7 @@ export default function MiRedPostText() {
 			</div>
 		);
 	});
-
+	// }, []);
 	return (
 		<div className="w3-col">
 			<div className="w3-row-padding">
@@ -89,9 +165,15 @@ export default function MiRedPostText() {
 									setPost(event.target.value);
 								}}
 							/>
-							<button type="button" onClick={addPost} className="button_publicar w3-button w3-theme">
-								<i className="fa fa-home" />  Publicar
-							</button>
+							<p />
+							<div>
+								<input type="file" onChange={event => setImage(event.currentTarget.files)} />
+								<p />
+								<button onClick={() => createPost()} className=" w3-btn w3-green">
+									Post
+								</button>
+								{/* <button onClick={() => deletePost(1)}>Delete Post</button> */}
+							</div>
 						</div>
 					</div>
 				</div>

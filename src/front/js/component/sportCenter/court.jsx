@@ -79,7 +79,12 @@ export default function Court(props) {
 
 	function showSaveButton() {
 		let return_html = "";
-		if (props.court.court_name != editCourt_name || props.addCourtBtn) {
+		if (
+			props.court.court_name != editCourt_name ||
+			props.addCourtBtn ||
+			props.court.players != editPlayers ||
+			props.court.light != editLigth
+		) {
 			return_html = <div type="button" className="far fa-save pr-2" onClick={() => create_update_Court()} />;
 		} else {
 			return_html = "";

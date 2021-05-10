@@ -1,27 +1,27 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../../store/appContext";
 
-import Center from "../../component/sportCenter/center.jsx";
+import Reservation from "../../component/courtReservation/reservation.jsx";
 
 import "../../../styles/court-reservation.scss";
 
 import pushSignPage from "../../pushSignPage";
 
-export default function Centers() {
+export default function Reservations() {
 	const { actions, store } = useContext(Context);
 	let user = actions.getUser();
-	const [centers, setCenters] = useState(null);
+	const [reservations, setReservations] = useState(null);
 
 	if (user) {
 		useEffect(
 			() => {
 				//GET COURTS OF A SPORT CENTER
-				fetch(process.env.BACKEND_URL + "/api/sportcenters/" + user.id, {
+				fetch(process.env.BACKEND_URL + "/api/prebookings_user/" + user.id, {
 					method: "GET",
 					headers: { "Content-Type": "application/json" }
 				})
 					.then(response => response.json())
-					.then(resultJson => setCenters(resultJson));
+					.then(resultJson => setReservations(resultJson));
 			},
 
 			[]
@@ -39,15 +39,15 @@ export default function Centers() {
 				<header className="w3-container">
 					<h5>
 						<div className="text_large">
-							<i className="fa fa-dashboard" /> Centros deportivos
+							<i className="fa fa-dashboard" /> Mis Reservas
 						</div>
 					</h5>
 				</header>
 
-				{centers != null ? (
+				{reservations != null ? (
 					<span>
-						{centers.map(center => {
-							return <Center key={center.id} center={center} />;
+						{reservations.map(reservation => {
+							return <Reservation key={reservation.id} reservation={reservation} />;
 						})}
 					</span>
 				) : (

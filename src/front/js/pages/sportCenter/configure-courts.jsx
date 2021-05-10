@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../../store/appContext";
 import { Link } from "react-router-dom";
 import "../../../styles/center.scss";
+import "../../../styles/court-reservation.scss";
 
 import Court from "../../component/sportCenter/court.jsx";
 import setTimeout_useEffect from "../../setTimeout";
@@ -20,19 +21,22 @@ export default function ConfigureCourts() {
 	let DefaultLabel_placeholder = "Etiqueta: " + courtDefaultLabel;
 	let user = actions.getUser();
 	let sportCenter = actions.getSportCenter();
+	console.log(sportCenter);
+
 	let court_aux = {
 		court_name: "",
 		light: false,
 		players: 4,
 		sportcenter_id: ""
 	};
+	if (sportCenter) {
+		court_aux.sportcenter_id = sportCenter.id;
+	}
 
 	//funcion que lleva a sign si no hay usario logueado
-	// pushSignPage();
+	pushSignPage();
 
 	if (user != null && sportCenter != null) {
-		court_aux.sportcenter_id = sportCenter.id;
-
 		useEffect(
 			() => {
 				//GET COURTS OF A SPORT CENTER
@@ -47,7 +51,6 @@ export default function ConfigureCourts() {
 			[]
 		);
 	}
-
 	//SELECT CONFIGURE NEW COURT
 	if (addCourtBtn && court_aux["court_name"] === "") {
 		defineDefault_CourtNewName();
@@ -153,8 +156,9 @@ export default function ConfigureCourts() {
 	return (
 		<div>
 			<form className="msform" method="post">
+				<div className="text_large pb-2"> {sportCenter.center_name}</div>
 				{/* <!-- progressbar --> */}
-				<ul className="progressbar">
+				<ul className="progressbar pb-2">
 					<li>Dar de alta</li>
 					<li className="active">Configurar Pistas</li>
 					<li>Subir imagenes</li>
@@ -162,7 +166,7 @@ export default function ConfigureCourts() {
 				</ul>
 			</form>
 			<div className="d-flex justify-content-center  ">
-				<div className=" courtcard  mb-0 mt-4 d-flex justify-content-start">
+				<div className=" courtcard  mb-0 mt-5 d-flex justify-content-start">
 					<div className=" court-icon pt-1 ">
 						<button
 							type="button "
@@ -195,7 +199,7 @@ export default function ConfigureCourts() {
 								/>
 							</span>
 						)}
-						<span className=" next_step ">Siguiente paso</span>
+						<span className=" next_step pl-2 ">Siguiente paso</span>
 
 						<Link to="/uploadCenterImages">
 							<button type="button " className=" next_stepLink fas fa-chevron-right ml-1 p-1" />

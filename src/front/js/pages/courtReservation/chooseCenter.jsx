@@ -11,14 +11,40 @@ export default function ChooseCenter() {
 	const { actions, store } = useContext(Context);
 	const history = useHistory();
 
+	const [locationFilter, setLocationFilter] = useState("");
+	const [dateFilter, setDateFilter] = useState(null);
+	const [playersFilter, setPlayersFilter] = useState(1);
+	const [centersbyCity, setCentersbyCity] = useState(null);
+
 	//funcion que lleva a sign si no hay usario logueado
-	// pushSignPage();
+	pushSignPage();
 
 	// Get the Sidebar
 	var mySidebar = document.getElementById("mySidebar");
 
 	// Get the DIV with overlay effect
 	var overlayBg = document.getElementById("myOverlay");
+
+	//GET ALL PREBOOKINGS
+	function get_sportcenters() {
+		// setMessage("");
+		// setError("");
+
+		//envio datos a la base de datos
+		fetch(process.env.BACKEND_URL + "/api/sportcenters/" + locationFilter, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json"
+			}
+		})
+			.then(response => response.json())
+			.then(responseJson => {
+				setCentersbyCity(responseJson);
+			})
+			.catch(error => {
+				// setError(error.message);
+			});
+	}
 
 	return (
 		<div>
@@ -43,6 +69,7 @@ export default function ChooseCenter() {
 							placeholder="Localidad"
 							name="Localidad"
 							required
+							onChange={() => setLocationFilter(event.target.value)}
 						/>
 
 						<label className="pt-3">
@@ -51,42 +78,45 @@ export default function ChooseCenter() {
 
 						<input
 							className="w3-input w3-border"
-							type="text"
+							type="date"
 							placeholder="DD MM YYYY"
 							name="CheckOut"
 							required
+							onChange={() => setDateFilter(event.target.value)}
 						/>
 
 						<label className="pt-3">
 							<i className="fa fa-male" /> Plazas
 						</label>
-						<input className="w3-input w3-border" type="number" value="1" name="Plazas" min="1" max="4" />
+						<input
+							className="w3-input w3-border"
+							type="number"
+							placeholder="1"
+							name="Plazas"
+							min="1"
+							max="4"
+							onChange={() => setPlayersFilter(event.target.value)}
+						/>
 
 						<label className="pt-3 ">
 							<i className="fas fa-baseball-ball" /> Centro
 						</label>
-						<input className="w3-input w3-border" type="number" value="0" name="Kids" min="0" max="6" />
+						<input className="w3-input w3-border" type="text" value="" name="centro" />
 						<p>
-							<button className="w3-button w3-block w3-green w3-left-align mt-4" type="submit">
+							{/* <button
+								className="w3-button w3-block w3-green w3-left-align mt-4"
+								type="submit"
+								onClick={() => getprebookings()}>
 								<i className="fa fa-search w3-margin-right" /> Buscar
-							</button>
+							</button> */}
 						</p>
 					</form>
-
-					<div className="w3-bar-block">
-						<a href="#apartment" className="w3-bar-item w3-button w3-padding-16">
-							<i className="fa fa-building" /> Apartment
-						</a>
-						<a
-							href="javascript:void(0)"
-							className="w3-bar-item w3-button w3-padding-16"
-							onClick="document.getElementById('subscribe').style.display='block'">
-							<i className="fa fa-rss" /> Subscribe
-						</a>
-						<a href="#contact" className="w3-bar-item w3-button w3-padding-16">
-							<i className="fa fa-envelope" /> Contact
-						</a>
-					</div>
+					<button
+						className="w3-button w3-block w3-green w3-left-align mt-4"
+						type="submit"
+						onClick={() => get_sportcenters()}>
+						<i className="fa fa-search w3-margin-right" /> Buscar
+					</button>
 				</div>
 			</nav>
 
@@ -106,9 +136,22 @@ export default function ChooseCenter() {
 
 					<h3 className="pt-2 pb-2 ">Centros Deportivos </h3>
 
-					<CenterAvailable />
-					<CenterAvailable />
-					<CenterAvailable />
+					{centersbyCity != null ? (
+						<ul>
+							{centersbyCity.map(center => {
+								return (
+									<CenterAvailable
+										key={center.id}
+										center={center}
+										date={dateFilter}
+										players={playersFilter}
+									/>
+								);
+							})}
+						</ul>
+					) : (
+						" "
+					)}
 				</div>
 			</div>
 		</div>
