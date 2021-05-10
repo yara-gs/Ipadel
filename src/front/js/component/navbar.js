@@ -21,14 +21,12 @@ export default function Mynavbar() {
 
 	return (
 		<Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-			<Navbar.Brand href="#home">
-				<Link to="/">
-					<span className="iPadel ">
-						<LogoiPadel />
-					</span>
-					<p className="slogan">padel social network </p>
-				</Link>
-			</Navbar.Brand>
+			<Link className="navbar-brand" to="/">
+				<span className="iPadel ">
+					<LogoiPadel />
+				</span>
+				<p className="slogan">padel social network </p>
+			</Link>
 
 			{loginDone ? (
 				<div Classname="userExists">

@@ -1,17 +1,16 @@
 import React, { useState, useContext } from "react";
 import "../../styles/sign.scss";
 import { Link, useHistory } from "react-router-dom";
-//import ReactDOM from "react-dom";
-//import FacebookLogin from "react-facebook-login";
-
 import SignUpSvg from "../component/signUp_svg.jsx";
+import PropTypes from "prop-types";
 import SignInSvg from "../component/signIn_svg.jsx";
 import LogoiPadel from "../component/logoiPadel.jsx";
 import TennisBall from "../../img/tennisball.png";
 import { Context } from "../store/appContext";
+import { Forgot } from "./forgot";
 
-export default function Sign() {
-	const [signUpMode, setSignUpMode] = useState(false);
+export default function SignAndLogin(props) {
+	const [signUpMode, setSignUpMode] = useState(props.sign);
 	const [username, setUsername] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -20,9 +19,12 @@ export default function Sign() {
 	const [message, setMessage] = useState("");
 	const { actions } = useContext(Context);
 	const history = useHistory();
-	//
 
-	//POST TODO
+	if (props.sign !== signUpMode) {
+		setSignUpMode(props.sign);
+	}
+
+	//CREATE USER
 	function createUser(event) {
 		event.preventDefault();
 		setError("");
@@ -62,14 +64,14 @@ export default function Sign() {
 				if (!responseOk) {
 					setError(responseJson.message);
 				}
-				//history.push("/login");
+				history.push("/login");
 			})
 			.catch(error => {
 				setError(error.message);
 			});
 		return false;
 	}
-
+	//USER LOGIN
 	function logUser(event) {
 		event.preventDefault();
 		setError("");
@@ -103,7 +105,6 @@ export default function Sign() {
 				setError(error.message);
 			});
 	}
-
 	return (
 		<div className={signUpMode ? "containertest sign-up-mode" : "containertest"}>
 			<div className="forms-container">
@@ -130,20 +131,18 @@ export default function Sign() {
 								}}
 							/>
 						</div>
-						<input type="submit" value="Login" className="btn solid" onClick={logUser} />
-						<p className="social-text">Or Sign in with social platforms</p>
-						<div className="social-media">
-							<a href="#" className="social-icon">
-								<i className="fab fa-facebook-f" />
-							</a>
-							<a href="#" className="social-icon">
-								<i className="fab fa-google" />
-							</a>
+
+						<div>
+							<Link className="nav-link text-secondary font-weight-bold" to="/forgot">
+								Recuperar Contraseña
+							</Link>
 						</div>
+
+						<input type="submit" value="Login" className="btn solid" onClick={logUser} />
 					</form>
 					<form action="#" className="sign-up-form" onSubmit={createUser}>
-						{error ? <h1>{error}</h1> : ""}
-						{message ? <h1>{message}</h1> : ""}
+						<div>{error ? <h1>{error}</h1> : ""}</div>
+						<div>{message ? <h1>{message}</h1> : ""}</div>
 						<h2 className="title">Crear cuenta</h2>
 						<div className="input-field">
 							<i className="fas fa-user" />
@@ -191,15 +190,6 @@ export default function Sign() {
 							/>
 						</div>
 						<input type="submit" className="btn" value="Sign up" />
-						<p className="social-text">Or Sign up with social platforms</p>
-						<div className="social-media">
-							<a href="#" className="social-icon">
-								<i className="fab fa-facebook-f" />
-							</a>
-							<a href="#" className="social-icon">
-								<i className="fab fa-google" />
-							</a>
-						</div>
 					</form>
 				</div>
 			</div>
@@ -207,14 +197,17 @@ export default function Sign() {
 			<div className="panels-container">
 				<div className="panel left-panel">
 					<div className="content">
-						<h2>Todavía no formas parte de la comunidad </h2>
+						<h4>Todavía no formas parte de la comunidad </h4>
 						<span className="iPadel ">
 							<LogoiPadel />?
 						</span>
+
 						<p className="sign-text">Introduce tus datos para unirte!</p>
-						<button className="btn transparent" id="sign-up-btn" onClick={() => setSignUpMode(true)}>
-							Crear cuenta
-						</button>
+						<Link to="/sign">
+							<button className="btn transparent" id="sign-up-btn">
+								Crear cuenta
+							</button>
+						</Link>
 						<p>
 							<SignInSvg />
 						</p>
@@ -227,9 +220,11 @@ export default function Sign() {
 							<LogoiPadel />?
 						</span>
 						<p className="sign-text">Introduce tus datos para acceder</p>
-						<button className="btn transparent" id="sign-in-btn" onClick={() => setSignUpMode(false)}>
-							Iniciar sesión
-						</button>
+						<Link to="/login">
+							<button className="btn transparent" id="sign-in-btn">
+								Iniciar sesión
+							</button>
+						</Link>
 						<p>
 							<SignUpSvg />
 						</p>
@@ -239,3 +234,7 @@ export default function Sign() {
 		</div>
 	);
 }
+
+SignAndLogin.propTypes = {
+	sign: PropTypes.bool
+};

@@ -3,11 +3,12 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 import os
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, SportCenter,Court,Image,Profile,Post,Comment,Like,Booking,PreBooking,Booking
+from api.models import db, User, SportCenter,Court,Image,Profile,Post,Comment,Like,Booking,PreBooking,Booking,ForgotPasswordEmail
 from api.utils import generate_sitemap, APIException
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import get_jwt_identity
+import random
 
 from sqlalchemy import func
 from aws import upload_file_to_s3
@@ -15,6 +16,7 @@ from datetime import datetime,date,timedelta
 import datetime
 import pytz 
 from tzlocal import get_localzone # $ pip install tzlocal
+
 
 
 api = Blueprint('api', __name__)
@@ -52,6 +54,42 @@ def profile():
     user = User.get(current_user_id)
     return jsonify(user.serialize())
 
+
+# Forgot Password
+@api.route('/forgot-password', methods=['POST'])
+def forgot_password():
+    request_json = request.get_json()
+
+    email = request_json["email"]
+
+    if email is None:
+        raise APIException("Email required")
+
+    token = random.randint(10000000000000000,1999999999999000000000000)
+
+    user = User.get_with_email(email)
+    user.token = str(token)
+
+    db.session.commit()
+
+    forgot_password_email = ForgotPasswordEmail(email, token)
+    url = forgot_password_email.send(str(token))
+
+    return jsonify({url: url}), 200
+
+@api.route('/reset-password', methods=['POST'])
+def reset_password():
+    request_json = request.get_json()
+    email = request_json["email"]
+    token = request_json["token"]
+    password = request_json["password"]
+
+    user = User.get_for_forgot(email, token)
+    user.password = password
+    user.token = None
+    db.session.commit()
+
+    return jsonify({}), 200
 
 # PROFILE
 
