@@ -13,6 +13,7 @@ export default function CenterForm() {
 
 	//funcion que lleva a sign si no hay usario logueado
 	pushSignPage();
+	console.log("hola");
 
 	return (
 		<div>
