@@ -98,10 +98,10 @@ export default function ChooseCenter() {
 							onChange={() => setPlayersFilter(event.target.value)}
 						/>
 
-						<label className="pt-3 ">
+						{/* <label className="pt-3 ">
 							<i className="fas fa-baseball-ball" /> Centro
 						</label>
-						<input className="w3-input w3-border" type="text" value="" name="centro" />
+						<input className="w3-input w3-border" type="text" value="" name="centro" /> */}
 						<p>
 							{/* <button
 								className="w3-button w3-block w3-green w3-left-align mt-4"
