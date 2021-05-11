@@ -25,7 +25,7 @@ export default function MiRedComponentes() {
 	useEffect(() => {
 		let acessToken = actions.getAccessToken();
 		if (!acessToken) {
-			history.push("/sign");
+			history.push("/login");
 			return;
 		}
 		fetch(process.env.BACKEND_URL + "/api/getuser", {
