@@ -92,212 +92,8 @@ export default function ConfigureProfile() {
 			});
 	}
 
-	//POST
-	//GET ALL POSTS with comments&likes
-	useEffect(() => {
-		if (user !== null) {
-			fetch(process.env.BACKEND_URL + "/api/posts/" + user.id, {
-				method: "GET",
-				headers: { "Content-Type": "application/json" }
-			})
-				.then(response => response.json())
-				.then(resultJson => {
-					setPosts(resultJson);
-				});
-		}
-	}, []);
-
-	//POST
-	//CREATE POST
-	function createPost() {
-		const formData = new FormData();
-		formData.append("user_id", user.id);
-		formData.append("image", image[0]);
-		formData.append("text", "mi primer post");
-		let responseOk = false;
-		console.log(formData);
-
-		setMessage("");
-		fetch(process.env.BACKEND_URL + "/api/post", {
-			method: "POST",
-			body: formData
-		})
-			.then(response => {
-				responseOk = response.ok;
-				if (response.ok) {
-					setMessage("Imagenes importadas correctamente");
-				} else {
-					setMessage("Fallo al importar imagenes");
-				}
-			})
-			.catch(error => {
-				setMessage("Fallo al importar imagenes");
-			});
-	}
-
-	//POST
-	//DELETE POST
-
-	function deletePost(post_id) {
-		fetch(process.env.BACKEND_URL + "/api/postdelete/" + post_id, {
-			method: "GET",
-			headers: { "Content-Type": "application/json" }
-		})
-			.then(response => response.json())
-			.then(resultJson => {
-				let arrayCopy = [...posts];
-				let arrayPos = arrayCopy.findIndex(item => item.id === post_id);
-				arrayCopy.splice(arrayPos, 1);
-				setPosts(arrayCopy);
-			});
-	}
-
-	//COMMENTS
-	//GET ALL COMMENTS+LIKES by user_id
-	useEffect(() => {
-		if (user !== null) {
-			fetch(process.env.BACKEND_URL + "/api/comments/" + user.id, {
-				method: "GET",
-				headers: { "Content-Type": "application/json" }
-			})
-				.then(response => response.json())
-				.then(resultJson => {
-					setComments(resultJson);
-				});
-
-			fetch(process.env.BACKEND_URL + "/api/likes/" + user.id, {
-				method: "GET",
-				headers: { "Content-Type": "application/json" }
-			})
-				.then(response => response.json())
-				.then(resultJson => {
-					setLikes(resultJson);
-				});
-		}
-	}, []);
-
-	//CREATE COMMENT OF A POST
-	function createComment(post_id) {
-		let body_comment = {
-			user_id: user.id,
-			post_id: post_id,
-			text: commentText
-		};
-
-		setMessage("");
-		fetch(process.env.BACKEND_URL + "/api/comment", {
-			method: "POST",
-			body: JSON.stringify(body_comment),
-			headers: {
-				"Content-Type": "application/json"
-			}
-		})
-			.then(response => response.json())
-			.then(responseJson => {
-				let arrayCopy = [...comments, responseJson];
-				setComments(arrayCopy);
-			});
-	}
-
-	//COMMENT
-	//DELETE COMMENT
-
-	function deleteComment(comment_id) {
-		fetch(process.env.BACKEND_URL + "/api/commentdelete/" + comment_id, {
-			method: "GET",
-			headers: { "Content-Type": "application/json" }
-		})
-			.then(response => response.json())
-			.then(resultJson => {
-				let arrayCopy = [...comments];
-				let arrayPos = arrayCopy.findIndex(item => item.id === comment_id);
-				arrayCopy.splice(arrayPos, 1);
-				setComments(arrayCopy);
-			});
-	}
-
-	//LIKES
-	//GET ALL LIKES by user_id
-	useEffect(() => {
-		if (user !== null) {
-			fetch(process.env.BACKEND_URL + "/api/comments/" + user.id, {
-				method: "GET",
-				headers: { "Content-Type": "application/json" }
-			})
-				.then(response => response.json())
-				.then(resultJson => {
-					setComments(resultJson);
-				});
-		}
-	}, []);
-
-	//LIKES
-	//SET LIKE OF A POST
-
-	// function updateTodo(newTitle, id) {
-	// 	fetch("https://jsonplaceholder.typicode.com/todos/" + id + "/", {
-	// 		method: "PUT",
-	// 		body: JSON.stringify({
-	// 			id: id,
-	// 			title: newTitle,
-	// 			body: "",
-	// 			userId: 1
-	// 		}),
-	// 		headers: {
-	// 			"Content-type": "application/json; charset=UTF-8"
-	// 		}
-	// 	})
-	// 		.then(response => {
-	// 			return response.json();
-	// 		})
-	// 		.then(responseJson => {
-	// 			console.log(responseJson);
-	// 			// let newTodos = [...todos];
-	// 			// newTodos.push(responseJson);
-	// 			// setTodos(newTodos);
-	// 			// SetNewTodo(" ");
-	// 		});
-	// }
-
-	// function deleteTodo(id) {
-	// 	fetch("https://jsonplaceholder.typicode.com/todos/" + id + "/", {
-	// 		method: "DELETE"
-	// 	}).then(response => {
-	// 		if (response.ok) {
-	// 			let positionToDelete = -1;
-
-	// 			let newTodos = [...todos];
-	// 			for (let i = 0; i < todos.length; i++) {
-	// 				let newTodo = newTodos[i];
-	// 				if (newTodo.id === id) {
-	// 					positionToDelete = i;
-	// 				}
-	// 			}
-	// 			if (positionToDelete > -1) {
-	// 				newTodos.splice(positionToDelete, 1);
-	// 				setTodos(newTodos);
-	// 			} else console.log("error");
-	// 		}
-	// 	});
-	// }
 	return (
 		<body>
-			<button onClick={() => createProfile()}>Save Profile </button>
-			<button onClick={() => updateProfile()}>Update Profile</button>
-			<div>
-				<input type="file" onChange={event => setImage(event.currentTarget.files)} />
-				<button onClick={() => createPost()}>Post</button>
-				<button onClick={() => deletePost(1)}>Delete Post</button>
-			</div>
-			<div>
-				<button onClick={() => createComment(4)}>Comment</button>
-				<button onClick={() => deleteComment(5)}>Delete Comment</button>
-			</div>
-			<div>
-				<button onClick={() => LikeComment()}>Like comment</button>
-				<button onClick={() => DeleteLike()}>Delete Like</button>
-			</div>
-
 			<form action="/action_page.php" className="w3-container w3-card-4 w3-light-grey w3-text-blue w3-margin">
 				<h2 className="w3-center">Tu Perfil</h2>
 
@@ -396,10 +192,21 @@ export default function ConfigureProfile() {
 
 				<input className="w3-radio w3-margin" type="radio" name="gender" value="" />
 				<label>Otros</label>
+
 				<button
 					className="w3-button w3-block w3-section w3-blue w3-ripple w3-padding "
 					style={{ width: "400px" }}>
-					Guardar
+					{" "}
+					onClick=
+					{() => createProfile()}
+					Save Profile
+				</button>
+				<button
+					className="w3-button w3-block w3-section w3-blue w3-ripple w3-padding "
+					style={{ width: "400px" }}>
+					onClick=
+					{() => updateProfile()}
+					Update Profile
 				</button>
 			</form>
 		</body>

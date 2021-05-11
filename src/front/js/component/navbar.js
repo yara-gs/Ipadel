@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
+import Container from "react-bootstrap/Container";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Nav from "react-bootstrap/Nav";
 import Button from "react-bootstrap/Nav";
@@ -30,7 +31,7 @@ export default function Mynavbar() {
 
 			{loginDone ? (
 				<div Classname="userExists">
-					<Navbar.Toggle aria-controls="responsive-navbar-nav " />
+					<Navbar.Toggle aria-controls="responsive-navbar-nav" />
 					<Navbar.Collapse id="responsive-navbar-nav">
 						<Link to="/mired">
 							<Nav.Link href="#features">Mi Red</Nav.Link>
@@ -49,15 +50,39 @@ export default function Mynavbar() {
 							<Nav.Link href="#features">Alta Centros Deportivos</Nav.Link>
 						</Link>
 
-						<NavDropdown title="Dropdown" id="collasible-nav-dropdown">
-							<Link to="/configure-profile">
-								<NavDropdown.Item href="#action/3.1">Editar Perfil</NavDropdown.Item>
-							</Link>
-							<NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-							<NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-							<NavDropdown.Divider />
-							<NavDropdown.Item href="#action/3.4">Log Out</NavDropdown.Item>
-						</NavDropdown>
+						<div className="collapse navbar-collapse" id="navbar-list-4">
+							<ul className="navbar-nav">
+								<li className="nav-item dropdown">
+									<a
+										className="nav-link dropdown-toggle"
+										href="#"
+										id="navbarDropdownMenuLink"
+										role="button"
+										data-toggle="dropdown"
+										aria-haspopup="true"
+										aria-expanded="false">
+										<img
+											src="https://www.w3schools.com/w3images/avatar2.png"
+											alt="Avatar"
+											className="rounded-circle"
+											id="image7"
+											width="20"
+											height="57"
+										/>
+									</a>
+									<div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+										<Link to="/configure-profile">
+											<a className="dropdown-item" href="#">
+												Edit Profile
+											</a>
+										</Link>
+										<a className="dropdown-item" href="#">
+											Log Out
+										</a>
+									</div>
+								</li>
+							</ul>
+						</div>
 					</Navbar.Collapse>
 				</div>
 			) : (
