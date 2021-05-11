@@ -154,10 +154,7 @@ export default function MiRedPosts(props) {
 						}}
 					/>
 				</div>
-				<button
-					type="button"
-					onClick={() => actions.addLikePost(props.id)}
-					className="w3-button w3-theme-d1 w3-margin-bottom">
+				<button type="button" className="w3-button w3-theme-d1 w3-margin-bottom">
 					<i className="fa fa-thumbs-up" />  Like
 				</button>
 

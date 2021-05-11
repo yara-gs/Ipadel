@@ -1,8 +1,6 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			post: "",
-			likes: [],
 			accessToken: "",
 			user: null,
 			localstorage: {},
@@ -66,11 +64,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					setStore({ sportCenterImages: newImages });
 					// localStorage.setItem("sportCenterImages", JSON.stringify(sportCenter));
 				}
-			},
-			addLikePost: post => {
-				let likeList = [...getStore().likes, post];
-
-				setStore({ likes: likeList });
 			}
 		}
 	};
