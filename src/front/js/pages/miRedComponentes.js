@@ -86,7 +86,7 @@ export default function MiRedComponentes() {
 			})
 			.then(responseJson => {
 				let newPost = [responseJson, ...postsList];
-				newPost.push(responseJson);
+				// newPost.push(responseJson);
 				setPostsList(newPost);
 
 				responseOk = response.ok;
