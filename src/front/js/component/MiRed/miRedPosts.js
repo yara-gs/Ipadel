@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Context } from "../../store/appContext";
 import "../../../styles/mired.scss";
-
+import MiRedComments from "./miRedComments";
 import "w3-css/w3.css";
 
 export default function MiRedPosts(props) {
@@ -12,7 +12,8 @@ export default function MiRedPosts(props) {
 	const [image, setImage] = React.useState("");
 
 	const [message, setMessage] = useState("");
-	const [comments, setComments] = useState(null);
+	const [commentsList, setCommentsList] = useState([]);
+	const [comment, setComment] = useState("");
 	const [commentText, setCommentText] = useState("");
 
 	//variables likes
@@ -37,14 +38,14 @@ export default function MiRedPosts(props) {
 	//COMMENTS
 	//GET ALL COMMENTS+LIKES by user_id
 	useEffect(() => {
-		if (user !== null) {
+		if (user && comment !== null) {
 			fetch(process.env.BACKEND_URL + "/api/comments/" + user.id, {
 				method: "GET",
 				headers: { "Content-Type": "application/json" }
 			})
 				.then(response => response.json())
 				.then(resultJson => {
-					setComments(resultJson);
+					setCommentsList(resultJson);
 				});
 
 			fetch(process.env.BACKEND_URL + "/api/likes/" + user.id, {
@@ -77,8 +78,8 @@ export default function MiRedPosts(props) {
 		})
 			.then(response => response.json())
 			.then(responseJson => {
-				let arrayCopy = [...comments, responseJson];
-				setComments(arrayCopy);
+				let arrayCopy = [...commentsList, responseJson];
+				setCommentsList(arrayCopy);
 			});
 	}
 
@@ -92,10 +93,10 @@ export default function MiRedPosts(props) {
 		})
 			.then(response => response.json())
 			.then(resultJson => {
-				let arrayCopy = [...comments];
+				let arrayCopy = [...commentsList];
 				let arrayPos = arrayCopy.findIndex(item => item.id === comment_id);
 				arrayCopy.splice(arrayPos, 1);
-				setComments(arrayCopy);
+				setCommentsList(arrayCopy);
 			});
 	}
 
@@ -109,7 +110,7 @@ export default function MiRedPosts(props) {
 			})
 				.then(response => response.json())
 				.then(resultJson => {
-					setComments(resultJson);
+					setCommentsList(resultJson);
 				});
 		}
 	}, []);
@@ -146,10 +147,10 @@ export default function MiRedPosts(props) {
 					<input
 						className="w3-border w3-padding w3-col m12"
 						placeholder="Comment Here!"
-						value={comments}
+						value={comment}
 						type="text"
 						onChange={event => {
-							setComments(event.target.value);
+							setComment(event.target.value);
 						}}
 					/>
 				</div>
@@ -159,10 +160,13 @@ export default function MiRedPosts(props) {
 
 				<button
 					type="button"
-					onClick={() => createComment(props.id, comments.text)}
+					onClick={() => createComment(props.id, comment)}
 					className="w3-button w3-theme-d2 w3-margin-bottom">
 					<i className="fa fa-comment" />  Comment
 				</button>
+				{commentsList.map((comment, index) => {
+					<MiRedComments key={index} comments={comment.text} />;
+				})}
 			</div>
 		</div>
 	);
