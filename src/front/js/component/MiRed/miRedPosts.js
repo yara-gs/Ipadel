@@ -1,11 +1,11 @@
 import React, { useState, useContext, useEffect } from "react";
-
+import PropTypes from "prop-types";
 import { Context } from "../../store/appContext";
 import "../../../styles/mired.scss";
 
 import "w3-css/w3.css";
 
-export default function MiRedPosts() {
+export default function MiRedPosts(props) {
 	const [postsList, setPostsList] = useState([]);
 	const [postText, setPostText] = useState("Mi post");
 
@@ -54,6 +54,7 @@ export default function MiRedPosts() {
 				.then(response => response.json())
 				.then(resultJson => {
 					setLikes(resultJson);
+					setLikes("");
 				});
 		}
 	}, []);
@@ -78,7 +79,6 @@ export default function MiRedPosts() {
 			.then(responseJson => {
 				let arrayCopy = [...comments, responseJson];
 				setComments(arrayCopy);
-				setComments("");
 			});
 	}
 
@@ -114,60 +114,62 @@ export default function MiRedPosts() {
 		}
 	}, []);
 
-	const liNewTask = postsList.map((eachPost, index) => {
-		return (
-			<div key={index} className="w3-col">
-				<div className="w3-container w3-card w3-white w3-round w3-margin">
+	return (
+		<div className="w3-col">
+			<div className="w3-container w3-card w3-white w3-round w3-margin">
+				<br />
+				<img
+					src="https://www.w3schools.com/w3images/avatar2.png"
+					alt="Avatar"
+					className="w3-left w3-circle w3-margin-right"
+					id="image7"
+				/>
+				<span className="w3-right w3-opacity">1 min</span>
+				{user ? <h4>{user.username}</h4> : ""}
+				<br />
+				<hr className="w3-clear" />
+				{postsList ? <p>{props.post}</p> : ""}
+				<div className="w3-row-padding" id="container2">
+					{postsList ? (
+						<div className="w3-border w3-padding w3-image">
+							<img
+								src={props.url_image}
+								id="image8"
+								alt="Northern Lights"
+								className="w3-margin-bottom imagePosts w3-hover-grayscale"
+							/>
+						</div>
+					) : (
+						""
+					)}
 					<br />
-					<img
-						src="https://www.w3schools.com/w3images/avatar2.png"
-						alt="Avatar"
-						className="w3-left w3-circle w3-margin-right"
-						id="image7"
+					<input
+						className="w3-border w3-padding w3-col m12"
+						placeholder="Comment Here!"
+						value={comments}
+						type="text"
+						onChange={event => {
+							setComments(event.target.value);
+						}}
 					/>
-					<span className="w3-right w3-opacity">1 min</span>
-					{user ? <h4>{user.username}</h4> : ""}
-					<br />
-					<hr className="w3-clear" />
-					{postsList ? <p>{eachPost.text}</p> : ""}
-					<div className="w3-row-padding" id="container2">
-						{postsList ? (
-							<div className="w3-border w3-padding w3-image">
-								<img
-									src={eachPost.url_image}
-									id="image8"
-									alt="Northern Lights"
-									className="w3-margin-bottom imagePosts w3-hover-grayscale"
-								/>
-							</div>
-						) : (
-							""
-						)}
-						<br />
-						<input
-							className="w3-border w3-padding w3-col m12"
-							placeholder="Comment Here!"
-							value={comments}
-							type="text"
-							onChange={event => {
-								setComments(event.target.value);
-							}}
-						/>
-					</div>
-					<button type="button" className="w3-button w3-theme-d1 w3-margin-bottom">
-						<i className="fa fa-thumbs-up" />  Like
-					</button>
-
-					<button
-						type="button"
-						onClick={() => createComment(eachPost.id, comments)}
-						className="w3-button w3-theme-d2 w3-margin-bottom">
-						<i className="fa fa-comment" />  Comment
-					</button>
 				</div>
-			</div>
-		);
-	});
+				<button type="button" className="w3-button w3-theme-d1 w3-margin-bottom">
+					<i className="fa fa-thumbs-up" />  Like
+				</button>
 
-	return liNewTask;
+				<button
+					type="button"
+					onClick={() => createComment(props.id, comments.text)}
+					className="w3-button w3-theme-d2 w3-margin-bottom">
+					<i className="fa fa-comment" />  Comment
+				</button>
+			</div>
+		</div>
+	);
 }
+
+MiRedPosts.propTypes = {
+	url_image: PropTypes.string,
+	post: PropTypes.string,
+	id: PropTypes.number
+};
