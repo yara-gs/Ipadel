@@ -19,8 +19,9 @@
 
     .chooseCenter-form {
     
-    align-items: left;
+    align-items: right;
     padding: 0rem 1rem;
+  
     
 
 }
@@ -58,26 +59,36 @@
     float: left;
     color: #FFF;
     font-weight: bold;
-    padding: 3px;
+    padding: 0px;
     margin: 2px;
     text-align: center;
-
+    width: 70px;
+    
     font: normal 12px/1.8em Arial, Helvetica, sans-serif;
 }
 .red {
     background-color: #f12245;
     cursor: default;
     text-decoration: none;
+    cursor:pointer;
 }
 .green {
     background-color: #0e8b23;
     cursor: default;
     text-decoration: none;
+    cursor:pointer;
+
+    
 }
+
+}
+
 .availability_players{
     font-size: x-small;
 }
-}
+
+
+
 
 
 //MIS RESERVAS

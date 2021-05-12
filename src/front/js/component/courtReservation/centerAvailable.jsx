@@ -61,10 +61,23 @@ export default function CenterAvailable(props) {
 			});
 	}
 
+	let today = new Date();
+	let time = today.getHours() + 1;
+	let inputdate = new Date(props.date);
+
 	if (props.center) {
-		let total_hours = props.center.closing_time - props.center.opening_time;
-		for (let i = 0; i < total_hours; i++) {
-			opening_hours[i] = props.center.opening_time + i;
+		let total_hours;
+
+		if (inputdate.setHours(0, 0, 0, 0) > today.setHours(0, 0, 0, 0)) {
+			total_hours = props.center.closing_time - props.center.opening_time;
+			for (let i = 0; i < total_hours; i++) {
+				opening_hours[i] = props.center.opening_time + i;
+			}
+		} else {
+			total_hours = props.center.closing_time - time;
+			for (let i = 0; i < total_hours; i++) {
+				opening_hours[i] = time + i;
+			}
 		}
 	}
 

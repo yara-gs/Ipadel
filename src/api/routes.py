@@ -472,6 +472,7 @@ def get_prebooking(sportcenter_id,date):
 @api.route ('prebooking/<int:sportcenter_id>', methods=['POST'])
 def prebooking(sportcenter_id):
 
+
     #se obtiene el centro
     center_capacity=SportCenter.get_id(sportcenter_id).capacity
     #Se recibe la nueva preserva

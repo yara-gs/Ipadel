@@ -95,6 +95,7 @@ export default function BookTime(props) {
 	return (
 		<div className="court-icon">
 			<div className="availability_players">{availability_players}</div>
+
 			<button className={className} onClick={() => showConfirmation()}>
 				{hour_start}-{hour_end}
 			</button>

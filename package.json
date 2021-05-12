@@ -88,13 +88,14 @@
 		"jquery": "^3.6.0",
 		"npm": "^7.11.1",
 		"prop-types": "^15.6.1",
-		"react": "^16.8.4",
+		"react": "^16.14.0",
 		"react-bootstrap": "^1.5.2",
-		"react-dom": "^16.8.4",
+		"react-dom": "^16.14.0",
 		"react-facebook-login": "^4.1.1",
 		"react-polyfills": "0.0.1",
 		"react-router-dom": "^5.2.0",
 		"react-slick": "^0.28.1",
+		"reactstrap": "^8.9.0",
 		"slick-carousel": "^1.8.1",
 		"w3-css": "^4.1.0"
 	}
