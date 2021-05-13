@@ -142,7 +142,7 @@ export default function ConfigureProfile() {
 
 				<div className="w3-row w3-section">
 					<div className="w3-col" style={{ width: "50px" }}>
-						<i className="w3-xxlarge fa fa-envelope-o" />
+						<i className="w3-xxlarge fa fa-bars" />
 					</div>
 					<div className="w3-rest">
 						<input readOnly type="text" className="w3-input w3-border" name="email" value={user.email} />
@@ -167,6 +167,8 @@ export default function ConfigureProfile() {
 				</div>
 			</form>
 			<div className="w3-container w3-card-4 w3-light-grey w3-text-blue w3-margin">
+
+
 				<button
 					className="w3-button w3-block w3-section w3-blue w3-ripple w3-padding w3-center"
 					style={{ width: "400px" }}
@@ -179,6 +181,7 @@ export default function ConfigureProfile() {
 					onClick={() => updateProfile()}>
 					Update Profile
 				</button>
+
 			</div>
 		</body>
 	);
