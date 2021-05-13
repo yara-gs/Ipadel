@@ -66,7 +66,7 @@ export default function Court(props) {
 	}
 
 	function delete_Court() {
-		props.deleteCourt(props.court.id);
+		props.deleteCourt(props.court);
 		setShowConfirmDeleteCourt(false);
 	}
 

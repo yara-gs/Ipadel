@@ -53,7 +53,9 @@ export default function ImportImages(props) {
 				<input type="file" multiple onChange={event => setCenterImages(event.currentTarget.files)} />
 			</form>
 			<p className="configcourts_message ">{importing ? "Cargando" : message}</p>
-			<button onClick={uploadImages}> Save </button>
+			<button className="" onClick={uploadImages}>
+				Save
+			</button>
 		</div>
 	);
 }

@@ -1,20 +1,27 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../../store/appContext";
 import { useHistory } from "react-router-dom";
+import { Alert } from "reactstrap";
 
 import CenterAvailable from "../../component/courtReservation/centerAvailable.jsx";
 import "../../../styles/court-reservation.scss";
 
 import pushSignPage from "../../pushSignPage";
+import setTimeout_useEffect from "../../setTimeout";
 
 export default function ChooseCenter() {
 	const { actions, store } = useContext(Context);
 	const history = useHistory();
 
+	const [message, setMessage] = useState("");
 	const [locationFilter, setLocationFilter] = useState("");
 	const [dateFilter, setDateFilter] = useState(null);
 	const [playersFilter, setPlayersFilter] = useState(1);
 	const [centersbyCity, setCentersbyCity] = useState(null);
+
+	let today = new Date();
+	let inputdate = new Date(dateFilter);
+	let dateCorrect = true;
 
 	//funcion que lleva a sign si no hay usario logueado
 	pushSignPage();
@@ -25,27 +32,52 @@ export default function ChooseCenter() {
 	// Get the DIV with overlay effect
 	var overlayBg = document.getElementById("myOverlay");
 
+	useEffect(
+		() => {
+			if (dateCorrect) {
+				setMessage("");
+			} else {
+				setMessage("La fecha no puede ser anterior a hoy");
+			}
+		},
+
+		[dateFilter]
+	);
+
+	if (inputdate.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0) && dateFilter != null) {
+		dateCorrect = false;
+	} else {
+		dateCorrect = true;
+	}
+
 	//GET ALL PREBOOKINGS
 	function get_sportcenters() {
 		event.preventDefault();
-		// setMessage("");
-		// setError("");
 
-		//envio datos a la base de datos
-		fetch(process.env.BACKEND_URL + "/api/sportcenters/" + locationFilter, {
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json"
-			}
-		})
-			.then(response => response.json())
-			.then(responseJson => {
-				setCentersbyCity(responseJson);
+		setMessage("");
+
+		if (dateCorrect) {
+			//envio datos a la base de datos
+			fetch(process.env.BACKEND_URL + "/api/sportcenters/" + locationFilter, {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json"
+				}
 			})
-			.catch(error => {
-				// setError(error.message);
-			});
+				.then(response => response.json())
+				.then(responseJson => {
+					setCentersbyCity(responseJson);
+				})
+				.catch(error => {
+					// setError(error.message);
+				});
+		} else {
+			setMessage("La fecha no puede ser anterior a hoy");
+		}
 	}
+
+	//call funcion setTimeout
+	setTimeout_useEffect(message, setMessage, 2000);
 
 	return (
 		<div>
@@ -54,7 +86,7 @@ export default function ChooseCenter() {
 				className="w3-sidebar w3-light-grey w3-collapse w3-white w3-animate-left chooseCenter-nav"
 				id="mySidebar">
 				<div className="w3-container w3-display-container w3-padding-16">
-					<i onClick="w3_close()" className="fa fa-remove w3-hide-large w3-button w3-transparent t" />
+					<i onClick="w3_close()" className="fa fa-remove w3-hide-large w3-button w3-transparent " />
 					<h3>Reservar Pista</h3>
 
 					<hr />
@@ -127,15 +159,6 @@ export default function ChooseCenter() {
 							<option value="zaragoza">Zaragoza</option>
 						</select>
 
-						{/* <input
-							className="w3-input w3-border"
-							type="text"
-							placeholder="Localidad"
-							name="Localidad"
-							required
-							onChange={() => setLocationFilter(event.target.value)}
-						/> */}
-
 						<label className="pt-3">
 							<i className="far fa-calendar-alt" /> Fecha
 						</label>
@@ -161,23 +184,12 @@ export default function ChooseCenter() {
 							max="4"
 							onChange={() => setPlayersFilter(event.target.value)}
 						/>
-
-						{/* <label className="pt-3 ">
-							<i className="fas fa-baseball-ball" /> Centro
-						</label>
-						<input className="w3-input w3-border" type="text" value="" name="centro" /> */}
-						<p>
-							{/* <button
-								className="w3-button w3-block w3-green w3-left-align mt-4"
-								type="submit"
-								onClick={() => getprebookings()}>
-								<i className="fa fa-search w3-margin-right" /> Buscar
-							</button> */}
-						</p>
-						<button className="w3-button w3-block w3-green w3-left-align mt-4" type="submit">
-							<i className="fa fa-search w3-margin-right" /> Buscar
+						<p />
+						<button className="btn  w3-green w3-center-align mt-3" type="submit">
+							<i className="fa fa-search w3-margin-right " /> Buscar
 						</button>
 					</form>
+					<div> {message == "" ? "" : <Alert color="warning">{message}</Alert>}</div>
 				</div>
 			</nav>
 
@@ -197,7 +209,7 @@ export default function ChooseCenter() {
 
 					<h3 className="pt-2 pb-2 ">Centros Deportivos </h3>
 
-					{centersbyCity != null ? (
+					{centersbyCity != null && dateCorrect ? (
 						<ul>
 							{centersbyCity.map(center => {
 								return (

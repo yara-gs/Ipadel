@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../../store/appContext";
 import { useHistory } from "react-router-dom";
+//test
 
 import RegisterCenter from "../../component/sportCenter/centerRegister.jsx";
 import "../../../styles/center.scss";

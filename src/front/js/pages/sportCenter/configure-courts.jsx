@@ -3,6 +3,8 @@ import { Context } from "../../store/appContext";
 import { Link } from "react-router-dom";
 import "../../../styles/center.scss";
 import "../../../styles/court-reservation.scss";
+import { UncontrolledTooltip } from "reactstrap";
+import { Alert } from "reactstrap";
 
 import Court from "../../component/sportCenter/court.jsx";
 import setTimeout_useEffect from "../../setTimeout";
@@ -13,7 +15,7 @@ export default function ConfigureCourts() {
 
 	const [courts, setCourts] = useState(null);
 	const [addCourtBtn, setAddCourtBtn] = useState(false);
-	const [message, setMessage] = useState(" ");
+	const [message, setMessage] = useState("");
 	const [showCourtDefaultLabel, setShowCourtDefaultLabel] = useState(false);
 	const [courtDefaultLabelInput, setCourtDefaultLabelInput] = useState("");
 	const [courtDefaultLabel, setCourtDefaultLabel] = useState("Pista_");
@@ -21,7 +23,8 @@ export default function ConfigureCourts() {
 	let DefaultLabel_placeholder = "Etiqueta: " + courtDefaultLabel;
 	let user = actions.getUser();
 	let sportCenter = actions.getSportCenter();
-	console.log(sportCenter);
+	let className_addbtn = "";
+	let className_showdefaulLabel = "";
 
 	let court_aux = {
 		court_name: "",
@@ -136,61 +139,108 @@ export default function ConfigureCourts() {
 	}
 
 	//DELETE COURT
-	function deleteCourt(court_id) {
-		fetch(process.env.BACKEND_URL + "/api/courtdelete/" + court_id, {
+	function deleteCourt(court) {
+		fetch(process.env.BACKEND_URL + "/api/courtdelete/" + court.id, {
 			method: "GET",
 			headers: { "Content-Type": "application/json" }
 		})
 			.then(response => response.json())
 			.then(resultJson => {
+				setMessage(court.court_name + " eliminada correctamente");
 				let arrayCopy = [...courts];
-				let arrayPos = arrayCopy.findIndex(item => item.id === court_id);
+				let arrayPos = arrayCopy.findIndex(item => item.id === court.id);
 				arrayCopy.splice(arrayPos, 1);
 				setCourts(arrayCopy);
 			});
 	}
 
+	//Mostrar boton añadir pista activo
+
+	if (addCourtBtn) {
+		className_addbtn = "fas fa-plus active";
+	} else className_addbtn = "fas fa-plus";
+
+	//Mostrar boton editar etiqueta pista activo
+	if (showCourtDefaultLabel) {
+		className_showdefaulLabel = "fas fa-cog active";
+	} else className_showdefaulLabel = "fas fa-cog ";
+
 	//call funcion setTimeout
-	setTimeout_useEffect(message, setMessage, 2000);
+	setTimeout_useEffect(message, setMessage, 1500);
 
 	return (
 		<div>
 			<form className="msform" method="post">
 				<div className="text_large pb-2"> {sportCenter.center_name}</div>
 				{/* <!-- progressbar --> */}
-				<ul className="progressbar pb-2">
+				<ul className="progressbar">
 					<li>Dar de alta</li>
 					<li className="active">Configurar Pistas</li>
 					<li>Subir imagenes</li>
 					<li>Finalizar</li>
 				</ul>
 			</form>
-			<div className="d-flex justify-content-center  ">
-				<div className=" courtcard  mb-0 mt-5 d-flex justify-content-start">
-					<div className=" court-icon pt-1 ">
-						<button
-							type="button "
-							className=" fas fa-plus p-1 "
-							onClick={() => setAddCourtBtn(!addCourtBtn)}
-						/>
-						{showCourtDefaultLabel == false ? (
+
+			<div className="d-flex flex-colum justify-content-center court-icon mt-3 pt-3">
+				<div className="flex-colum">
+					<div className=" d-flex justify-content-between container-court">
+						<div>
 							<button
-								type="button "
-								className=" fas fa-cog p-1"
-								onClick={() => setShowCourtDefaultLabel(true)}
+								type="button"
+								id="Tooltip_addbtn"
+								className={className_addbtn}
+								onClick={() => setAddCourtBtn(!addCourtBtn)}
 							/>
-						) : (
+							<UncontrolledTooltip placement="top" target="Tooltip_addbtn">
+								Añadir una pista nueva
+							</UncontrolledTooltip>
+
+							<button
+								type="button"
+								id="Tooltip_configbtn"
+								className={className_showdefaulLabel}
+								onClick={() => setShowCourtDefaultLabel(!showCourtDefaultLabel)}
+							/>
+							<UncontrolledTooltip placement="top" target="Tooltip_configbtn">
+								Editar etiqueta nombre pistas nuevas
+							</UncontrolledTooltip>
+						</div>
+						<div>
+							<span className="next_step">Siguiente Paso</span>
+							<Link to="/uploadCenterImages">
+								<button
+									type="button"
+									id="Tooltip_nextstep"
+									className="next_stepLink fas fa-chevron-right ml-1"
+								/>
+							</Link>
+							<UncontrolledTooltip placement="top" target="Tooltip_nextstep">
+								Finalizar configuracion de pistas
+							</UncontrolledTooltip>
+						</div>
+					</div>
+
+					<div className=" d-flex justify-content-start container-court">
+						{showCourtDefaultLabel ? (
 							<span>
 								<button
-									type="button "
-									className=" fas fa-times p-1"
+									type="button"
+									id="Tooltip_discardchanges"
+									className=" btn-secondary fas fa-times p-2"
 									onClick={() => setShowCourtDefaultLabel(false)}
 								/>
+								<UncontrolledTooltip placement="top" target="Tooltip_discardchanges">
+									Cancelar cambios nombre etiqueta pista
+								</UncontrolledTooltip>
 								<button
-									type="button "
-									className=" far fa-save p-1"
+									type="button"
+									id="Tooltip_savechanges"
+									className=" btn-secondary far fa-save p-2"
 									onClick={() => changeDefault_CourtName()}
 								/>
+								<UncontrolledTooltip placement="top" target="Tooltip_savechanges">
+									Guardar cambios nombre etiqueta pista
+								</UncontrolledTooltip>
 								<input
 									className="courtcardInput"
 									type="text"
@@ -198,53 +248,53 @@ export default function ConfigureCourts() {
 									onChange={() => setCourtDefaultLabelInput(event.target.value)}
 								/>
 							</span>
+						) : (
+							""
 						)}
-						<span className=" next_step pl-2 ">Siguiente paso</span>
+					</div>
+					<div> {message == "" ? "" : <Alert color="warning">{message}</Alert>}</div>
+				</div>
+			</div>
 
-						<Link to="/uploadCenterImages">
-							<button type="button " className=" next_stepLink fas fa-chevron-right ml-1 p-1" />
-						</Link>
+			<div className="d-flex  justify-content-center ">
+				{addCourtBtn ? (
+					<span>
+						<div className="newcourts_message d-flex justify-content-end">Crear pista nueva</div>
+						<Court
+							court={court_aux}
+							addCourtBtn={true}
+							createCourt={createCourt}
+							updateCourt={updateCourt}
+							deleteCourt={deleteCourt}
+							closeNewCourt={closeNewCourt}
+						/>
+					</span>
+				) : (
+					""
+				)}
+			</div>
 
-						<p className="configcourts_message mb-0 mt-2 ">{message}</p>
-
-						{addCourtBtn ? (
-							<span>
-								<p className="newcourts_message mb-0 mt-0 ">Crear pista nueva</p>
+			<div className=" ">
+				{courts != null ? (
+					<ul>
+						{courts.map(court => {
+							return (
 								<Court
-									court={court_aux}
-									addCourtBtn={true}
+									key={court.id}
+									court={court}
+									addCourtBtn={false}
 									createCourt={createCourt}
 									updateCourt={updateCourt}
 									deleteCourt={deleteCourt}
 									closeNewCourt={closeNewCourt}
 								/>
-							</span>
-						) : (
-							""
-						)}
-					</div>
-				</div>
+							);
+						})}
+					</ul>
+				) : (
+					"Loading"
+				)}
 			</div>
-
-			{courts != null ? (
-				<ul>
-					{courts.map(court => {
-						return (
-							<Court
-								key={court.id}
-								court={court}
-								addCourtBtn={false}
-								createCourt={createCourt}
-								updateCourt={updateCourt}
-								deleteCourt={deleteCourt}
-								closeNewCourt={closeNewCourt}
-							/>
-						);
-					})}
-				</ul>
-			) : (
-				"Loading"
-			)}
 		</div>
 	);
 }
