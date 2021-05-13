@@ -184,7 +184,6 @@ export default function ConfigureProfile() {
 					</button>
 				</Link>
 			</form>
-
 		</body>
 	);
 }
