@@ -102,20 +102,20 @@ export const Home = () => {
 					<div className="w3-col l3 m6 w3-margin-bottom">
 						<div className="w3-card">
 							<img
-								src="https://www.w3schools.com/w3images/team2.jpg"
-								alt="John"
+								src="https://cdn.pixabay.com/photo/2018/07/25/08/58/business-3560916__340.jpg"
+								alt="Yara"
 								style={{ width: "100%" }}
 							/>
 							<div className="w3-container">
-								<h3>John Doe</h3>
-								<p className="w3-opacity">CEO and Founder</p>
+								<h3>Yara Gomez</h3>
+								<p className="w3-opacity">Full Stack Developer</p>
 								<p>
 									Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque
 									elementum.
 								</p>
 								<p>
 									<button className="w3-button w3-light-grey w3-block">
-										<i className="fa fa-envelope" /> Contact
+										<i className="fa fa-envelope" /> Contacta
 									</button>
 								</p>
 							</div>
@@ -125,19 +125,19 @@ export const Home = () => {
 						<div className="w3-card">
 							<img
 								src="https://www.w3schools.com/w3images/team1.jpg"
-								alt="Jane"
+								alt="Ysamar"
 								style={{ width: "100%" }}
 							/>
 							<div className="w3-container">
-								<h3>Anja Doe</h3>
-								<p className="w3-opacity">Art Director</p>
+								<h3>Ysamar Alcantara</h3>
+								<p className="w3-opacity">Full Stack Developer</p>
 								<p>
 									Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque
 									elementum.
 								</p>
 								<p>
 									<button className="w3-button w3-light-grey w3-block">
-										<i className="fa fa-envelope" /> Contact
+										<i className="fa fa-envelope" /> Contacta
 									</button>
 								</p>
 							</div>
@@ -147,19 +147,19 @@ export const Home = () => {
 						<div className="w3-card">
 							<img
 								src="https://www.w3schools.com/w3images/team3.jpg"
-								alt="Mike"
+								alt="Nicolas"
 								style={{ width: "100%" }}
 							/>
 							<div className="w3-container">
-								<h3>Mike Ross</h3>
-								<p className="w3-opacity">Web Designer</p>
+								<h3>Nicolas Balcells</h3>
+								<p className="w3-opacity">Full Stack Developer</p>
 								<p>
 									Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque
 									elementum.
 								</p>
 								<p>
 									<button className="w3-button w3-light-grey w3-block">
-										<i className="fa fa-envelope" /> Contact
+										<i className="fa fa-envelope" /> Contacta
 									</button>
 								</p>
 							</div>
@@ -173,8 +173,8 @@ export const Home = () => {
 								style={{ width: "100%" }}
 							/>
 							<div className="w3-container">
-								<h3>Dan Star</h3>
-								<p className="w3-opacity">Designer</p>
+								<h3>4Geeks Academy</h3>
+								<p className="w3-opacity">Sempai</p>
 								<p>
 									Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque
 									elementum.
