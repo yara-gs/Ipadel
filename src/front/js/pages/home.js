@@ -5,7 +5,6 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 
-
 import "../../styles/home.scss";
 
 import "w3-css/w3.css";
