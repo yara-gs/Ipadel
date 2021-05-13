@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
 import { Button } from "bootstrap";
+import { Link } from "react-router-dom";
 import MiRedPostText from "../component/MiRed/miRedPostText";
 
 export default function ConfigureProfile() {
@@ -94,7 +95,7 @@ export default function ConfigureProfile() {
 
 	return (
 		<body>
-			<form action="/action_page.php" className="w3-container w3-card-4 w3-light-grey w3-text-blue w3-margin">
+			<form className="w3-container w3-card-4 w3-light-grey w3-text-blue w3-margin">
 				<h2 className="w3-center">Tu Perfil</h2>
 
 				<div className="w3-row w3-section">
@@ -165,24 +166,25 @@ export default function ConfigureProfile() {
 						/>
 					</div>
 				</div>
+
+				<Link to="/mired">
+					<button
+						className="w3-button w3-block w3-section w3-blue w3-ripple w3-padding "
+						style={{ width: "400px" }}
+						onClick={() => createProfile()}>
+						Save Profile
+					</button>
+				</Link>
+				<Link to="/mired">
+					<button
+						className="w3-button w3-block w3-section w3-blue w3-ripple w3-padding "
+						style={{ width: "400px" }}
+						onClick={() => updateProfile()}>
+						Update Profile
+					</button>
+				</Link>
 			</form>
-			<div className="w3-container w3-card-4 w3-light-grey w3-text-blue w3-margin">
 
-
-				<button
-					className="w3-button w3-block w3-section w3-blue w3-ripple w3-padding w3-center"
-					style={{ width: "400px" }}
-					onClick={() => createProfile()}>
-					Save Profile
-				</button>
-				<button
-					className="w3-button w3-block w3-section w3-blue w3-ripple w3-padding w3-center "
-					style={{ width: "400px" }}
-					onClick={() => updateProfile()}>
-					Update Profile
-				</button>
-
-			</div>
 		</body>
 	);
 }
