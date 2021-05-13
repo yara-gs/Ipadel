@@ -1,14 +1,23 @@
-#home{
-    max-width:1500px
+
+
+body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
+
+.body {
+  height: 100%;
+  line-height: 1.8;
 }
 
-#home1{
-    max-width:1564px
+/* Full height image header */
+.imgHome {
+    
+    object-fit: cover;
+  background-position: center;
+  background-size: cover; 
+ width: 100%;
+  height: 490px;
+   object-position: bottom;
 }
 
-.imgHome{
-     width: 100%;
-     min-height: 350px;
-     max-height: 600px;
-     background-size: cover;
+.w3-bar .w3-button {
+  padding: 16px;
 }
