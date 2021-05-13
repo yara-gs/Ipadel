@@ -18,7 +18,7 @@ import Reservations from "./pages/courtReservation/reservations.jsx";
 import Profile from "./pages/profile";
 import ConfigureProfile from "./pages/configure-profile";
 
-import { Footer } from "./component/footer";
+import Footer from "./component/footer";
 import { Forgot } from "./pages/forgot";
 import { NewPassword } from "./pages/new_password";
 import { LogOut } from "./pages/logOut";
@@ -36,7 +36,6 @@ const Layout = () => {
 						<Route exact path="/">
 							<Home />
 						</Route>
-
 						<Route exact path="/sign">
 							<SignAndLogin sign={true} />
 						</Route>

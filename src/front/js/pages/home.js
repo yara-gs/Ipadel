@@ -12,37 +12,31 @@ export const Home = () => {
 	const { store, actions } = useContext(Context);
 
 	return (
-		<body>
-			<header className="bgimg-1 w3-display-container w3-grayscale-min" id="home">
-				<div className="w3-display-left w3-text-white" style={{ padding: "48px" }}>
-					<span className="w3-jumbo w3-hide-small">Start something that matters</span>
-					<span className="w3-xxlarge w3-hide-large w3-hide-medium">Start something that matters</span>
-					<span className="w3-large">Stop wasting valuable time with projects that just isnt you.</span>
-					<p>
-						<a
-							href="#about"
-							className="w3-button w3-white w3-padding-large w3-large w3-margin-top w3-opacity w3-hover-opacity-off">
-							Learn more and start today
-						</a>
-					</p>
+		<div ClassName="body">
+			<div className="w3-display-container w3-animate-opacity w3-center " id="home">
+				<img
+					wi
+					className="imgHome "
+					src="https://media.istockphoto.com/photos/feet-of-the-padel-tennis-player-exhausted-after-playing-a-match-picture-id1278476114?k=6&m=1278476114&s=612x612&w=0&h=Nwe79ysKo3SRYJ_wy8_v9vaSr1fskFFZN2Wz48TcQCg="
+					alt="boat"
+				/>
+				<div className="w3-display-middle w3-padding-large w3-wide w3-center">
+					<h1 className="w3-hide-medium w3-hide-small w3-xxxlarge w3-text-orange">No te quedes sin jugar</h1>
+					<button className="w3-btn w3-round-xlarge w3-center w3-xxlarge">Jugar Ahora </button>
 				</div>
-				<div className="w3-display-bottomleft w3-text-grey w3-large" style={{ padding: "24px 48px" }}>
-					<i className="fa fa-facebook-official w3-hover-opacity" />
-					<i className="fa fa-instagram w3-hover-opacity" />
-					<i className="fa fa-snapchat w3-hover-opacity" />
-					<i className="fa fa-pinterest-p w3-hover-opacity" />
-					<i className="fa fa-twitter w3-hover-opacity" />
-					<i className="fa fa-linkedin w3-hover-opacity" />
-				</div>
-			</header>
+			</div>
 
 			<div className="w3-container" style={{ padding: "128px 16px" }} id="about">
-				<h3 className="w3-center">ABOUT THE COMPANY</h3>
-				<p className="w3-center w3-large">Key features of our company</p>
+				<h3 className="w3-center" style={{ marginBottom: "50px" }}>
+					ABOUT iPadel
+				</h3>
+				<p className="w3-center w3-large" />
+				<p className="w3-center w3-large" />
+
 				<div className="w3-row-padding w3-center" style={{ margin_top: "64px" }}>
 					<div className="w3-quarter">
 						<i className="fa fa-desktop w3-margin-bottom w3-jumbo w3-center" />
-						<p className="w3-large">Responsive</p>
+						<p className="w3-large">Interactivo</p>
 						<p>
 							Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
 							labore et dolore.
@@ -50,15 +44,15 @@ export const Home = () => {
 					</div>
 					<div className="w3-quarter">
 						<i className="fa fa-heart w3-margin-bottom w3-jumbo" />
-						<p className="w3-large">Passion</p>
+						<p className="w3-large">Pasion</p>
 						<p>
 							Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
 							labore et dolore.
 						</p>
 					</div>
 					<div className="w3-quarter">
-						<i className="fa fa-diamond w3-margin-bottom w3-jumbo" />
-						<p className="w3-large">Design</p>
+						<i className="fa fa-male w3-margin-bottom w3-jumbo" />
+						<p className="w3-large">Personas</p>
 						<p>
 							Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
 							labore et dolore.
@@ -66,7 +60,7 @@ export const Home = () => {
 					</div>
 					<div className="w3-quarter">
 						<i className="fa fa-cog w3-margin-bottom w3-jumbo" />
-						<p className="w3-large">Support</p>
+						<p className="w3-large">Soporte</p>
 						<p>
 							Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
 							labore et dolore.
@@ -78,21 +72,21 @@ export const Home = () => {
 			<div className="w3-container w3-light-grey" style={{ padding: "128px 16px" }}>
 				<div className="w3-row-padding">
 					<div className="w3-col m6">
-						<h3>We know design.</h3>
+						<h3>Colaboramos con tu gimnasio</h3>
 						<p>
 							Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
 							labore et dolore.
 						</p>
 						<p>
 							<a href="#work" className="w3-button w3-black">
-								<i className="fa fa-th"> </i> View Our Works
+								<i className="fa fa-th"> </i> Nuestros GYM!
 							</a>
 						</p>
 					</div>
 					<div className="w3-col m6">
 						<img
 							className="w3-image w3-round-large"
-							src="https://www.w3schools.com/w3images/phone_buildings.jpg"
+							src="https://media.istockphoto.com/photos/sporty-couple-giving-high-five-to-each-other-at-gym-picture-id1178288246?k=6&m=1178288246&s=612x612&w=0&h=dBsdHnKS9HrW6-RDL7YwRH61yy5wSw0BccylNulREd0="
 							alt="Buildings"
 							width="700"
 							height="394"
@@ -102,8 +96,8 @@ export const Home = () => {
 			</div>
 
 			<div className="w3-container" style={{ padding: "128px 16px" }} id="team">
-				<h3 className="w3-center">THE TEAM</h3>
-				<p className="w3-center w3-large">The ones who runs this company</p>
+				<h3 className="w3-center">Equipo iPadel</h3>
+				<p className="w3-center w3-large">Los que hacen esto</p>
 				<div className="w3-row-padding w3-grayscale" style={{ margin_top: "64px" }}>
 					<div className="w3-col l3 m6 w3-margin-bottom">
 						<div className="w3-card">
@@ -199,30 +193,30 @@ export const Home = () => {
 			<div className="w3-container w3-row w3-center w3-dark-grey w3-padding-64">
 				<div className="w3-quarter">
 					<span className="w3-xxlarge">14+</span>
-					Partners
+					<p>Partners</p>
 				</div>
 				<div className="w3-quarter">
 					<span className="w3-xxlarge">55+</span>
-					Projects Done
+					<p>Projects Done</p>
 				</div>
 				<div className="w3-quarter">
 					<span className="w3-xxlarge">89+</span>
-					Happy Clients
+					<p>Happy Clients</p>
 				</div>
 				<div className="w3-quarter">
 					<span className="w3-xxlarge">150+</span>
-					Meetings
+					<p>Meetings</p>
 				</div>
 			</div>
 
 			<div className="w3-container" style={{ padding: "128px 16px" }} id="work">
-				<h3 className="w3-center">OUR WORK</h3>
-				<p className="w3-center w3-large">What weve done for people</p>
+				<h3 className="w3-center">Nuestros GYM</h3>
+				<p className="w3-center w3-large">Siempre cerca de ti</p>
 
 				<div className="w3-row-padding" style={{ margin_top: "64px" }}>
 					<div className="w3-col l3 m6">
 						<img
-							src="https://www.w3schools.com/w3images/tech_mic.jpg"
+							src="https://media.istockphoto.com/photos/empty-gym-picture-id1132006407?k=6&m=1132006407&s=612x612&w=0&h=vOx89bJoTm6tqEMRRZxsmzfdr1jwrmrbE-0yfm7sm74="
 							style={{ width: "100%" }}
 							className="w3-hover-opacity"
 							alt="A microphone"
@@ -230,7 +224,7 @@ export const Home = () => {
 					</div>
 					<div className="w3-col l3 m6">
 						<img
-							src="/w3images/tech_phone.jpg"
+							src="https://media.istockphoto.com/photos/gym-training-on-stationary-bikes-picture-id1127485222?k=6&m=1127485222&s=612x612&w=0&h=jKvfqIMYovapPlx9wMQdjl82tLaR1emKjIY38pX0l3Q="
 							style={{ width: "100%" }}
 							className="w3-hover-opacity"
 							alt="A phone"
@@ -238,7 +232,7 @@ export const Home = () => {
 					</div>
 					<div className="w3-col l3 m6">
 						<img
-							src="https://www.w3schools.com/w3images/tech_drone.jpg"
+							src="https://media.istockphoto.com/photos/happy-athletic-people-jogging-on-treadmills-in-a-health-club-picture-id1089939832?k=6&m=1089939832&s=612x612&w=0&h=o3mjGEu7ru4R-_seQ6PFJ5b90qTIy5c8K5XWsRW-4dk="
 							style={{ width: "100%" }}
 							className="w3-hover-opacity"
 							alt="A drone"
@@ -246,7 +240,7 @@ export const Home = () => {
 					</div>
 					<div className="w3-col l3 m6">
 						<img
-							src="https://www.w3schools.com/w3images/tech_sound.jpg"
+							src="https://media.istockphoto.com/photos/this-is-where-youll-challenge-yourself-picture-id1134312588?k=6&m=1134312588&s=612x612&w=0&h=ME1HmZs5jmnL0iVTcASWJX3DJbfhLo9n-Y0iEW06l0Q="
 							style={{ width: "100%" }}
 							className="w3-hover-opacity"
 							alt="Soundbox"
@@ -257,7 +251,7 @@ export const Home = () => {
 				<div className="w3-row-padding w3-section">
 					<div className="w3-col l3 m6">
 						<img
-							src="https://www.w3schools.com/w3images/tech_tablet.jpg"
+							src="https://media.istockphoto.com/photos/young-woman-exercising-on-treadmill-picture-id1059616710?k=6&m=1059616710&s=612x612&w=0&h=5N2j3lwDA4m6gocyZg7-u5IDtwxAG052KPp8lPwXmbw="
 							style={{ width: "100%" }}
 							className="w3-hover-opacity"
 							alt="A tablet"
@@ -265,7 +259,7 @@ export const Home = () => {
 					</div>
 					<div className="w3-col l3 m6">
 						<img
-							src="https://www.w3schools.com/w3images/tech_camera.jpg"
+							src="https://media.istockphoto.com/photos/side-view-of-beautiful-muscular-woman-running-on-treadmill-picture-id1132086660?k=6&m=1132086660&s=612x612&w=0&h=oe1fvDlhc9n3aZnproEW5IGIcykXggkPZ3IMzm7yyDo="
 							style={{ width: "100%" }}
 							className="w3-hover-opacity"
 							alt="A camera"
@@ -273,7 +267,7 @@ export const Home = () => {
 					</div>
 					<div className="w3-col l3 m6">
 						<img
-							src="https://www.w3schools.com/w3images/tech_typewriter.jpg"
+							src="https://media.istockphoto.com/photos/group-of-athletic-women-on-exercise-bikes-in-a-health-club-picture-id1173507478?k=6&m=1173507478&s=612x612&w=0&h=cM1aq__DCQG0593HPiZX4BRea4YsC_1zDWVYsDrs2Gg="
 							style={{ width: "100%" }}
 							className="w3-hover-opacity"
 							alt="A typewriter"
@@ -281,7 +275,7 @@ export const Home = () => {
 					</div>
 					<div className="w3-col l3 m6">
 						<img
-							src="https://www.w3schools.com/w3images/tech_tableturner.jpg"
+							src="https://media.istockphoto.com/photos/happy-athletic-woman-giving-highfive-to-her-friend-on-a-break-in-a-picture-id1179543750?k=6&m=1179543750&s=612x612&w=0&h=M---8yNpJWVCaKZcvQOxUWlLpwpLYoQ18SybT2dsMTc="
 							style={{ width: "100%" }}
 							className="w3-hover-opacity"
 							alt="A tableturner"
@@ -427,22 +421,19 @@ export const Home = () => {
 			</div>
 
 			<div className="w3-container w3-light-grey" style={{ padding: "128px 16px" }} id="contact">
-				<h3 className="w3-center">CONTACT</h3>
-				<p className="w3-center w3-large">Lets get in touch. Send us a message:</p>
+				<h3 className="w3-center">CONTACTO</h3>
+				<p className="w3-center w3-large">Ponte en contacto con nosotros</p>
 				<div style={{ margin_top: "48px" }}>
-					<p>
-						<i className="fa fa-map-marker fa-fw w3-xxlarge w3-margin-right" /> Chicago, US
-					</p>
-					<p>
-						<i className="fa fa-phone fa-fw w3-xxlarge w3-margin-right" /> Phone: +00 151515
-					</p>
-					<p>
-						<i className="fa fa-envelope fa-fw w3-xxlarge w3-margin-right"> </i> Email: mail@mail.com
-					</p>
-
 					<form action="/action_page.php">
 						<p>
-							<input className="w3-input w3-border" type="text" placeholder="Name" required name="Name" />
+							<input
+								width="100%"
+								className="w3-input w3-border"
+								type="text"
+								placeholder="Name"
+								required
+								name="Name"
+							/>
 						</p>
 						<p>
 							<input
@@ -485,6 +476,6 @@ export const Home = () => {
 					/>
 				</div>
 			</div>
-		</body>
+		</div>
 	);
 };
