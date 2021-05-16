@@ -107,7 +107,7 @@ export const Home = () => {
 					<div className="w3-col l3 m6 w3-margin-bottom">
 						<div className="w3-card">
 							<img
-								src="https://cdn.pixabay.com/photo/2018/07/25/08/58/business-3560916__340.jpg"
+								src="http://ipadel.s3.amazonaws.com/IMG-20210510-WA0009~4.jpg"
 								alt="Yara"
 								style={{ width: "100%" }}
 							/>

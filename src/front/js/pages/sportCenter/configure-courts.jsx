@@ -171,7 +171,8 @@ export default function ConfigureCourts() {
 	return (
 		<div>
 			<form className="msform" method="post">
-				<div className="text_large pb-2"> {sportCenter.center_name}</div>
+				{sportCenter ? <div className="text_large pb-2"> {sportCenter.center_name}</div> : ""}
+
 				{/* <!-- progressbar --> */}
 				<ul className="progressbar">
 					<li>Dar de alta</li>
