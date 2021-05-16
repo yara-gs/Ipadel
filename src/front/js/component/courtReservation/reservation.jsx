@@ -31,10 +31,30 @@ export default function Reservation(props) {
 						</tr>
 						<tr>
 							<td className="first-column">
-								<i className="fas fa-male w3-text-green w3-large" />
+								<i className="fas fa-male w3-text-blue w3-large" />
 								Jugadores :
 							</td>
 							<td>{props.reservation.players}</td>
+						</tr>
+						<tr>
+							<td className="first-column">
+								{props.reservation.isConfirm ? (
+									<i className="far fa-check-circle w3-text-green w3-large" />
+								) : (
+									<i className="fas fa-hourglass-half w3-text-grey w3-large" />
+								)}
+								Estado Reserva :
+							</td>
+							<td>
+								{props.reservation.isConfirm ? (
+									<span className=" w3-text-green">
+										{" "}
+										<strong>Confirmada</strong>{" "}
+									</span>
+								) : (
+									"En espera"
+								)}
+							</td>
 						</tr>
 					</table>
 				</div>

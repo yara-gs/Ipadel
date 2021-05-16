@@ -492,6 +492,7 @@ def get_prebookings_by_user_id(user_id):
             "user_id":prebooking.user_id,
             "sportcenter_id":prebooking.sportcenter_id,
             "center_name":center_name,
+            "isConfirm":prebooking.isConfirm,
             }   
             prebooking_list.append(prebooking_dict)
 
@@ -620,11 +621,6 @@ def prebooking(sportcenter_id):
         if prebooking.players==3:
             prebookings_3player=prebooking
             prebooking_3p_rows=prebooking.rows
-
-    
-    print(" prebookings",prebookings)
-  
-          
 
     #GESTION RESERVA 1 PERSONA 
     if prebooking_post.players==1:  
