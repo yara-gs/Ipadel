@@ -596,6 +596,7 @@ class PreBooking(db.Model,BaseModel,SportCenterId,UserId):
         time_end=db.Column(db.Time, unique=False, nullable=False)
         players=db.Column(db.Integer, unique=False, nullable=False)
         isConfirm=db.Column(db.Boolean, unique=False, nullable=True)
+        court_name=db.Column(db.String(120), unique=False, nullable=True)
  
         # relacion one to many con tabla SportCenter (un sportCenter puede tener muchas pistas)
         sportcenter_id=db.Column(db.Integer,db.ForeignKey('sportcenter.id'))
@@ -679,10 +680,7 @@ class Booking(db.Model,BaseModel,SportCenterId):
         __tablename__ = 'booking'
         id=db.Column(db.Integer, primary_key=True)
         datetime=db.Column(db.DateTime,unique=False,nullable=False)
-        # date=db.Column(db.Date, unique=False, nullable=True)
-        # time_start=db.Column(db.Time, unique=False, nullable=True)
-        # time_end=db.Column(db.Time, unique=False, nullable=True)
-        # players=db.Column(db.Integer, unique=False, nullable=True)
+       
  
         court_id=db.Column(db.Integer,db.ForeignKey('court.id'))
         court=db.relationship("Court",back_populates="bookings")
@@ -695,22 +693,7 @@ class Booking(db.Model,BaseModel,SportCenterId):
         def __repr__(self):
             return '<Booking %r>' % self.id
 
-        # #metodo de instancia que obliga a que haya datos siempre que se llama       
-        # def __init__(self,datetime,date,time_start,time_end,players,sportcenter_id):
-        #     self.datetime=datetime
-        #     self.date=date
-        #     self.time_start=time_start
-        #     self.time_end=time_end
-        #     self.players=players
-        #     self.sportcenter_id=sportcenter_id
-
-            
-        # @classmethod
-        # def add_register(cls,datetime,date,time_start,time_end,players,sportcenter_id):
-        #     booking= cls(datetime,date,time_start,time_end,players,sportcenter_id)
         
-        #     db.session.add(booking)
-        #     db.session.commit()
 
             #metodo de instancia que obliga a que haya datos siempre que se llama       
         def __init__(self,datetime,court_id):
@@ -738,29 +721,6 @@ class Booking(db.Model,BaseModel,SportCenterId):
                 
             } 
 
-        # #metodo de instancia serializa el diccionario
-        # def serialize(self):
-        #     return {
-        #         "id": self.id,
-        #         "datetime":str(self.datetime),
-        #         "date": str(self.date),
-        #         "time_start": str(self.time_start),
-        #         "time_end": str(self.time_end),
-        #         "players": self.players,
-        #         "sportcenter_id": self.sportcenter_id,    
-        #     }       
-
-            
-
-        # # save data in the database
-        # def save(self):
-        #     db.session.add(self)
-        #     return db.session.commit()
         
-        # # delete data in the database
-        # def delete(self):
-        #     db.session.delete(self)
-        #     return db.session.commit()
-
 
       

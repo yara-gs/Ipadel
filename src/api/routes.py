@@ -493,100 +493,12 @@ def get_prebookings_by_user_id(user_id):
             "sportcenter_id":prebooking.sportcenter_id,
             "center_name":center_name,
             "isConfirm":prebooking.isConfirm,
+            "court_name":prebooking.court_name,
             }   
             prebooking_list.append(prebooking_dict)
 
     return jsonify(prebooking_list), 200
     
-
-# # PREBOOKING: POST UNA PRERESERVA
-# @api.route ('prebooking/<int:sportcenter_id>', methods=['POST'])
-# def prebooking(sportcenter_id):
-
-#     #se obtiene el centro
-#     center_capacity=SportCenter.get_id(sportcenter_id).capacity
-#     #Se recibe la nueva preserva
-#     body=request.get_json()
-#     # body["isConfirm"]=False
-#     prebooking_post=PreBooking.add_register(body)
-#     # prebooking.save()
-#     prebooking_players=prebooking_post.players
-#     datetime=prebooking_post.datetime
-    
-#     #Se comprueba el numero de personas que ha hecho preserva
-#     bookings=PreBooking.query.filter_by(sportcenter_id=sportcenter_id).filter_by(datetime=prebooking_post.datetime).all()
-#     booking_list=[]
-#     booking_players=0
-    
-#     # prebookings= db.session.query(func.count(PreBooking.id).label("rows"),PreBooking.players.label("players")).filter(PreBooking.sportcenter_id==sportcenter_id).filter(PreBooking.datetime==datetime).group_by(PreBooking.players).all()
-
-#     # print("PREBOOKINGS",prebookings)
-
-#     # getbook_3p = db.session.query.filter(PreBooking.players == 3).filter(PreBooking.sportcenter_id==sportcenter_id).filter(PreBooking.datetime==datetime).filter(Prebooking.isConfirm==False).all()
-#     # getbook_3p = db.session.query.filter(PreBooking.players == 3).filter(PreBooking.sportcenter_id==sportcenter_id).filter(PreBooking.datetime==datetime).filter(Prebooking.isConfirm==False).all()
-#     # print("DFAFEAFAEFAEAFESFA",getbook_3p)
-#     # prebookings_3player_rows=PreBooking.query.filter(PreBooking.players == 3).filter(PreBooking.sportcenter_id==sportcenter_id).filter(PreBooking.datetime==datetime).filter(Prebooking.isConfirm==False).count()
-
-#     # print("PPPPPPPPPPPPPPPPPPPP",prebookings_3player_rows)
-    
-#     # for prebooking in prebookings:
-#     #     prebooking_1p_rows=0
-#     #     prebooking_2p_rows=0
-#     #     prebooking_3p_rows=0
-
-#     #     if prebooking.players==1:
-#     #         prebookings_1player=prebooking
-#     #         prebooking_1p_rows=prebooking.rows
-    
-#     #     if prebooking.players==2:
-#     #         prebookings_2player=prebooking
-#     #         prebooking_2p_rows=prebooking.rows
- 
-#     #     if prebooking.players==3:
-#     #         prebookings_3player=prebooking
-#     #         prebooking_3p_rows=prebooking.rows
-
-
-#     # if prebooking_post.players>=1:  
-#     #     if prebooking_3p_rows>=0:
-#     #         getbook_3p = PreBooking.query.filter(PreBooking.players == 3).filter(PreBooking.sportcenter_id==sportcenter_id).filter(PreBooking.datetime==datetime).filter(Prebooking.isConfirm==False).one()
-#     #         print("jfklajefjaeñfjaeiofjaweioñfjaenfjkenñ",getbook_3p.serialize())
-
-
-
-     
-
-       
-#     # prebookings_3player=PreBooking.query.filter(PreBooking.players == 3).filter(PreBooking.sportcenter_id==sportcenter_id).filter(PreBooking.datetime==datetime).filter(Prebooking.isConfirm==False).all()
-#     # prebookings_3player_rows=PreBooking.query.filter(PreBooking.players == 3).filter(PreBooking.sportcenter_id==sportcenter_id).filter(PreBooking.datetime==datetime).filter(Prebooking.isConfirm==False).count()
-
-#     # if prebookings_3player_rows>0:
-#     #     print ("PREGAKLMFRELAMKLFMEKLFMEKLFMEKLFMEKFMKLE",prebookings_3player[0].serialize())
-#     #     print (prebookings_3player)
-#             # for prebookings_3player in prebooking_3player:
-#             #     print (prebookings_3player[0])
-           
-
-
-   
-#     for booking in bookings:
-#         booking_players=booking_players+booking.players
-        
-#     availabilty_players=center_capacity-booking_players
-
-#     if availabilty_players >= prebooking_players:
-
-#         prebooking.save()
-#         availability= True
-#     else:
-#         availability= False
-
-
-    
-#     return jsonify({availability}), 200
-
-#     # return jsonify({}), 200
-
 
 
 # PREBOOKING: POST UNA PRERESERVA
@@ -595,11 +507,29 @@ def prebooking(sportcenter_id):
 
     #se comprueba capacidad del centro
     center_capacity=SportCenter.get_id(sportcenter_id).capacity
+
+    
     #Se recibe la nueva prereserva
     body=request.get_json()
     prebooking_post=PreBooking.add_register(body)
     prebooking_players=prebooking_post.players
     datetime=prebooking_post.datetime
+
+    #comprobar que pistas esta libre para esa hora
+    courts=Court.query.filter_by(sportcenter_id=sportcenter_id).all()
+    court_id_available=0
+    court_name=""
+    for court in courts:
+
+        court_bookings=Booking.query.filter_by(datetime=datetime).filter_by(court_id=court.id).first()
+        if(court_bookings):
+            print("pista reservarda ",court.id)
+        else: 
+            court_id_available=court.id
+            court_name=court.court_name
+            print("pista libre",court.id)
+            break
+
    
     #Se comprueba el numero de preservas que hay para 1persona/2 y 3 personas todavia sin confirmar
     prebookings= db.session.query(func.count(PreBooking.id).label("rows"),PreBooking.players.label("players")).filter(PreBooking.sportcenter_id==sportcenter_id).filter(PreBooking.datetime==datetime).filter(PreBooking.isConfirm==False).group_by(PreBooking.players).all()
@@ -630,15 +560,17 @@ def prebooking(sportcenter_id):
             # print("adios")
             
             getbook_3p=PreBooking.query.filter_by(sportcenter_id=sportcenter_id).filter_by(datetime=datetime).filter_by(players=3).filter_by(isConfirm=False).first()
-            booking= Booking.add_register(datetime,2)
+            booking= Booking.add_register(datetime,court_id_available)
             booking=Booking.query.order_by(Booking.id.desc()).first()
             #se genera la nueva preserva y se confirma
             prebooking_post.booking_id=booking.id
             prebooking_post.isConfirm=True
+            prebooking_post.court_name=court_name
             prebooking_post.save()
             #se actualiza el estado de la reserva que ya existia a confirmado
             getbook_3p.booking_id=booking.id
             getbook_3p.isConfirm=True
+            getbook_3p.court_name=court_name
             getbook_3p.save()
 
         
@@ -647,45 +579,50 @@ def prebooking(sportcenter_id):
             getbook_2p=PreBooking.query.filter_by(sportcenter_id=sportcenter_id).filter_by(datetime=datetime).filter_by(players=2).filter_by(isConfirm=False).first()
             getbook_1p=PreBooking.query.filter_by(sportcenter_id=sportcenter_id).filter_by(datetime=datetime).filter_by(players=1).filter_by(isConfirm=False).first()
 
-            booking=Booking.add_register(datetime,3)
+            booking=Booking.add_register(datetime,court_id_available)
             booking=Booking.query.order_by(Booking.id.desc()).first()
             #se genera la nueva preserva y se confirma
             prebooking_post.booking_id=booking.id
             prebooking_post.isConfirm=True
+            prebooking_post.court_name=court_name
             prebooking_post.save()
             #se actualiza el estado de la reserva que ya existia a confirmado
             getbook_2p.booking_id=booking.id
             getbook_2p.isConfirm=True
+            getbook_2p.court_name=court_name
             getbook_2p.save()
             getbook_1p.booking_id=booking.id
             getbook_1p.isConfirm=True
+            getbook_1p.court_name=court_name
             getbook_1p.save()
-
-
 
         elif prebooking_1p_rows>=3:
 
-            booking=Booking.add_register(datetime,3)
+            booking=Booking.add_register(datetime,court_id_available)
             booking=Booking.query.order_by(Booking.id.desc()).first()
 
             #se genera la nueva preserva y se confirma
             prebooking_post.booking_id=booking.id
             prebooking_post.isConfirm=True
+            prebooking_post.court_name=court_name
             prebooking_post.save()
 
             getbook_1p_1=PreBooking.query.filter_by(sportcenter_id=sportcenter_id).filter_by(datetime=datetime).filter_by(players=1).filter_by(isConfirm=False).first()
             getbook_1p_1.booking_id=booking.id
             getbook_1p_1.isConfirm=True
+            getbook_1p_1.court_name=court_name
             getbook_1p_1.save()
 
             getbook_1p_2=PreBooking.query.filter_by(sportcenter_id=sportcenter_id).filter_by(datetime=datetime).filter_by(players=1).filter_by(isConfirm=False).first()
             getbook_1p_2.booking_id=booking.id
             getbook_1p_2.isConfirm=True
+            getbook_1p_2.court_name=court_name
             getbook_1p_2.save()
 
             getbook_1p_3=PreBooking.query.filter_by(sportcenter_id=sportcenter_id).filter_by(datetime=datetime).filter_by(players=1).filter_by(isConfirm=False).first()
             getbook_1p_3.booking_id=booking.id
             getbook_1p_3.isConfirm=True
+            getbook_1p_3.court_name=court_name
             getbook_1p_3.save()
         #Si la preserva no se puede combinar con otras preservas se guarda en prebookings con status "Sin confirmar"
         else:
@@ -702,36 +639,41 @@ def prebooking(sportcenter_id):
 
             getbook_2p=PreBooking.query.filter_by(sportcenter_id=sportcenter_id).filter_by(datetime=datetime).filter_by(players=2).filter_by(isConfirm=False).first()
             
-            booking=Booking.add_register(datetime,3)
+            booking=Booking.add_register(datetime,court_id_available)
             booking=Booking.query.order_by(Booking.id.desc()).first()
             #se genera la nueva preserva y se confirma
             prebooking_post.booking_id=booking.id
             prebooking_post.isConfirm=True
+            prebooking_post.court_name=court_name
             prebooking_post.save()
             #se actualiza el estado de la reserva que ya existia a confirmado
             getbook_2p.booking_id=booking.id
             getbook_2p.isConfirm=True
+            getbook_2p.court_name=court_name
             getbook_2p.save()
            
 
         elif prebooking_1p_rows>=2:
 
-            booking=Booking.add_register(datetime,3)
+            booking=Booking.add_register(datetime,court_id_available)
             booking=Booking.query.order_by(Booking.id.desc()).first()
 
             #se genera la nueva preserva y se confirma
             prebooking_post.booking_id=booking.id
             prebooking_post.isConfirm=True
+            prebooking_post.court_name=court_name
             prebooking_post.save()
 
             getbook_1p_1=PreBooking.query.filter_by(sportcenter_id=sportcenter_id).filter_by(datetime=datetime).filter_by(players=1).filter_by(isConfirm=False).first()
             getbook_1p_1.booking_id=booking.id
             getbook_1p_1.isConfirm=True
+            getbook_1p_1.court_name=court_name
             getbook_1p_1.save()
 
             getbook_1p_2=PreBooking.query.filter_by(sportcenter_id=sportcenter_id).filter_by(datetime=datetime).filter_by(players=1).filter_by(isConfirm=False).first()
             getbook_1p_2.booking_id=booking.id
             getbook_1p_2.isConfirm=True
+            getbook_1p_2.court_name=court_name
             getbook_1p_2.save()
         #Si la preserva no se puede combinar con otras preservas se guarda en prebookings con status "Sin confirmar"
         else:
@@ -747,15 +689,17 @@ def prebooking(sportcenter_id):
 
             getbook_1p=PreBooking.query.filter_by(sportcenter_id=sportcenter_id).filter_by(datetime=datetime).filter_by(players=1).filter_by(isConfirm=False).first()
             
-            booking=Booking.add_register(datetime,3)
+            booking=Booking.add_register(datetime,court_id_available)
             booking=Booking.query.order_by(Booking.id.desc()).first()
             #se genera la nueva preserva y se confirma
             prebooking_post.booking_id=booking.id
             prebooking_post.isConfirm=True
+            prebooking_post.court_name=court_name
             prebooking_post.save()
             #se actualiza el estado de la reserva que ya existia a confirmado
             getbook_1p.booking_id=booking.id
             getbook_1p.isConfirm=True
+            getbook_1p.court_name=court_name
             getbook_1p.save()
         #Si la preserva no se puede combinar con otras preservas se guarda en prebookings con status "Sin confirmar"       
         else:
@@ -765,15 +709,38 @@ def prebooking(sportcenter_id):
     
     #GESTION RESERVA 3PERSONAS 
     if prebooking_post.players==4:      
-        booking=Booking.add_register(datetime,3)
+        booking=Booking.add_register(datetime,court_id_available)
         booking=Booking.query.order_by(Booking.id.desc()).first()
         #se genera la nueva preserva y se confirma
         prebooking_post.booking_id=booking.id
         prebooking_post.isConfirm=True
+        prebooking_post.court_name=court_name
         prebooking_post.save()
     
+
     return jsonify(prebooking_post.isConfirm), 200
 
 
 
+# PREBOOKING: OBTENER TODAS LAS RESERVAS POR USUARIO
+@api.route ('bookingCourt', methods=['GET'])
+def get_bookingcourt():
 
+    courts=Court.query.filer_by(sportcenter_id=sportcenter_id).all()
+    
+    date_time_str = "2021-05-18 14:00:00"
+    datetime_obj = datetime.datetime.strptime(date_time_str, '%Y-%m-%d %H:%M:%S')
+    print(datetime_obj)
+
+    for court in courts:
+
+        bookings=Booking.query.filter_by(datetime=datetime_obj).filter_by(court_id=court.id).first()
+        if(bookings):
+            print("pista reservarda ",court.id)
+        else: 
+            print("pista libre",court.id)
+            break
+
+
+    
+    return jsonify({}), 200

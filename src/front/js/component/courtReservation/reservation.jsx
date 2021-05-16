@@ -21,6 +21,13 @@ export default function Reservation(props) {
 							</td>
 							<td>{props.reservation.center_name}</td>
 						</tr>
+						<tr>
+							<td className="first-column">
+								<i className="fas fa-baseball-ball w3-text-amber  " />
+								Pista:
+							</td>
+							<td>{props.reservation.court_name}</td>
+						</tr>
 
 						<tr>
 							<td className="first-column">
