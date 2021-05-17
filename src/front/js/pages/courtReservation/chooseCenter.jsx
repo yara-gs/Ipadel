@@ -8,18 +8,22 @@ import "../../../styles/court-reservation.scss";
 
 import pushSignPage from "../../pushSignPage";
 import setTimeout_useEffect from "../../setTimeout";
+import Profile from "../profile";
 
 export default function ChooseCenter() {
 	const { actions, store } = useContext(Context);
+	let user = null;
 	const history = useHistory();
 
 	const [message, setMessage] = useState("");
 	const [locationFilter, setLocationFilter] = useState("");
-	const [dateFilter, setDateFilter] = useState(null);
+	const [dateFilter, setDateFilter] = useState("");
 	const [playersFilter, setPlayersFilter] = useState(1);
 	const [centersbyCity, setCentersbyCity] = useState(null);
+	const [Profile, setProfile] = useState(null);
 
 	let today = new Date();
+	let today_string = today.toISOString().slice(0, 10);
 	let inputdate = new Date(dateFilter);
 	let dateCorrect = true;
 
@@ -31,6 +35,27 @@ export default function ChooseCenter() {
 
 	// Get the DIV with overlay effect
 	var overlayBg = document.getElementById("myOverlay");
+
+	useEffect(
+		() => {
+			user = actions.getUser();
+			if (user) {
+				fetch(process.env.BACKEND_URL + "/api/profile/" + user.id, {
+					method: "GET",
+					headers: { "Content-Type": "application/json" }
+				})
+					.then(response => response.json())
+					.then(resultJson => {
+						setProfile(resultJson);
+						setLocationFilter(resultJson.city);
+						setDateFilter(today_string);
+						get_sportcenters(resultJson.city);
+					});
+			}
+		},
+
+		[]
+	);
 
 	useEffect(
 		() => {
@@ -51,14 +76,16 @@ export default function ChooseCenter() {
 	}
 
 	//GET ALL PREBOOKINGS
-	function get_sportcenters() {
-		event.preventDefault();
+	function get_sportcenters(location) {
+		if (event) {
+			event.preventDefault();
+		}
 
 		setMessage("");
 
 		if (dateCorrect) {
 			//envio datos a la base de datos
-			fetch(process.env.BACKEND_URL + "/api/sportcenters/" + locationFilter, {
+			fetch(process.env.BACKEND_URL + "/api/sportcenters/" + location, {
 				method: "GET",
 				headers: {
 					"Content-Type": "application/json"
@@ -91,7 +118,7 @@ export default function ChooseCenter() {
 
 					<hr />
 
-					<form className="chooseCenter-form" onSubmit={() => get_sportcenters()}>
+					<form className="chooseCenter-form" onSubmit={() => get_sportcenters(locationFilter)}>
 						<label id="city">
 							<i className="fas fa-map-marker-alt" /> Localidad
 						</label>
@@ -102,6 +129,7 @@ export default function ChooseCenter() {
 							className="w3-input w3-border"
 							type="text"
 							placeholder="Localidad"
+							value={locationFilter}
 							required
 							onChange={() => setLocationFilter(event.target.value)}>
 							<option value="">...</option>
@@ -168,6 +196,7 @@ export default function ChooseCenter() {
 							type="date"
 							placeholder="DD MM YYYY"
 							name="CheckOut"
+							value={dateFilter}
 							required
 							onChange={() => setDateFilter(event.target.value)}
 						/>

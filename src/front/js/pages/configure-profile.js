@@ -32,13 +32,18 @@ export default function ConfigureProfile() {
 	//PROFILE
 	//GET PROFILE
 	useEffect(() => {
-		if (user !== null) {
+		if (user) {
 			fetch(process.env.BACKEND_URL + "/api/profile/" + user.id, {
 				method: "GET",
 				headers: { "Content-Type": "application/json" }
 			})
 				.then(response => response.json())
-				.then(resultJson => setProfile(resultJson));
+				.then(resultJson => {
+					setProfile(resultJson);
+					setBirth(resultJson.birth);
+					setCountry(resultJson.country);
+					setCity(resultJson.city);
+				});
 		}
 	}, []);
 
@@ -53,44 +58,33 @@ export default function ConfigureProfile() {
 			// gender: gender
 		};
 		setMessage("");
-		fetch(process.env.BACKEND_URL + "/api/profile/", {
-			method: "POST",
-			body: JSON.stringify(body_profile),
-			headers: {
-				"Content-Type": "application/json"
-			}
-		})
-			.then(response => response.json())
-			.then(responseJson => {
-				setProfile(responseJson);
-				setMessage(" profile guardado correctamente");
-			});
-	}
-
-	//PROFILE
-	//UPDATE PROFILE
-	function updateProfile() {
-		let body_profile = {
-			user_id: user.id,
-			birth: birth,
-			city: city,
-			country: country
-			// gender: gender
-		};
-
-		setMessage("");
-		fetch(process.env.BACKEND_URL + "/api/profileupdate/" + profile.id, {
-			method: "PUT",
-			body: JSON.stringify(body_profile),
-			headers: {
-				"Content-Type": "application/json"
-			}
-		})
-			.then(response => response.json())
-			.then(responseJson => {
-				setProfile(body_profile);
-				setMessage(" se ha modificado correctamente");
-			});
+		if (profile) {
+			fetch(process.env.BACKEND_URL + "/api/profileupdate/" + profile.id, {
+				method: "PUT",
+				body: JSON.stringify(body_profile),
+				headers: {
+					"Content-Type": "application/json"
+				}
+			})
+				.then(response => response.json())
+				.then(responseJson => {
+					setProfile(body_profile);
+					setMessage(" se ha modificado correctamente");
+				});
+		} else {
+			fetch(process.env.BACKEND_URL + "/api/profile/", {
+				method: "POST",
+				body: JSON.stringify(body_profile),
+				headers: {
+					"Content-Type": "application/json"
+				}
+			})
+				.then(response => response.json())
+				.then(responseJson => {
+					setProfile(responseJson);
+					setMessage(" profile guardado correctamente");
+				});
+		}
 	}
 
 	return (
@@ -104,7 +98,17 @@ export default function ConfigureProfile() {
 					</div>
 
 					<div className="w3-rest">
-						<input readOnly className="w3-input w3-border" name="first" type="text" value={user.username} />
+						{user ? (
+							<input
+								readOnly
+								className="w3-input w3-border"
+								name="first"
+								type="text"
+								value={user.username}
+							/>
+						) : (
+							""
+						)}
 					</div>
 				</div>
 
@@ -113,15 +117,68 @@ export default function ConfigureProfile() {
 						<i className="w3-xxlarge fa fa-user" />
 					</div>
 					<div className="w3-rest">
-						<input
+						<select
 							className="w3-input w3-border"
 							name="last"
 							type="text"
 							placeholder="Ciudad"
-							onChange={event => {
-								setCity(event.target.value);
-							}}
-						/>
+							value={city}
+							required
+							onChange={() => setCity(event.target.value)}>
+							<option value="">...</option>
+							<option value="alava">Álava</option>
+							<option value="albacete">Albacete</option>
+							<option value="alicante">Alicante/Alacant</option>
+							<option value="almeria">Almería</option>
+							<option value="asturias">Asturias</option>
+							<option value="avila">Ávila</option>
+							<option value="badajoz">Badajoz</option>
+							<option value="barcelona">Barcelona</option>
+							<option value="burgos">Burgos</option>
+							<option value="caceres">Cáceres</option>
+							<option value="cadiz">Cádiz</option>
+							<option value="cantabria">Cantabria</option>
+							<option value="castellon">Castellón/Castelló</option>
+							<option value="ceuta">Ceuta</option>
+							<option value="ciudadreal">Ciudad Real</option>
+							<option value="cordoba">Córdoba</option>
+							<option value="cuenca">Cuenca</option>
+							<option value="girona">Girona</option>
+							<option value="laspalmas">Las Palmas</option>
+							<option value="granada">Granada</option>
+							<option value="guadalajara">Guadalajara</option>
+							<option value="guipuzcoa">Guipúzcoa</option>
+							<option value="huelva">Huelva</option>
+							<option value="huesca">Huesca</option>
+							<option value="illesbalears">Illes Balears</option>
+							<option value="jaen">Jaén</option>
+							<option value="acoruña">A Coruña</option>
+							<option value="larioja">La Rioja</option>
+							<option value="leon">León</option>
+							<option value="lleida">Lleida</option>
+							<option value="lugo">Lugo</option>
+							<option value="madrid">Madrid</option>
+							<option value="malaga">Málaga</option>
+							<option value="melilla">Melilla</option>
+							<option value="murcia">Murcia</option>
+							<option value="navarra">Navarra</option>
+							<option value="ourense">Ourense</option>
+							<option value="palencia">Palencia</option>
+							<option value="pontevedra">Pontevedra</option>
+							<option value="salamanca">Salamanca</option>
+							<option value="segovia">Segovia</option>
+							<option value="sevilla">Sevilla</option>
+							<option value="soria">Soria</option>
+							<option value="tarragona">Tarragona</option>
+							<option value="santacruztenerife">Santa Cruz de Tenerife</option>
+							<option value="teruel">Teruel</option>
+							<option value="toledo">Toledo</option>
+							<option value="valencia">Valencia/Valéncia</option>
+							<option value="valladolid">Valladolid</option>
+							<option value="vizcaya">Vizcaya</option>
+							<option value="zamora">Zamora</option>
+							<option value="zaragoza">Zaragoza</option>
+						</select>
 					</div>
 				</div>
 				<div className="w3-row w3-section">
@@ -134,6 +191,7 @@ export default function ConfigureProfile() {
 							name="last"
 							type="text"
 							placeholder="Pais"
+							value={country}
 							onChange={event => {
 								setCountry(event.target.value);
 							}}
@@ -146,7 +204,17 @@ export default function ConfigureProfile() {
 						<i className="w3-xxlarge fa fa-bars" />
 					</div>
 					<div className="w3-rest">
-						<input readOnly type="text" className="w3-input w3-border" name="email" value={user.email} />
+						{user ? (
+							<input
+								readOnly
+								type="text"
+								className="w3-input w3-border"
+								name="email"
+								value={user.email}
+							/>
+						) : (
+							""
+						)}
 					</div>
 				</div>
 
@@ -160,6 +228,7 @@ export default function ConfigureProfile() {
 							name="birth"
 							type="text"
 							placeholder="Birth Date"
+							value={birth}
 							onChange={event => {
 								setBirth(event.target.value);
 							}}
@@ -169,18 +238,10 @@ export default function ConfigureProfile() {
 
 				<Link to="/mired">
 					<button
-						className="w3-button w3-block w3-section w3-blue w3-ripple w3-padding "
-						style={{ width: "400px" }}
+						className="w3-button w3-block w3-section w3-round-xlarge w3-blue"
+						style={{ width: "270px" }}
 						onClick={() => createProfile()}>
-						Save Profile
-					</button>
-				</Link>
-				<Link to="/mired">
-					<button
-						className="w3-button w3-block w3-section w3-blue w3-ripple w3-padding "
-						style={{ width: "400px" }}
-						onClick={() => updateProfile()}>
-						Update Profile
+						Save Changes
 					</button>
 				</Link>
 			</form>

@@ -107,7 +107,7 @@ export default function Center(props) {
 						</tr>
 						<tr>
 							<td className="first-column">
-								<i className="fas fa-list-ol w3-text-teal w3-large" />
+								<i className="fas fa-list-ol w3-text-green w3-large" />
 								Pistas
 							</td>
 							<td />

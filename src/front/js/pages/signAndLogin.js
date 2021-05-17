@@ -101,7 +101,6 @@ export default function SignAndLogin(props) {
 				history.push("/mired");
 			})
 			.catch(error => {
-				console.log(error);
 				setError(error.message);
 			});
 	}
@@ -114,6 +113,7 @@ export default function SignAndLogin(props) {
 						<div className="input-field">
 							<i className="fas fa-user" />
 							<input
+								className="input_sign"
 								type="text"
 								placeholder="Username"
 								onChange={event => {
@@ -124,6 +124,7 @@ export default function SignAndLogin(props) {
 						<div className="input-field">
 							<i className="fas fa-lock" />
 							<input
+								className="input_sign"
 								type="password"
 								placeholder="Password"
 								onChange={event => {
@@ -147,6 +148,7 @@ export default function SignAndLogin(props) {
 						<div className="input-field">
 							<i className="fas fa-user" />
 							<input
+								className="input_sign"
 								type="text"
 								placeholder="Username"
 								required
@@ -158,6 +160,7 @@ export default function SignAndLogin(props) {
 						<div className="input-field">
 							<i className="fas fa-envelope" />
 							<input
+								className="input_sign"
 								type="email"
 								placeholder="Email"
 								required
@@ -169,6 +172,7 @@ export default function SignAndLogin(props) {
 						<div className="input-field">
 							<i className="fas fa-lock" />
 							<input
+								className="input_sign"
 								type="password"
 								placeholder="Password"
 								required
@@ -181,6 +185,7 @@ export default function SignAndLogin(props) {
 						<div className="input-field">
 							<i className="fas fa-lock" />
 							<input
+								className="input_sign"
 								type="password"
 								placeholder="Confirm Password"
 								required
@@ -198,7 +203,7 @@ export default function SignAndLogin(props) {
 				<div className="panel left-panel">
 					<div className="content">
 						<h4>Todavía no formas parte de la comunidad </h4>
-						<span className="iPadel ">
+						<span className="iPadel logo ">
 							<LogoiPadel />?
 						</span>
 
@@ -215,8 +220,8 @@ export default function SignAndLogin(props) {
 				</div>
 				<div className="panel right-panel">
 					<div className="content">
-						<h2>Ya perteneces a la comunidad</h2>
-						<span className="iPadel">
+						<h2 className="text-comunity">Ya perteneces a la comunidad</h2>
+						<span className="iPadel logo">
 							<LogoiPadel />?
 						</span>
 						<p className="sign-text">Introduce tus datos para acceder</p>
