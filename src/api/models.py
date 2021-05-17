@@ -46,6 +46,9 @@ class User(db.Model):
     password = db.Column(db.String(80), unique=False, nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
     token = db.Column(db.String(254), unique=True, nullable=True)
+    birth=db.Column(db.String(120), unique=False, nullable=True)
+    country=db.Column(db.String(120),unique=False, nullable=True)
+    city=db.Column(db.String(120),unique=False, nullable=True)
 
 
     # relacion one to many con tabla User (un usuario puede tener muchos centros)
@@ -94,6 +97,9 @@ class User(db.Model):
             "id": self.id,
             "username": self.username,
             "email": self.email,
+            "birth":self.birth,
+            "country":self.country,
+            "city":self.city,
             # do not serialize the password, its a security breach
         }
 
@@ -132,6 +138,7 @@ class Profile(db.Model,BaseModel,UserId):
             "user_id": self.user_id,
             "country": self.country,
             "city": self.city,
+            "birth":self.birth,
         }
 
     @classmethod

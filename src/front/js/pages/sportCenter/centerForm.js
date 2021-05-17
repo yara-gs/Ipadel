@@ -3,7 +3,7 @@ import { Context } from "../../store/appContext";
 import { useHistory } from "react-router-dom";
 //test
 
-import RegisterCenter from "../../component/sportCenter/centerRegister.jsx";
+import CenterRegister from "../../component/sportCenter/centerRegister.jsx";
 import "../../../styles/center.scss";
 
 import pushSignPage from "../../pushSignPage";
@@ -14,8 +14,6 @@ export default function CenterForm() {
 
 	//funcion que lleva a sign si no hay usario logueado
 	pushSignPage();
-	console.log("hola");
-
 	return (
 		<div>
 			{/* <!-- multistep form --> */}
@@ -29,7 +27,7 @@ export default function CenterForm() {
 				</ul>
 			</form>
 			<h4 className=" fs-title d-flex justify-content-center ">Dar de alta un centro deportivo</h4>
-			<RegisterCenter />
+			<CenterRegister />
 		</div>
 	);
 }

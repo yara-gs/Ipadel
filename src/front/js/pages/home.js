@@ -15,23 +15,26 @@ export const Home = () => {
 	return (
 		<div ClassName="body">
 			<div className="w3-display-container w3-animate-opacity w3-center " id="home">
-				<img
-					wi
+				<div
 					className="imgHome "
-					src="https://media.istockphoto.com/photos/feet-of-the-padel-tennis-player-exhausted-after-playing-a-match-picture-id1278476114?k=6&m=1278476114&s=612x612&w=0&h=Nwe79ysKo3SRYJ_wy8_v9vaSr1fskFFZN2Wz48TcQCg="
-					alt="boat"
+					style={{
+						backgroundImage: `url("https://images.squarespace-cdn.com/content/v1/549f1861e4b0bef254f22afc/1462114172959-Y9T8W6W98MICCI0TODO1/ke17ZwdGBToddI8pDm48kBsT7cUqmJkeerpS6TwQRhh7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMSjfRWV4lzUtF-jHOHg2xk8NWBH1IOVk38JKo6459U1RZGjoBKy3azqku80C789l0lqfkVpRp1g_2L-WsTQRP4K7h9ymmROaLsBkEHDWqOvIX7NXAuwIzfiT9P6QZ5g6qg/image-asset.jpeg?format=1500w")`
+					}}
 				/>
-				<div className="w3-display-middle w3-padding-large w3-wide w3-center">
-					<h1 className="w3-hide-medium w3-hide-small w3-xxxlarge w3-text-white">No te quedes sin jugar</h1>
-					<Link to="/sign">
-						<button className="w3-button w3-hover-orange w3-round-xlarge w3-center w3-xxlarge">
+
+				<div className="w3-display-middle w3-padding-large w3-wide w3-center ">
+					<br />
+					<h1 className="w3-hide-medium w3-hide-small w3-xxxlarge w3-text-white ">No te quedes sin jugar</h1>
+					<br />
+					<Link to="/choose-center">
+						<button className="w3-button w3-orange w3-hover-grey w3-round-xlarge w3-center w3-xlarge">
 							Jugar Ahora{" "}
 						</button>
 					</Link>
 				</div>
 			</div>
 
-			<div className="w3-container" style={{ padding: "128px 16px" }} id="about">
+			<div className="w3-container" style={{ padding: "100px 16px" }} id="about">
 				<h3 className="w3-center" style={{ marginBottom: "50px" }}>
 					ABOUT iPadel
 				</h3>
@@ -107,9 +110,9 @@ export const Home = () => {
 					<div className="w3-col l3 m6 w3-margin-bottom">
 						<div className="w3-card">
 							<img
-								src="http://ipadel.s3.amazonaws.com/IMG-20210510-WA0009~4.jpg"
+								src="http://ipadel.s3.amazonaws.com/perfil_fullstack.jpg"
 								alt="Yara"
-								style={{ width: "100%" }}
+								style={{ width: "100%", height: "234px" }}
 							/>
 							<div className="w3-container">
 								<h3>Yara Gomez</h3>
@@ -131,7 +134,7 @@ export const Home = () => {
 							<img
 								src="https://www.w3schools.com/w3images/team1.jpg"
 								alt="Ysamar"
-								style={{ width: "100%" }}
+								style={{ width: "100%", height: "234px" }}
 							/>
 							<div className="w3-container">
 								<h3>Ysamar Alcantara</h3>
@@ -153,7 +156,7 @@ export const Home = () => {
 							<img
 								src="https://www.w3schools.com/w3images/team3.jpg"
 								alt="Nicolas"
-								style={{ width: "100%" }}
+								style={{ width: "100%", height: "234px" }}
 							/>
 							<div className="w3-container">
 								<h3>Nicolas Balcells</h3>
@@ -173,9 +176,8 @@ export const Home = () => {
 					<div className="w3-col l3 m6 w3-margin-bottom">
 						<div className="w3-card">
 							<img
-								src="https://www.w3schools.com/w3images/team4.jpg"
-								alt="Dan"
-								style={{ width: "100%" }}
+								src="https://coursereport-s3-production.global.ssl.fastly.net/uploads/school/logo/260/original/4g-logo-negro-01.png"
+								style={{ width: "100%", height: "234px" }}
 							/>
 							<div className="w3-container">
 								<h3>4Geeks Academy</h3>
@@ -349,11 +351,11 @@ export const Home = () => {
 							</button>
 						</p>
 					</form>
-
-					<img
-						src="https://media.istockphoto.com/photos/balls-of-tennis-near-the-net-picture-id1185437535?k=6&m=1185437535&s=612x612&w=0&h=3Xcjud0iePNC5A30VgJYodLcSWeyaHfzGTVb1Nv1pGY="
-						className="w3-image"
-						style={{ width: "100%" }}
+					<div
+						className="imgHome "
+						style={{
+							backgroundImage: `url("https://pdpla.com/images/easyblog_articles/1285/TennisBall.jpg")`
+						}}
 					/>
 				</div>
 			</div>

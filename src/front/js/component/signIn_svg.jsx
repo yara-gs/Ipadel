@@ -1,12 +1,14 @@
 import React from "react";
+import "../../styles/sign.scss";
 
 function Icon() {
 	return (
 		<svg
+			className="svg_signIn"
 			xmlns="http://www.w3.org/2000/svg"
 			xmlnsXlink="http://www.w3.org/1999/xlink"
-			width="600"
-			height="400"
+			// width="600"
+			// height="400"
 			data-name="Layer 1"
 			viewBox="0 0 1104.51 798.9">
 			<defs>

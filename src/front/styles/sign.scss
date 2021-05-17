@@ -273,7 +273,20 @@ form.sign-in-form {
   pointer-events: all;
 }
 
-@media (max-width: 870px) {
+.svg_signUp{
+    width:700px;
+	height:450px;
+
+    }
+.svg_signIn{
+    width:600px;
+	height:400px;
+
+    }
+
+
+@media (max-width: 1280px) {
+
   .containertest {
     min-height: 800px;
     height: 100vh;
@@ -378,29 +391,63 @@ form.sign-in-form {
 }
 
 @media (max-width: 570px) {
+   
+    .forms-container{
+        height: 500px;
+
+    }
+    // .panels-container{
+    //     height: 300px;
+    // }
   form {
     padding: 0 1.5rem;
+   // height: 300px;
   }
 
-  .image {
-    display: none;
-  }
   .panel .content {
     padding: 0.5rem 1rem;
+    
   }
+  .panel{
+      padding:0px;
+      
+  }
+  .left-panel{
+      display:none;
+  }
+ 
+  .sign-text{
+      display:none;
+  }
+
+ .text-comunity{
+     font-size: 1.5rem;
+
+ }
+ .logo{display:none;}
+
+  
   .containertest {
     padding: 1.5rem;
   }
 
   .containertest:before {
-    bottom: 72%;
+    bottom: 92%;
     left: 50%;
   }
 
   .containertest.sign-up-mode:before {
-    bottom: 28%;
+    bottom: 21%;
     left: 50%;
   }
+   .svg_signIn{
+    display:none;
+    
+    }
+    .svg_signUp{
+    display:none;
+    
+    }
 }
 
 .iPadel {
@@ -415,3 +462,9 @@ form.sign-in-form {
     // font-weight: 500;
 
 }
+
+
+
+
+
+

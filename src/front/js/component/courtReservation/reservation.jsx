@@ -21,13 +21,6 @@ export default function Reservation(props) {
 							</td>
 							<td>{props.reservation.center_name}</td>
 						</tr>
-						<tr>
-							<td className="first-column">
-								<i className="fas fa-baseball-ball w3-text-amber  " />
-								Pista:
-							</td>
-							<td>{props.reservation.court_name}</td>
-						</tr>
 
 						<tr>
 							<td className="first-column">
@@ -45,8 +38,15 @@ export default function Reservation(props) {
 						</tr>
 						<tr>
 							<td className="first-column">
+								<i className="fas fa-bookmark w3-text-green  " />
+								Pista:
+							</td>
+							<td>{props.reservation.court_name}</td>
+						</tr>
+						<tr>
+							<td className="first-column">
 								{props.reservation.isConfirm ? (
-									<i className="far fa-check-circle w3-text-green w3-large" />
+									<i className="far fa-check-circle w3-text-grey w3-large" />
 								) : (
 									<i className="fas fa-hourglass-half w3-text-grey w3-large" />
 								)}
@@ -59,7 +59,7 @@ export default function Reservation(props) {
 										<strong>Confirmada</strong>{" "}
 									</span>
 								) : (
-									"En espera"
+									<span className=" w3-text-red">En espera</span>
 								)}
 							</td>
 						</tr>

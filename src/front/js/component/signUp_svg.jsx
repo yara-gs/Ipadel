@@ -1,11 +1,13 @@
 import React from "react";
+import "../../styles/sign.scss";
 
 function SignUpSvg() {
 	return (
 		<svg
+			className="svg_signUp"
 			xmlns="http://www.w3.org/2000/svg"
-			width="700"
-			height="450"
+			// width="700"
+			// height="450"
 			data-name="Layer 1"
 			viewBox="0 0 1100.11 731.98">
 			<path
