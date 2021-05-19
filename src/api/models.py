@@ -65,17 +65,18 @@ class User(db.Model):
 
 
 
-    def __init__(self,username, email, password, is_active=True): 
+    def __init__(self,username, email, password,url_image, is_active=True): 
         if username == '' or email == '' or password == '':
             raise Exception("Usuario, Email y Contraseña requerida")
         self.username = username
         self.email = email
         self.password = password
         self.is_active = is_active
+        self.url_image=url_image
 
     @classmethod
-    def create_user(cls, username, email, password):
-        user= cls(username, email, password)
+    def create_user(cls, username, email, password,url_image):
+        user= cls(username, email, password,url_image)
         
         db.session.add(user)
         db.session.commit()

@@ -19,7 +19,6 @@ export default function MiRedPerfil() {
 				method: "GET",
 				headers: {
 					"Content-Type": "application/json"
-					// 'Content-Type': 'application/x-www-form-urlencoded',
 				}
 			})
 				.then(response => {
@@ -46,12 +45,10 @@ export default function MiRedPerfil() {
 					user_with_image = user;
 					user_with_image.url_image = responseJson;
 					setMessage("Imagenes importadas correctamente");
-					// setImporting(false);
 				})
 
 				.catch(error => {
 					// setError(error.message);
-					// setImporting(false);
 					setMessage("Fallo al importar imagenes");
 				});
 		}
@@ -64,14 +61,14 @@ export default function MiRedPerfil() {
 			actions.saveUser(user_with_image);
 		}
 	}, [userImage]);
-	// if (user) {
-	// 	if (user.url_image !== "" && userImage !== user.url_image) {
-	// 		let user_with_image = user;
-	// 		user_with_image.url_image = userImage;
-	// 		actions.saveUser(user_with_image);
-	// 		setUserImage(user.url_image);
-	// 	}
-	// }
+
+	if (user) {
+		console.log(user);
+		console.log(userImage);
+		if (user.url_image !== "" && userImage !== user.url_image) {
+			setUserImage(user.url_image);
+		}
+	}
 
 	return (
 		<div className="w3-col">
@@ -79,8 +76,8 @@ export default function MiRedPerfil() {
 				<div className="w3-container">
 					{user ? <h4 className="w3-center">{user.username}</h4> : ""}
 
-					<p className="w3-center">
-						<div className="user-image d-flex justify-content-center">
+					<p className="w3-center d-flex justify-content-center">
+						{/* <div className="user-image d-flex justify-content-center">
 							<div
 								className="user-image"
 								style={{
@@ -89,10 +86,20 @@ export default function MiRedPerfil() {
 									height: "106px"
 								}}
 							/>
-						</div>
+						</div> */}
+
+						<input
+							type="file"
+							onChange={event => setInputUserImage(event.currentTarget.files)}
+							className="user-image"
+							style={{
+								backgroundImage: `url(${userImage})`,
+								width: "106px",
+								height: "106px"
+							}}
+						/>
+						<p />
 					</p>
-					<input type="file" onChange={event => setInputUserImage(event.currentTarget.files)} />
-					<p />
 					<button onClick={() => upload_userImage()} className=" w3-btn w3-green">
 						Save
 					</button>

@@ -26,8 +26,9 @@ api = Blueprint('api', __name__)
 @api.route('/sign', methods = ['POST'])
 def sign():
     body = request.get_json()
+    url_image=""
     try:
-        User.create_user(body["username"], body["email"], body["password"])
+        User.create_user(body["username"], body["email"], body["password"],url_image)
     except:
         raise APIException("Error al registrar el usuario", 401)
 
@@ -38,6 +39,7 @@ def login():
     body = request.get_json()
     username = body["username"]
     password = body["password"]
+    
 
     user = User.get_with_login_credentials(username, password)
     if user is None:
