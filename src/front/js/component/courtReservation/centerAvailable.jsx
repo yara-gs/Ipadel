@@ -21,17 +21,13 @@ export default function CenterAvailable(props) {
 	];
 	const [prebookings, setPrebookings] = useState(null);
 
-	useEffect(
-		() => {
-			updatePrebookings();
-			if (props.center && images == null) {
-				getImages();
-			}
-			//GET COURTS OF A SPORT CENTER
-		},
-
-		[props.date]
-	);
+	useEffect(() => {
+		updatePrebookings();
+		if (props.center && images == null) {
+			getImages();
+		}
+		//GET COURTS OF A SPORT CENTER
+	}, [props.date]);
 
 	function getImages() {
 		//GET COURTS OF A SPORT CENTER

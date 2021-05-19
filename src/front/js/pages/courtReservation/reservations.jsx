@@ -13,19 +13,15 @@ export default function Reservations() {
 	const [reservations, setReservations] = useState(null);
 
 	if (user) {
-		useEffect(
-			() => {
-				//GET COURTS OF A SPORT CENTER
-				fetch(process.env.BACKEND_URL + "/api/prebookings_user/" + user.id, {
-					method: "GET",
-					headers: { "Content-Type": "application/json" }
-				})
-					.then(response => response.json())
-					.then(resultJson => setReservations(resultJson));
-			},
-
-			[]
-		);
+		useEffect(() => {
+			//GET COURTS OF A SPORT CENTER
+			fetch(process.env.BACKEND_URL + "/api/prebookings_user/" + user.id, {
+				method: "GET",
+				headers: { "Content-Type": "application/json" }
+			})
+				.then(response => response.json())
+				.then(resultJson => setReservations(resultJson));
+		}, []);
 	}
 
 	//funcion que lleva a sign si no hay usario logueado

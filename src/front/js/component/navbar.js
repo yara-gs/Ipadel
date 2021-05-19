@@ -30,7 +30,7 @@ export default function Mynavbar() {
 			</Link>
 
 			{loginDone ? (
-				<div Classname="userExists">
+				<div className="userExists">
 					<Navbar.Toggle aria-controls="responsive-navbar-nav" />
 					<Navbar.Collapse id="responsive-navbar-nav">
 						<Link to="/mired">

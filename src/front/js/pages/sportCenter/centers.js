@@ -13,19 +13,15 @@ export default function Centers() {
 	const [centers, setCenters] = useState(null);
 
 	if (user) {
-		useEffect(
-			() => {
-				//GET COURTS OF A SPORT CENTER
-				fetch(process.env.BACKEND_URL + "/api/sportcenters/" + user.id, {
-					method: "GET",
-					headers: { "Content-Type": "application/json" }
-				})
-					.then(response => response.json())
-					.then(resultJson => setCenters(resultJson));
-			},
-
-			[]
-		);
+		useEffect(() => {
+			//GET COURTS OF A SPORT CENTER
+			fetch(process.env.BACKEND_URL + "/api/sportcenters/" + user.id, {
+				method: "GET",
+				headers: { "Content-Type": "application/json" }
+			})
+				.then(response => response.json())
+				.then(resultJson => setCenters(resultJson));
+		}, []);
 	}
 
 	//funcion que lleva a sign si no hay usario logueado

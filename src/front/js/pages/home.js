@@ -13,7 +13,7 @@ export const Home = () => {
 	const { store, actions } = useContext(Context);
 
 	return (
-		<div ClassName="body">
+		<div className="body">
 			<div className="w3-display-container w3-animate-opacity w3-center " id="home">
 				<div
 					className="imgHome "

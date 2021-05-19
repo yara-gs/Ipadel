@@ -19,16 +19,12 @@ export default function Center(props) {
 		state = props.center.state.charAt(0).toUpperCase() + props.center.state.slice(1);
 	}
 
-	useEffect(
-		() => {
-			//GET COURTS OF A SPORT CENTER
-			if (props.center) {
-				getImages();
-			}
-		},
-
-		[]
-	);
+	useEffect(() => {
+		//GET COURTS OF A SPORT CENTER
+		if (props.center) {
+			getImages();
+		}
+	}, []);
 
 	function getImages() {
 		//GET COURTS OF A SPORT CENTER

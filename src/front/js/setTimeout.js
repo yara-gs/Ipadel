@@ -8,14 +8,11 @@ export default function setTimeout_useEffect(text, setText, time) {
 		change = 0;
 	}
 	// despues de borrar se muestra un mensaje que desaparece al 1,5seg
-	useEffect(
-		() => {
-			const timer = setTimeout(() => {
-				setText("");
-			}, time);
-			return () => clearTimeout(timer);
-		},
-		[change]
-	);
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			setText("");
+		}, time);
+		return () => clearTimeout(timer);
+	}, [change]);
 	return text;
 }

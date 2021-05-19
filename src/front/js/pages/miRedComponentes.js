@@ -41,19 +41,16 @@ export default function MiRedComponentes() {
 			});
 	}, []);
 
-	useEffect(
-		() => {
-			if (user) {
-				fetch(process.env.BACKEND_URL + "/api/profile/" + user.id, {
-					method: "GET",
-					headers: { "Content-Type": "application/json" }
-				})
-					.then(response => response.json())
-					.then(resultJson => setProfile(resultJson));
-			}
-		},
-		[user]
-	);
+	useEffect(() => {
+		if (user) {
+			fetch(process.env.BACKEND_URL + "/api/profile/" + user.id, {
+				method: "GET",
+				headers: { "Content-Type": "application/json" }
+			})
+				.then(response => response.json())
+				.then(resultJson => setProfile(resultJson));
+		}
+	}, [user]);
 
 	useEffect(() => {
 		if (user !== null) {

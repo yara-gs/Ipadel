@@ -36,38 +36,30 @@ export default function ChooseCenter() {
 	// Get the DIV with overlay effect
 	var overlayBg = document.getElementById("myOverlay");
 
-	useEffect(
-		() => {
-			user = actions.getUser();
-			if (user) {
-				fetch(process.env.BACKEND_URL + "/api/profile/" + user.id, {
-					method: "GET",
-					headers: { "Content-Type": "application/json" }
-				})
-					.then(response => response.json())
-					.then(resultJson => {
-						setProfile(resultJson);
-						setLocationFilter(resultJson.city);
-						setDateFilter(today_string);
-						get_sportcenters(resultJson.city);
-					});
-			}
-		},
+	useEffect(() => {
+		user = actions.getUser();
+		if (user) {
+			fetch(process.env.BACKEND_URL + "/api/profile/" + user.id, {
+				method: "GET",
+				headers: { "Content-Type": "application/json" }
+			})
+				.then(response => response.json())
+				.then(resultJson => {
+					setProfile(resultJson);
+					setLocationFilter(resultJson.city);
+					setDateFilter(today_string);
+					get_sportcenters(resultJson.city);
+				});
+		}
+	}, []);
 
-		[]
-	);
-
-	useEffect(
-		() => {
-			if (dateCorrect) {
-				setMessage("");
-			} else {
-				setMessage("La fecha no puede ser anterior a hoy");
-			}
-		},
-
-		[dateFilter]
-	);
+	useEffect(() => {
+		if (dateCorrect) {
+			setMessage("");
+		} else {
+			setMessage("La fecha no puede ser anterior a hoy");
+		}
+	}, [dateFilter]);
 
 	if (inputdate.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0) && dateFilter != null) {
 		dateCorrect = false;

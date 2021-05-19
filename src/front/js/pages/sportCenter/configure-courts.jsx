@@ -40,19 +40,15 @@ export default function ConfigureCourts() {
 	pushSignPage();
 
 	if (user != null && sportCenter != null) {
-		useEffect(
-			() => {
-				//GET COURTS OF A SPORT CENTER
-				fetch(process.env.BACKEND_URL + "/api/" + sportCenter.id + "/courts", {
-					method: "GET",
-					headers: { "Content-Type": "application/json" }
-				})
-					.then(response => response.json())
-					.then(resultJson => setCourts(resultJson));
-			},
-
-			[]
-		);
+		useEffect(() => {
+			//GET COURTS OF A SPORT CENTER
+			fetch(process.env.BACKEND_URL + "/api/" + sportCenter.id + "/courts", {
+				method: "GET",
+				headers: { "Content-Type": "application/json" }
+			})
+				.then(response => response.json())
+				.then(resultJson => setCourts(resultJson));
+		}, []);
 	}
 	//SELECT CONFIGURE NEW COURT
 	if (addCourtBtn && court_aux["court_name"] === "") {
