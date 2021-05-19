@@ -17,6 +17,10 @@ import datetime
 import pytz 
 from tzlocal import get_localzone # $ pip install tzlocal
 
+# from sqlalchemy import create_engine
+
+# engine = create_engine("sql://u:p@host/db", pool_size=10, max_overflow=20)
+
 
 
 api = Blueprint('api', __name__)
@@ -100,9 +104,7 @@ def reset_password():
 def post_user_image(user_id):
     files=request.files
     user_id=user_id
-    user=User.query.get(user_id)
-    print(user)
-   
+    user=User.query.get(user_id)   
     try:
         url_image=upload_file_to_s3(files['image'], os.environ.get('S3_BUCKET_NAME'))
         print('URL',url_image)

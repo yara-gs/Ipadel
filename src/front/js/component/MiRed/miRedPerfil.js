@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import { Context } from "../../store/appContext";
 import "../../../styles/mired.scss";
 import "w3-css/w3.css";
@@ -10,11 +10,17 @@ export default function MiRedPerfil() {
 	const [inputuserImage, setInputUserImage] = useState(null);
 	const [userImage, setUserImage] = useState("https://www.w3schools.com/w3images/avatar2.png");
 	const [message, setMessage] = useState("");
+	const [error, setError] = useState("");
+	const [show_SaveImage, setShow_SaveImage] = useState(false);
 	let user = actions.getUser();
+	const fileInput = useRef(null);
 
 	useEffect(() => {
 		if (user) {
-			setUserImage(user.url_image);
+			if (user.url_image !== "") {
+				setUserImage(user.url_image);
+			}
+
 			fetch(process.env.BACKEND_URL + "/api/profile/" + user.id, {
 				method: "GET",
 				headers: {
@@ -42,13 +48,12 @@ export default function MiRedPerfil() {
 				.then(response => response.json())
 				.then(responseJson => {
 					setUserImage(responseJson);
-					user_with_image = user;
-					user_with_image.url_image = responseJson;
 					setMessage("Imagenes importadas correctamente");
+					setShow_SaveImage(false);
 				})
 
 				.catch(error => {
-					// setError(error.message);
+					setError(error.message);
 					setMessage("Fallo al importar imagenes");
 				});
 		}
@@ -62,47 +67,45 @@ export default function MiRedPerfil() {
 		}
 	}, [userImage]);
 
-	if (user) {
-		console.log(user);
-		console.log(userImage);
-		if (user.url_image !== "" && userImage !== user.url_image) {
-			setUserImage(user.url_image);
-		}
-	}
-
+	const onBtnClick = () => {
+		/*Collecting node-element and performing click*/
+		fileInput.current.click();
+		setShow_SaveImage(true);
+	};
 	return (
 		<div className="w3-col">
 			<div className="w3-card w3-round w3-white">
 				<div className="w3-container">
 					{user ? <h4 className="w3-center">{user.username}</h4> : ""}
 
-					<p className="w3-center d-flex justify-content-center">
-						{/* <div className="user-image d-flex justify-content-center">
-							<div
-								className="user-image"
-								style={{
-									backgroundImage: `url(${userImage})`,
-									width: "106px",
-									height: "106px"
-								}}
-							/>
-						</div> */}
-
+					<p className="w3-center d-flex justify-content-center inputfile-avatar">
 						<input
 							type="file"
+							name="image"
+							ref={fileInput}
 							onChange={event => setInputUserImage(event.currentTarget.files)}
+							style={{ display: "none" }}
+						/>
+						<button
 							className="user-image"
 							style={{
 								backgroundImage: `url(${userImage})`,
 								width: "106px",
 								height: "106px"
 							}}
-						/>
+							onClick={onBtnClick}></button>
+
 						<p />
 					</p>
-					<button onClick={() => upload_userImage()} className=" w3-btn w3-green">
-						Save
-					</button>
+					{show_SaveImage ? (
+						<p className="w3-center d-flex justify-content-center">
+							<button onClick={() => upload_userImage()} className=" w3-btn w3-green">
+								Guardar imagen
+							</button>
+						</p>
+					) : (
+						""
+					)}
 
 					{profile ? (
 						<p>

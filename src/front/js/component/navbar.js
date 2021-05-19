@@ -12,7 +12,7 @@ import LogoiPadel from "../component/logoiPadel.jsx";
 
 export default function Mynavbar() {
 	const { actions, store } = useContext(Context);
-	const [userImage, setUserImage] = useState("https://www.w3schools.com/w3images/avatar2.png");
+	const [userImage, setUserImage] = useState("");
 
 	let user = actions.getUser();
 	let loginDone = false;
@@ -23,7 +23,18 @@ export default function Mynavbar() {
 		loginDone = false;
 	} else loginDone = true;
 
+	useEffect(() => {
+		if (user) {
+			if (user.url_image !== "") {
+				setUserImage(user.url_image);
+			}
+		}
+	}, []);
+
 	if (user) {
+		if (userImage === "") {
+			setUserImage("https://www.w3schools.com/w3images/avatar2.png");
+		}
 		if (user.url_image !== "" && userImage !== user.url_image) {
 			setUserImage(user.url_image);
 		}
@@ -70,26 +81,6 @@ export default function Mynavbar() {
 										data-toggle="dropdown"
 										aria-haspopup="true"
 										aria-expanded="false">
-										{/* {show_userImage ? (
-											<div
-												className="user-image"
-												style={{
-													backgroundImage: `url(${userImage})`,
-													width: "60px",
-													height: "60px"
-												}}
-											/>
-										) : (
-											<img
-												src="https://www.w3schools.com/w3images/avatar2.png"
-												alt="Avatar"
-												className="rounded-circle"
-												id="image7"
-												width="20"
-												height="57"
-											/>
-										)} */}
-
 										<div
 											className="user-image"
 											style={{
