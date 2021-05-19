@@ -25,7 +25,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				let user_store = user;
 				user_store["msg"] = "";
 				setStore({ user: user_store });
-				console.log(user_store);
 				localStorage.setItem("user", JSON.stringify(user_store));
 			},
 			getUser: () => {

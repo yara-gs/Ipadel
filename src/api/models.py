@@ -49,6 +49,9 @@ class User(db.Model):
     birth=db.Column(db.String(120), unique=False, nullable=True)
     country=db.Column(db.String(120),unique=False, nullable=True)
     city=db.Column(db.String(120),unique=False, nullable=True)
+    url_image=db.Column(db.String(120), unique=False, nullable=True)
+
+
 
 
     # relacion one to many con tabla User (un usuario puede tener muchos centros)
@@ -100,8 +103,14 @@ class User(db.Model):
             "birth":self.birth,
             "country":self.country,
             "city":self.city,
+            "url_image":self.url_image,
             # do not serialize the password, its a security breach
         }
+    
+      # save data in the database
+    def save(self):
+        db.session.add(self)
+        return db.session.commit()
 
 
 

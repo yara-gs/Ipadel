@@ -91,6 +91,29 @@ def reset_password():
 
     return jsonify({}), 200
 
+
+#USER
+#POST USER-IMAGE
+@api.route ('/user_image/<int:user_id>', methods=['PUT'])
+def post_user_image(user_id):
+    files=request.files
+    user_id=user_id
+    user=User.query.get(user_id)
+    print(user)
+   
+    try:
+        url_image=upload_file_to_s3(files['image'], os.environ.get('S3_BUCKET_NAME'))
+        print('URL',url_image)
+        user.url_image=url_image
+        user.save()
+
+    except Exception as e:
+        raise APIException("Fallo al importar imagenes")
+
+  
+    return jsonify(url_image),200
+
+
 # PROFILE
 
 # POST NEW PROFILE

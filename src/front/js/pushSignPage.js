@@ -9,7 +9,6 @@ export default function pushSignPage() {
 	useEffect(() => {
 		let user = null;
 		user = actions.getUser();
-		console.log(user);
 		if (user === null || user.msg != "" || !actions.getAccessToken()) {
 			history.push("/login");
 		}
