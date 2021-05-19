@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
@@ -12,13 +12,22 @@ import LogoiPadel from "../component/logoiPadel.jsx";
 
 export default function Mynavbar() {
 	const { actions, store } = useContext(Context);
+	const [userImage, setUserImage] = useState("https://www.w3schools.com/w3images/avatar2.png");
 
 	let user = actions.getUser();
 	let loginDone = false;
+	let show_userImage = false;
+	let user_urlImage_bck = "https://www.w3schools.com/w3images/avatar2.png";
 
 	if (user === null || user.msg != "") {
 		loginDone = false;
 	} else loginDone = true;
+
+	if (user) {
+		if (user.url_image !== "" && userImage !== user.url_image) {
+			setUserImage(user.url_image);
+		}
+	}
 
 	return (
 		<Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -61,13 +70,33 @@ export default function Mynavbar() {
 										data-toggle="dropdown"
 										aria-haspopup="true"
 										aria-expanded="false">
-										<img
-											src="https://www.w3schools.com/w3images/avatar2.png"
-											alt="Avatar"
-											className="rounded-circle"
-											id="image7"
-											width="20"
-											height="57"
+										{/* {show_userImage ? (
+											<div
+												className="user-image"
+												style={{
+													backgroundImage: `url(${userImage})`,
+													width: "60px",
+													height: "60px"
+												}}
+											/>
+										) : (
+											<img
+												src="https://www.w3schools.com/w3images/avatar2.png"
+												alt="Avatar"
+												className="rounded-circle"
+												id="image7"
+												width="20"
+												height="57"
+											/>
+										)} */}
+
+										<div
+											className="user-image"
+											style={{
+												backgroundImage: `url(${userImage})`,
+												width: "60px",
+												height: "60px"
+											}}
 										/>
 									</a>
 									<div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">

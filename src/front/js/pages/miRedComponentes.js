@@ -37,7 +37,9 @@ export default function MiRedComponentes() {
 		})
 			.then(response => response.json())
 			.then(responseJson => {
-				actions.saveUser(responseJson);
+				let user_with_image = responseJson;
+				user_with_image.url_image = "";
+				actions.saveUser(user_with_image);
 			});
 	}, []);
 
