@@ -119,22 +119,24 @@ export default function MiRedPosts(props) {
 		<div className="w3-col">
 			<div className="w3-container w3-card w3-white w3-round w3-margin">
 				<br />
-				<img
-					src="https://www.w3schools.com/w3images/avatar2.png"
-					alt="Avatar"
-					className="w3-left w3-circle w3-margin-right"
-					id="image7"
+				<div
+					className="user-image w3-left w3-circle w3-margin-right"
+					style={{
+						backgroundImage: `url(${props.post.user_url_image})`,
+						width: "60px",
+						height: "60px"
+					}}
 				/>
 				<span className="w3-right w3-opacity">1 min</span>
-				{user ? <h4>{user.username}</h4> : ""}
+				{user ? <h4>{props.post.username}</h4> : ""}
 				<br />
 				<hr className="w3-clear" />
-				{postsList ? <p>{props.post}</p> : ""}
+				{postsList ? <p>{props.post.text}</p> : ""}
 				<div className="w3-row-padding" id="container2">
 					{postsList ? (
 						<div className="w3-border w3-padding w3-image">
 							<img
-								src={props.url_image}
+								src={props.post.url_image}
 								id="image8"
 								alt="Northern Lights"
 								className="w3-margin-bottom imagePosts w3-hover-grayscale"
@@ -160,7 +162,7 @@ export default function MiRedPosts(props) {
 
 				<button
 					type="button"
-					onClick={() => createComment(props.id, comment)}
+					onClick={() => createComment(props.post.id, comment)}
 					className="w3-button w3-theme-d2 w3-margin-bottom">
 					<i className="fa fa-comment" />  Comment
 				</button>
@@ -173,7 +175,5 @@ export default function MiRedPosts(props) {
 }
 
 MiRedPosts.propTypes = {
-	url_image: PropTypes.string,
-	post: PropTypes.string,
-	id: PropTypes.number
+	post: PropTypes.object
 };

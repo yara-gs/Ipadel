@@ -53,11 +53,7 @@ export default function MiRedComponentes() {
 			})
 				.then(response => response.json())
 				.then(resultJson => setProfile(resultJson));
-		}
-	}, [user]);
 
-	useEffect(() => {
-		if (user) {
 			fetch(process.env.BACKEND_URL + "/api/users/", {
 				method: "GET",
 				headers: { "Content-Type": "application/json" }
@@ -84,7 +80,7 @@ export default function MiRedComponentes() {
 					setFriends(resultJson);
 				});
 		}
-	}, []);
+	}, [user]);
 
 	function createPost() {
 		const formData = new FormData();
@@ -194,7 +190,7 @@ export default function MiRedComponentes() {
 					</div>
 				</div>
 				{postsList.map((post, index) => {
-					return <MiRedPosts key={index} post={post.text} url_image={post.url_image} id={post.id} />;
+					return <MiRedPosts key={index} post={post} />;
 				})}
 			</div>
 			<div className="w3-col m2">

@@ -208,9 +208,13 @@ def register_new_post():
     text=request.form.get('text')
     local_date=datetime.datetime.now()+datetime.timedelta(hours=2)
     username=User.get_id(user_id).username
+    user_url_image=User.get_id(user_id).url_image
+    print ("USER_URL ",user_url_image)
+    if user_url_image=="":
+       user_url_image="https://www.w3schools.com/w3images/avatar2.png"
     try:
         url_image=upload_file_to_s3(files['image'], os.environ.get('S3_BUCKET_NAME'))
-        new_post=Post(user_id=user_id,username=username,text=text,url_image=url_image,datetime=local_date)
+        new_post=Post(user_id=user_id,username=username,user_url_image=user_url_image,text=text,url_image=url_image,datetime=local_date)
         new_post.save()
 
     except Exception as e:
@@ -236,6 +240,7 @@ def get_posts(user_id):
         posts_list.append(post.serialize(with_comments))   
 
     posts_list.sort(key=itemgetter('datetime'), reverse=True)
+    
 
     return jsonify(posts_list), 200
 

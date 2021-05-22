@@ -230,6 +230,7 @@ class Post(db.Model,BaseModel,UserId):
 
     id=db.Column(db.Integer, primary_key=True)
     username=db.Column(db.String(120), unique=False, nullable=True)
+    user_url_image=db.Column(db.String(120), unique=False, nullable=True)
     text=db.Column(db.String(120), unique=False, nullable=True)
     url_image=db.Column(db.String(120), unique=False, nullable=False)
     datetime=db.Column(db.DateTime,unique=False,nullable=True)
@@ -249,9 +250,10 @@ class Post(db.Model,BaseModel,UserId):
         return '<Post %r>' % self.id
     
     #metodo de instancia que obliga a que haya datos siempre que se llama       
-    def __init__(self,user_id,username,text,url_image,datetime):
+    def __init__(self,user_id,username,user_url_image,text,url_image,datetime):
         self.user_id=user_id
-        self.username
+        self.username=username
+        self.user_url_image=user_url_image
         self.text=text
         self.url_image=url_image
         self.datetime=datetime
@@ -261,6 +263,7 @@ class Post(db.Model,BaseModel,UserId):
         post_serialize={
             "id": self.id,
             "user_id":self.user_id,
+            "user_url_image": self.user_url_image,
             "username":self.username,
             "text": self.text,
             "url_image": self.url_image,
@@ -286,7 +289,7 @@ class Post(db.Model,BaseModel,UserId):
     @classmethod
     def add_register(cls, request_json):
         
-        register=cls(request_json["user_id"],request_json["username"],request_json["text"],request_json["url_image"],request_json["datetime"])
+        register=cls(request_json["user_id"],request_json["username"],request_json["user_url_image"],request_json["text"],request_json["url_image"],request_json["datetime"])
         register.body(request_json)
         return register
     
