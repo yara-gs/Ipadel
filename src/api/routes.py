@@ -3,7 +3,7 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 import os
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, SportCenter,Court,Image,Profile,Post,Comment,Like,Booking,PreBooking,ForgotPasswordEmail
+from api.models import db, User, Friend,SportCenter,Court,Image,Profile,Post,Comment,Like,Booking,PreBooking,ForgotPasswordEmail
 from api.utils import generate_sitemap, APIException
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import jwt_required
@@ -116,6 +116,52 @@ def post_user_image(user_id):
 
   
     return jsonify(url_image),200
+
+
+#GET ALL USERS
+
+@api.route ('/users', methods=['GET'])
+def getall_users():
+
+    users=User.get_all()
+    users_list = []
+
+    for user in users:
+        user_dict={
+            "id":user.id,
+            "username":user.username,
+            "url_image":user.url_image,
+        }   
+        users_list.append(user_dict)
+
+    return jsonify(users_list), 200
+
+
+#GET FRIENDS BY USER ID
+
+@api.route ('/friends/<int:user_id>', methods=['GET'])
+def getfriends_byuserid(user_id):
+
+    friends=Friend.items_by_user_id(user_id)
+    friends_list = []
+
+    for friend in friends:
+        friends_list.append(friend.serialize())
+
+    return jsonify(friends_list), 200
+
+
+#CREATE FRIEND 
+
+@api.route ('/createfriend', methods=['POST'])
+def register_new_friend():
+
+    body=request.get_json()
+    new_friend=Friend.add_register(body)
+    new_friend.save()
+
+    return jsonify(new_friend.serialize()),200
+
 
 
 # PROFILE

@@ -76,7 +76,7 @@ export default function MiRedPerfil() {
 		<div className="w3-col">
 			<div className="w3-card w3-round w3-white">
 				<div className="w3-container">
-					{user ? <h4 className="w3-center">{user.username}</h4> : ""}
+					{user ? <div className="w3-center  pb-2 username">{user.username}</div> : ""}
 
 					<p className="w3-center d-flex justify-content-center inputfile-avatar">
 						<input
