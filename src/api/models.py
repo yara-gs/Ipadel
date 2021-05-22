@@ -39,7 +39,7 @@ class ForgotPasswordEmail():
         return url
 
 
-class User(db.Model):
+class User(db.Model,BaseModel):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(120), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
@@ -61,6 +61,8 @@ class User(db.Model):
     comments=db.relationship("Comment",back_populates="user")
     likes=db.relationship("Like",back_populates="user")
     prebookings=db.relationship("PreBooking",back_populates="user")
+    friends=db.relationship("Friend",back_populates="user")
+    
   
 
 
@@ -113,6 +115,53 @@ class User(db.Model):
         db.session.add(self)
         return db.session.commit()
 
+
+
+class Friend(db.Model,BaseModel,UserId):
+    id = db.Column(db.Integer, primary_key=True)
+    userfriend_id=db.Column(db.Integer, unique=True, nullable=False)
+    username = db.Column(db.String(120), unique=True, nullable=False)
+    url_image=db.Column(db.String(120), unique=False, nullable=True)
+
+    # relacion one to many con tabla User (un usuario puede tener muchos centros)
+    user_id=db.Column(db.Integer,db.ForeignKey('user.id'))
+    user=db.relationship("User",back_populates="friends")
+
+    def __repr__(self):
+        return '<Friend %r>' % self.username
+    
+      #metodo de instancia que obliga a que haya datos siempre que se llama       
+    def __init__(self,user_id, username,url_image):
+        self.user_id=user_id
+        self.username=username
+        self.url_image=url_image
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "username": self.username,
+            "url_image":self.url_image,
+            # do not serialize the password, its a security breach
+        }
+
+    @classmethod
+    def add_register(cls, request_json):
+        
+        register=cls(request_json["user_id"],request_json["username"],request_json["url_image"])
+        register.body(request_json)
+        return register
+    
+    #get body
+    def body(self, request_json):
+        self.user_id=request_json["user_id"]
+        self.username=request_json["username"]
+        self.url_image=request_json["url_image"]
+        
+    # save data in the database
+    def save(self):
+        db.session.add(self)
+        return db.session.commit()
+    
 
 
 #PROFILE MI RED

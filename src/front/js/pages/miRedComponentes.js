@@ -1,8 +1,9 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import { Context } from "../store/appContext";
 import { useHistory } from "react-router-dom";
 import "../../styles/mired.scss";
 import "w3-css/w3.css";
+import { UncontrolledTooltip } from "reactstrap";
 import MiRedPerfil from "../component/MiRed/miRedPerfil";
 import MiRedInterests from "../component/MiRed/miRedInterests";
 import MiRedPostText from "../component/MiRed/miRedPostText";
@@ -13,11 +14,14 @@ import MiRedFriendRequest from "../component/MiRed/miRedFriendRequest";
 export default function MiRedComponentes() {
 	const { actions } = useContext(Context);
 	const history = useHistory();
+	const fileInput = useRef(null);
 
 	const [postsList, setPostsList] = useState([]);
-	const [post, setPost] = React.useState("");
+	const [post, setPost] = useState("");
 	const [message, setMessage] = useState("");
-	const [image, setImage] = React.useState("");
+	const [image, setImage] = useState("");
+	const [friends, setFriends] = useState(null);
+	const [users, setUsers] = useState(null);
 
 	let user = actions.getUser();
 	const [profile, setProfile] = useState(null);
@@ -37,9 +41,6 @@ export default function MiRedComponentes() {
 		})
 			.then(response => response.json())
 			.then(responseJson => {
-				// let user_with_image = responseJson;
-				// user_with_image.url_image = "";
-				// actions.saveUser(user_with_image);
 				actions.saveUser(responseJson);
 			});
 	}, []);
@@ -56,7 +57,15 @@ export default function MiRedComponentes() {
 	}, [user]);
 
 	useEffect(() => {
-		if (user !== null) {
+		if (user) {
+			fetch(process.env.BACKEND_URL + "/api/users/", {
+				method: "GET",
+				headers: { "Content-Type": "application/json" }
+			})
+				.then(response => response.json())
+				.then(resultJson => {
+					setUsers(resultJson);
+				});
 			fetch(process.env.BACKEND_URL + "/api/posts/" + user.id, {
 				method: "GET",
 				headers: { "Content-Type": "application/json" }
@@ -64,6 +73,15 @@ export default function MiRedComponentes() {
 				.then(response => response.json())
 				.then(resultJson => {
 					setPostsList(resultJson);
+				});
+
+			fetch(process.env.BACKEND_URL + "/api/friends/" + user.id, {
+				method: "GET",
+				headers: { "Content-Type": "application/json" }
+			})
+				.then(response => response.json())
+				.then(resultJson => {
+					setFriends(resultJson);
 				});
 		}
 	}, []);
@@ -74,7 +92,6 @@ export default function MiRedComponentes() {
 		formData.append("image", image[0]);
 		formData.append("text", post);
 		let responseOk = false;
-		console.log(formData);
 
 		setMessage("");
 		fetch(process.env.BACKEND_URL + "/api/post", {
@@ -86,23 +103,32 @@ export default function MiRedComponentes() {
 			})
 			.then(responseJson => {
 				let newPost = [responseJson, ...postsList];
-				// newPost.push(responseJson);
 				setPostsList(newPost);
 
 				responseOk = response.ok;
 				if (response.ok) {
 					setMessage("Imagenes importadas correctamente");
+					setPost("");
+					setImage("");
 				} else {
 					setMessage("Fallo al importar imagenes");
+					setPost("");
+					setImage("");
 				}
 			})
 			.catch(error => {
 				setMessage("Fallo al importar imagenes");
+				setPost("");
+				setImage("");
 			});
 
 		//COMMENTS
 		//GET ALL COMMENTS+LIKES by user_id
 	}
+	const onBtnClick = () => {
+		/*Collecting node-element and performing click*/
+		fileInput.current.click();
+	};
 
 	return (
 		<div className="w3-margin-top">
@@ -118,6 +144,7 @@ export default function MiRedComponentes() {
 							<div className="w3-card w3-round w3-white">
 								<div className="w3-container w3-padding">
 									<h6 className="w3-opacity">Comparte con tus amigos tu pasion por el padel!</h6>
+
 									<input
 										className="w3-border w3-padding w3-col m12"
 										value={post}
@@ -128,11 +155,37 @@ export default function MiRedComponentes() {
 									/>
 									<p />
 									<div>
-										<input type="file" onChange={event => setImage(event.currentTarget.files)} />
-										<p />
-										<button onClick={() => createPost()} className=" w3-btn w3-green">
-											Post
-										</button>
+										<div className=" w3-col m12 d-flex justify-content-between">
+											<div className="upload-img">
+												<input
+													type="file"
+													name="image"
+													ref={fileInput}
+													onChange={event => setImage(event.currentTarget.files)}
+													style={{ display: "none" }}
+												/>
+
+												<button
+													type="button"
+													className=" far fa-images"
+													id="Tooltip_addbtn"
+													onClick={onBtnClick}
+												/>
+												{image !== "" ? <span className="text_xs">{image[0].name}</span> : ""}
+												<UncontrolledTooltip placement="bottom" target="Tooltip_addbtn">
+													Subir Imagen
+												</UncontrolledTooltip>
+											</div>
+											<div className="post-btn">
+												<button
+													onClick={() => createPost()}
+													className="w3-btn w3-green"
+													style={{ width: "60px" }}>
+													Post
+												</button>
+											</div>
+										</div>
+
 										{/* <button onClick={() => deletePost(1)}>Delete Post</button> */}
 									</div>
 								</div>
