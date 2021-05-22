@@ -99,14 +99,16 @@ export default function ChooseCenter() {
 	setTimeout_useEffect(message, setMessage, 2000);
 
 	return (
-		<div>
+		<div className="body">
 			{/* <!-- Sidebar/menu --> */}
 			<nav
 				className="w3-sidebar w3-light-grey w3-collapse w3-white w3-animate-left chooseCenter-nav"
 				id="mySidebar">
 				<div className="w3-container w3-display-container w3-padding-16">
 					<i onClick="w3_close()" className="fa fa-remove w3-hide-large w3-button w3-transparent " />
-					<h3>Reservar Pista</h3>
+					<h5 className="mt-4">
+						<div className="text_xlarge">Reservar Pista</div>
+					</h5>
 
 					<hr />
 
@@ -227,8 +229,10 @@ export default function ChooseCenter() {
 				{/* <!-- !PAGE CONTENT! --> */}
 				<div className="w3-main ">
 					{/* <!-- Header --> */}
-
-					<h3 className="pt-2 pb-2 ">Centros Deportivos </h3>
+					<h5 className="mt-4">
+						<div className="pt-2 pb-2 text_xlarge">Centros Deportivos </div>
+					</h5>
+					<br />
 
 					{centersbyCity != null && dateCorrect ? (
 						<ul>

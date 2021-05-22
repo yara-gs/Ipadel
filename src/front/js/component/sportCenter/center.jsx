@@ -44,7 +44,7 @@ export default function Center(props) {
 	}
 
 	return (
-		<div className="w3-panel">
+		<div className="w3-panel mt-3">
 			<div className="w3-row-padding">
 				<div className="w3-twothird">
 					<table className="w3-table w3-striped w3-white w3-card-4  ">

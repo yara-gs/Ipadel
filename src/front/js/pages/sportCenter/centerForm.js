@@ -15,7 +15,7 @@ export default function CenterForm() {
 	//funcion que lleva a sign si no hay usario logueado
 	pushSignPage();
 	return (
-		<div>
+		<div className="body-center">
 			{/* <!-- multistep form --> */}
 			<form className="msform" method="post">
 				{/* <!-- progressbar --> */}

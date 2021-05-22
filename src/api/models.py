@@ -229,8 +229,11 @@ class Post(db.Model,BaseModel,UserId):
     __tablename__ = 'post'
 
     id=db.Column(db.Integer, primary_key=True)
+    username=db.Column(db.String(120), unique=False, nullable=True)
     text=db.Column(db.String(120), unique=False, nullable=True)
     url_image=db.Column(db.String(120), unique=False, nullable=False)
+    datetime=db.Column(db.DateTime,unique=False,nullable=True)
+    
   
     # relacion one to many con tabla User (un usuario puede tener muchos centros)
     user_id=db.Column(db.Integer,db.ForeignKey('user.id'))
@@ -246,17 +249,22 @@ class Post(db.Model,BaseModel,UserId):
         return '<Post %r>' % self.id
     
     #metodo de instancia que obliga a que haya datos siempre que se llama       
-    def __init__(self,user_id,text,url_image):
+    def __init__(self,user_id,username,text,url_image,datetime):
         self.user_id=user_id
+        self.username
         self.text=text
         self.url_image=url_image
+        self.datetime=datetime
 
     #metodo de instancia serializa el diccionario
     def serialize(self,with_comments=True):
         post_serialize={
             "id": self.id,
+            "user_id":self.user_id,
+            "username":self.username,
             "text": self.text,
-            "url_image": self.url_image
+            "url_image": self.url_image,
+            "datetime":self.datetime
         }
 
         if with_comments:
@@ -278,7 +286,7 @@ class Post(db.Model,BaseModel,UserId):
     @classmethod
     def add_register(cls, request_json):
         
-        register=cls(request_json["user_id"],request_json["text"],request_json["url_image"])
+        register=cls(request_json["user_id"],request_json["username"],request_json["text"],request_json["url_image"],request_json["datetime"])
         register.body(request_json)
         return register
     

@@ -131,7 +131,7 @@ export default function MiRedComponentes() {
 	};
 
 	return (
-		<div className="w3-margin-top">
+		<div className="body-mired ">
 			<div className="w3-col m3">
 				<MiRedPerfil />
 				<MiRedInterests />

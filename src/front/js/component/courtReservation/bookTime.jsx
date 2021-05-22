@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../../store/appContext";
 import PropTypes from "prop-types";
 import { Modal, Button } from "react-bootstrap";
+import { UncontrolledTooltip } from "reactstrap";
 
 import "../../../styles/court-reservation.scss";
 import "../../../styles/imgcarousel.scss";
@@ -13,6 +14,8 @@ export default function BookTime(props) {
 	let user = actions.getUser();
 	const [showReservation, setShowReservation] = useState(false);
 	const [showReservationBtn, setShowReservationBtn] = useState(true);
+	const [tooltipchange, setTooltipchange] = useState(true);
+	const [tooltip_text, setTooltip_text] = useState("");
 
 	const [message, setMessage] = useState("Confirmar Reserva");
 
@@ -41,7 +44,9 @@ export default function BookTime(props) {
 
 				if (availability_players >= props.players) {
 					className = "booktime green";
-				} else className = "booktime red";
+				} else {
+					className = "booktime red";
+				}
 			}
 		}
 	}
@@ -62,9 +67,6 @@ export default function BookTime(props) {
 			user_id: user.id
 		};
 
-		// setMessage("");
-		// setError("");
-
 		//envio datos a la base de datos
 		fetch(process.env.BACKEND_URL + "/api/prebooking/" + body.sportcenter_id, {
 			method: "POST",
@@ -78,6 +80,7 @@ export default function BookTime(props) {
 				props.updatePrebookings();
 				setMessage("Reserva realizada con éxito");
 				setShowReservationBtn(false);
+				setTooltipchange(false);
 			})
 			.catch(error => {
 				setMessage("Error al procesar la reserva");
@@ -90,15 +93,32 @@ export default function BookTime(props) {
 		} else setShowReservation(false);
 	}
 
-	// //call funcion setTimeout
-	// setTimeout_useEffect(message, setMessage, 2000);
+	function onMouseEnterHandler() {
+		if (className === "booktime red") {
+			setTooltip_text("Sin plazas disponibles");
+		} else {
+			setTooltip_text("Plazas disponibles: " + availability_players);
+		}
+	}
+
 	return (
 		<div className="court-icon">
 			<div className="availability_players">{availability_players}</div>
 
-			<button className={className} onClick={() => showConfirmation()}>
+			<button
+				id="Tooltip_available_players"
+				className={className}
+				onClick={() => showConfirmation()}
+				onMouseEnter={onMouseEnterHandler}
+				onMouseLeave={() => {
+					setTooltip_text("");
+				}}>
 				{hour_start}-{hour_end}
 			</button>
+			<UncontrolledTooltip placement="top" target="Tooltip_available_players">
+				{tooltip_text}
+			</UncontrolledTooltip>
+
 			<Modal show={showReservation} onHide={handleClose}>
 				<Modal.Header closeButton>
 					<Modal.Title>

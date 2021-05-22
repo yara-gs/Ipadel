@@ -6,7 +6,6 @@ import "w3-css/w3.css";
 export default function MiRedPerfil() {
 	const { actions, store } = useContext(Context);
 	const [profile, setProfile] = useState(null);
-	const [city, setCity] = useState("");
 	const [inputuserImage, setInputUserImage] = useState(null);
 	const [userImage, setUserImage] = useState("https://www.w3schools.com/w3images/avatar2.png");
 	const [message, setMessage] = useState("");
@@ -14,6 +13,8 @@ export default function MiRedPerfil() {
 	const [show_SaveImage, setShow_SaveImage] = useState(false);
 	let user = actions.getUser();
 	const fileInput = useRef(null);
+	let city = "";
+	let country = "";
 
 	useEffect(() => {
 		if (user) {
@@ -72,6 +73,12 @@ export default function MiRedPerfil() {
 		fileInput.current.click();
 		setShow_SaveImage(true);
 	};
+
+	if (profile) {
+		city = profile.city.charAt(0).toUpperCase() + profile.city.slice(1);
+		country = profile.country.charAt(0).toUpperCase() + profile.country.slice(1);
+	}
+
 	return (
 		<div className="w3-col">
 			<div className="w3-card w3-round w3-white">
@@ -107,14 +114,10 @@ export default function MiRedPerfil() {
 						""
 					)}
 
-					{profile ? (
-						<p>
-							<i className="fa fa-home fa-fw w3-margin-right w3-text-theme" /> {profile.city},{" "}
-							{profile.country}
-						</p>
-					) : (
-						""
-					)}
+					<p>
+						<i className="fa fa-home fa-fw w3-margin-right w3-text-theme" /> {city}, {country}
+					</p>
+
 					{profile ? (
 						<p>
 							<i className="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme" /> {profile.birth}

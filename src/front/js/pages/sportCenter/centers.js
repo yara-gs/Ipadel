@@ -28,15 +28,13 @@ export default function Centers() {
 	pushSignPage();
 
 	return (
-		<div>
+		<div className="body-centers">
 			{/* <!-- !PAGE CONTENT! --> */}
 			<div className="w3-main">
 				{/* <!-- Header --> */}
-				<header className="w3-container">
-					<h5>
-						<div className="text_large">
-							<i className="fa fa-dashboard" /> Centros deportivos
-						</div>
+				<header className="header ">
+					<h5 className="mt-4">
+						<div className="text_xlarge pl-4">Centros deportivos</div>
 					</h5>
 				</header>
 

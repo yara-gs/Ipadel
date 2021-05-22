@@ -16,6 +16,7 @@ from datetime import datetime,date,timedelta
 import datetime
 import pytz 
 from tzlocal import get_localzone # $ pip install tzlocal
+from operator import itemgetter
 
 # from sqlalchemy import create_engine
 
@@ -205,13 +206,11 @@ def register_new_post():
     files=request.files
     user_id=request.form.get('user_id')
     text=request.form.get('text')
-    print('USER_ID',user_id)
-    print('TEXT',text)
-   
+    local_date=datetime.datetime.now()+datetime.timedelta(hours=2)
+    username=User.get_id(user_id).username
     try:
         url_image=upload_file_to_s3(files['image'], os.environ.get('S3_BUCKET_NAME'))
-        print('URL',url_image)
-        new_post=Post(user_id=user_id,text=text,url_image=url_image)
+        new_post=Post(user_id=user_id,username=username,text=text,url_image=url_image,datetime=local_date)
         new_post.save()
 
     except Exception as e:
@@ -223,14 +222,21 @@ def register_new_post():
 # POST: Get posts by user Id
 @api.route ('/posts/<int:user_id>', methods=['GET'])
 def get_posts(user_id):
-    with_comments=True
+    with_comments=False
     posts=Post.items_by_user_id(user_id)
+    friends=Friend.items_by_user_id(user_id)
     posts_list = []
-    print(posts)
-    for post in posts:
-        posts_list.append(post.serialize(with_comments))
-        print(posts_list)
+
+    for friend in friends:
+        posts_friend=Post.items_by_user_id(friend.userfriend_id)
+        for post_friend in posts_friend:
+            posts_list.append(post_friend.serialize(with_comments))
     
+    for post in posts:
+        posts_list.append(post.serialize(with_comments))   
+
+    posts_list.sort(key=itemgetter('datetime'), reverse=True)
+
     return jsonify(posts_list), 200
 
 
@@ -795,25 +801,25 @@ def prebooking(sportcenter_id):
 
 
 
-# PREBOOKING: OBTENER TODAS LAS RESERVAS POR USUARIO
-@api.route ('bookingCourt', methods=['GET'])
-def get_bookingcourt():
+# # PREBOOKING: OBTENER TODAS LAS RESERVAS POR USUARIO
+# @api.route ('bookingCourt', methods=['GET'])
+# def get_bookingcourt():
 
-    courts=Court.query.filer_by(sportcenter_id=sportcenter_id).all()
+#     courts=Court.query.filer_by(sportcenter_id=sportcenter_id).all()
     
-    date_time_str = "2021-05-18 14:00:00"
-    datetime_obj = datetime.datetime.strptime(date_time_str, '%Y-%m-%d %H:%M:%S')
-    print(datetime_obj)
+#     date_time_str = "2021-05-18 14:00:00"
+#     datetime_obj = datetime.datetime.strptime(date_time_str, '%Y-%m-%d %H:%M:%S')
+#     print(datetime_obj)
 
-    for court in courts:
+#     for court in courts:
 
-        bookings=Booking.query.filter_by(datetime=datetime_obj).filter_by(court_id=court.id).first()
-        if(bookings):
-            print("pista reservarda ",court.id)
-        else: 
-            print("pista libre",court.id)
-            break
+#         bookings=Booking.query.filter_by(datetime=datetime_obj).filter_by(court_id=court.id).first()
+#         if(bookings):
+#             print("pista reservarda ",court.id)
+#         else: 
+#             print("pista libre",court.id)
+#             break
 
 
     
-    return jsonify({}), 200
+#     return jsonify({}), 200

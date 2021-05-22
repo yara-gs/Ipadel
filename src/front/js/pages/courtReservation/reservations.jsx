@@ -28,15 +28,13 @@ export default function Reservations() {
 	pushSignPage();
 
 	return (
-		<div>
+		<div className="body ">
 			{/* <!-- !PAGE CONTENT! --> */}
-			<div className="w3-main">
+			<div className="w3-main ">
 				{/* <!-- Header --> */}
-				<header className="w3-container">
-					<h5>
-						<div className="text_large">
-							<i className="fa fa-dashboard" /> Mis Reservas
-						</div>
+				<header className="w3-container ">
+					<h5 className="mt-4">
+						<div className="text_xlarge pl-4">Mis Reservas</div>
 					</h5>
 				</header>
 
@@ -50,6 +48,9 @@ export default function Reservations() {
 					"Loading"
 				)}
 			</div>
+			<br />
+			<br />
+			<br />
 		</div>
 	);
 }

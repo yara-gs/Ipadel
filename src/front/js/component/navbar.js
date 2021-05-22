@@ -41,7 +41,7 @@ export default function Mynavbar() {
 	}
 
 	return (
-		<Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+		<Navbar className="fixed-top" collapseOnSelect expand="lg" bg="dark" variant="dark">
 			<Link className="navbar-brand" to="/">
 				<span className="iPadel ">
 					<LogoiPadel />
@@ -85,8 +85,8 @@ export default function Mynavbar() {
 											className="user-image"
 											style={{
 												backgroundImage: `url(${userImage})`,
-												width: "60px",
-												height: "60px"
+												width: "40px",
+												height: "40px"
 											}}
 										/>
 									</a>

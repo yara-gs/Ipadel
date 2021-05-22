@@ -165,8 +165,8 @@ export default function ConfigureCourts() {
 	setTimeout_useEffect(message, setMessage, 1500);
 
 	return (
-		<div>
-			<form className="msform" method="post">
+		<div className="body">
+			<form className="msform pt-5" method="post">
 				{sportCenter ? <div className="text_large pb-2"> {sportCenter.center_name}</div> : ""}
 
 				{/* <!-- progressbar --> */}
