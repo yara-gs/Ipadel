@@ -53,7 +53,7 @@ export default function Center(props) {
 								<i className="fas fa-baseball-ball w3-text-amber  " />
 								Centro
 							</td>
-							<td className="">{props.center.center_name}</td>
+							<td className=""> {props.center.center_name}</td>
 							<td>
 								<button className="fas fa-pen center-edit-btn" />
 							</td>
@@ -103,8 +103,18 @@ export default function Center(props) {
 						</tr>
 						<tr>
 							<td className="first-column">
-								<i className="fas fa-list-ol w3-text-green w3-large" />
+								<i className=" w3-large fas fa-bookmark w3-text-green " />
 								Pistas
+							</td>
+							<td />
+							<td>
+								<button className="fas fa-pen center-edit-btn" onClick={() => editSportCenter()} />
+							</td>
+						</tr>
+						<tr>
+							<td className="first-column">
+								<i className="fas fa-list-ol w3-text-purple w3-large" />
+								Reservas
 							</td>
 							<td />
 							<td>

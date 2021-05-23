@@ -67,7 +67,7 @@ export default function ImportImages(props) {
 
 	return (
 		<div>
-			<div className=" d-flex justify-content-start container-court">
+			<div className=" d-flex justify-content-center container-court">
 				<div className="upload-img">
 					<input
 						type="file"
@@ -89,13 +89,14 @@ export default function ImportImages(props) {
 					<UncontrolledTooltip placement="bottom" target="Tooltip_addbtn">
 						Cargar imagenes
 					</UncontrolledTooltip>
+					<p>{centerImages !== "" ? <span className="text_xs">{centerImages.length} imagenes</span> : ""}</p>
 				</div>
 
 				<div>
 					{centerImages !== "" ? (
-						<span className="">
+						<span>
 							<button id="Tooltip_savebtn" className="far fa-save" onClick={uploadImages}></button>
-							{centerImages !== "" ? <span className="text_xs">{centerImages.length} imagenes</span> : ""}
+
 							<UncontrolledTooltip placement="bottom" target="Tooltip_savebtn">
 								Guardar imagenes
 							</UncontrolledTooltip>

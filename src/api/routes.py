@@ -463,6 +463,15 @@ def register_new_court():
   
     return jsonify(court.serialize()),200
 
+#COURTS:  courts by sportcenter_id
+@api.route ('/courts/<int:sportcenter_id>', methods=['GET'])
+def get_court(sportcenter_id):
+
+    courts= db.session.query(func.count(Court.id).label("number")).filter(Court.sportcenter_id==sportcenter_id).all()
+    for court in courts:
+        court_number=court.number
+    
+    return jsonify(court_number), 200
 
 
 #COURTS:  Update court by id
