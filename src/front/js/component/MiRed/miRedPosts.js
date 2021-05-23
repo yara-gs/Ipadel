@@ -21,6 +21,13 @@ export default function MiRedPosts(props) {
 
 	const { actions, store } = useContext(Context);
 	let user = actions.getUser();
+	//tiempo desde que se realizo el post
+	let today = new Date();
+	let today_string = today.toISOString().slice(0, 10);
+	let postdate = new Date(props.post.datetime);
+	let dateCorrect = true;
+	let postTime = "";
+	let dif_min = (today - postdate) / 60000;
 
 	useEffect(() => {
 		if (user !== null) {
@@ -115,6 +122,17 @@ export default function MiRedPosts(props) {
 		}
 	}, []);
 
+	//Tiempo desde que se realizo el Post
+
+	dif_min = Math.round(dif_min);
+	if (dif_min <= 59) {
+		postTime = dif_min + " min";
+	} else if ((dif_min >= 60) & (dif_min < 1440)) {
+		postTime = Math.round(dif_min / 60) + " h";
+	} else if ((dif_min >= 1440) & (dif_min < 525600)) {
+		postTime = Math.round(dif_min / 1440) + " días";
+	}
+
 	return (
 		<div className="w3-col">
 			<div className="w3-container w3-card w3-white w3-round w3-margin">
@@ -127,7 +145,7 @@ export default function MiRedPosts(props) {
 						height: "60px"
 					}}
 				/>
-				<span className="w3-right w3-opacity">1 min</span>
+				<span className="w3-right w3-opacity">{postTime}</span>
 				{user ? <h4>{props.post.username}</h4> : ""}
 				<br />
 				<hr className="w3-clear" />

@@ -206,7 +206,7 @@ def register_new_post():
     files=request.files
     user_id=request.form.get('user_id')
     text=request.form.get('text')
-    local_date=datetime.datetime.now()+datetime.timedelta(hours=2)
+    local_date=datetime.datetime.now()
     username=User.get_id(user_id).username
     user_url_image=User.get_id(user_id).url_image
     print ("USER_URL ",user_url_image)
@@ -227,16 +227,21 @@ def register_new_post():
 @api.route ('/posts/<int:user_id>', methods=['GET'])
 def get_posts(user_id):
     with_comments=False
+    user=User.get_id(user_id)
     posts=Post.items_by_user_id(user_id)
     friends=Friend.items_by_user_id(user_id)
     posts_list = []
 
     for friend in friends:
         posts_friend=Post.items_by_user_id(friend.userfriend_id)
+        friend_data=User.get_id(friend.userfriend_id)
+        
         for post_friend in posts_friend:
+            post_friend.user_url_image=friend_data.url_image
             posts_list.append(post_friend.serialize(with_comments))
-    
+
     for post in posts:
+        post.user_url_image=user.url_image
         posts_list.append(post.serialize(with_comments))   
 
     posts_list.sort(key=itemgetter('datetime'), reverse=True)
