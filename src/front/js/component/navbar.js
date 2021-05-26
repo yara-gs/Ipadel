@@ -73,7 +73,7 @@ export default function Mynavbar() {
 							Alta Centros Deportivos
 						</Nav.Link>
 						<Nav.Link href="#features" style={{ opacity: "0" }}>
-							Alta Centros deportiv
+							Alta Centros deporti
 						</Nav.Link>
 
 						<div className="avatar collapse navbar-collapse " id="navbar-list-4">
@@ -91,8 +91,8 @@ export default function Mynavbar() {
 											className="user-image"
 											style={{
 												backgroundImage: `url(${userImage})`,
-												width: "40px",
-												height: "40px"
+												width: "50px",
+												height: "50px"
 											}}
 										/>
 									</a>
