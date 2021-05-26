@@ -20,11 +20,11 @@ export default function MiRedComponentes() {
 	const [post, setPost] = useState("");
 	const [message, setMessage] = useState("");
 	const [image, setImage] = useState("");
-	const [friends, setFriends] = useState(null);
-	const [users, setUsers] = useState(null);
+	const [profile, setProfile] = useState(null);
+	const [friends, setFriends] = useState([]);
+	const [usersList, setUsersList] = useState(null);
 
 	let user = actions.getUser();
-	const [profile, setProfile] = useState(null);
 
 	useEffect(() => {
 		let acessToken = actions.getAccessToken();
@@ -60,7 +60,7 @@ export default function MiRedComponentes() {
 			})
 				.then(response => response.json())
 				.then(resultJson => {
-					setUsers(resultJson);
+					setUsersList(resultJson);
 				});
 			fetch(process.env.BACKEND_URL + "/api/posts/" + user.id, {
 				method: "GET",
@@ -125,6 +125,30 @@ export default function MiRedComponentes() {
 		/*Collecting node-element and performing click*/
 		fileInput.current.click();
 	};
+
+	function addFriend(selectedFriend) {
+		let body = {
+			userfriend_id: selectedFriend.id,
+			username: selectedFriend.username,
+			url_image: selectedFriend.url_image,
+			user_id: user.id
+		};
+
+		setMessage("");
+		fetch(process.env.BACKEND_URL + "/api/createfriend", {
+			method: "POST",
+			body: JSON.stringify(body),
+			headers: {
+				"Content-Type": "application/json"
+			}
+		})
+			.then(response => response.json())
+			.then(responseJson => {
+				let arrayCopy = [...friends, responseJson];
+				setFriends(arrayCopy);
+				setMessage(selectedFriend.username + " añadido correctamente");
+			});
+	}
 
 	return (
 		<div className="body-mired ">
@@ -195,7 +219,7 @@ export default function MiRedComponentes() {
 			</div>
 			<div className="w3-col m2">
 				<MiRedEvents />
-				<MiRedFriendRequest />
+				<MiRedFriendRequest usersList={usersList} addFriend={addFriend} />
 			</div>
 		</div>
 	);

@@ -4,33 +4,50 @@ import "../../../styles/mired.scss";
 import "w3-css/w3.css";
 import "../../../styles/miRedFriendRequest.scss";
 import PropTypes from "prop-types";
+import Button from "react-bootstrap/Button";
 
-export default function MiRedFriendRequest() {
+export default function MiRedFriendRequest(props) {
 	const inputRef = React.useRef(null);
 	const [inputValue, setInputValue] = React.useState("");
-	const [userList, setUserList] = React.useState([
-		{ name: "Nicolas Balcells", username: "NicolasBalcells" },
-		{ name: "Yara gomez", username: "YaraGomez" },
-		{ name: "Ysamar ALcantara", username: "YsamarAlcantara" }
-	]);
 	const [partialMention, setPartialMention] = React.useState(null);
 	const [showSuggestions, setShowSuggestions] = React.useState(false);
+	const [suggestionList, setSuggestionList] = useState(null);
+	const [selectedFriend, setSelectedFriend] = useState(null);
 
-	const [suggestionList, setSuggestionList] = React.useState(["NicolasBalcells", "YaraGomez", "YsamarAlcantara"]);
+	if ((props.usersList != null) & (suggestionList === null)) {
+		let arrayCopy = [];
+		for (let i = 0; i < props.usersList.length; i++) {
+			let obj = props.usersList[i];
+			obj.username = props.usersList[i].username.toLowerCase();
+			arrayCopy.push(obj);
+		}
+		setSuggestionList(arrayCopy);
+	}
 
 	function onChange(event) {
 		const regexp = /@[a-zA-Z0-9]*$/;
-		if (regexp.test(event.target.value)) {
-			setPartialMention(event.target.value.split("@").pop());
+		let username_lowerCase = event.target.value.toLowerCase();
+
+		if (regexp.test(username_lowerCase) & (suggestionList != null)) {
+			setPartialMention(username_lowerCase.split("@").pop());
 			setShowSuggestions(true);
 		} else {
 			setShowSuggestions(false);
 		}
-		setInputValue(event.target.value);
+
+		setInputValue(username_lowerCase);
 	}
 
 	function focusInput() {
 		inputRef.current.focus();
+	}
+
+	function addFriend() {
+		props.addFriend(selectedFriend);
+	}
+
+	function selectedItem(item) {
+		setSelectedFriend(item);
 	}
 
 	return (
@@ -38,7 +55,7 @@ export default function MiRedFriendRequest() {
 			<div className="w3-col">
 				<div className="w3-card w3-round w3-white w3-center">
 					<div className="w3-container">
-						<h3>Add Friends</h3>
+						<h3>Añadir amigos </h3>
 						<p />
 						<input ref={inputRef} type="text" value={inputValue} onChange={onChange} />
 						{showSuggestions && (
@@ -48,9 +65,14 @@ export default function MiRedFriendRequest() {
 								applyMention={onChange}
 								focusInput={focusInput}
 								partialMention={partialMention}
+								selectedItem={selectedItem}
 							/>
 						)}
-						<span>Find Friends</span>
+						<p>
+							<Button variant="primary" onClick={() => addFriend()}>
+								Seguir
+							</Button>
+						</p>
 					</div>
 				</div>
 			</div>
@@ -59,18 +81,24 @@ export default function MiRedFriendRequest() {
 }
 
 function Suggestions(props) {
-	function selectSuggestion(username) {
+	function selectSuggestion(item) {
 		const regexp = /@[a-zA-Z0-9]*$/;
-		const newValue = props.inputValue.replace(regexp, username + " ");
+		const newValue = props.inputValue.replace(regexp, item.username + " ");
 		props.applyMention({ target: { value: newValue } }); // THIS MIMICS AN ONCHANGE EVENT
 		props.focusInput();
+		props.selectedItem(item);
 	}
 
 	const suggestionItems = props.suggestionList
-		.filter(item => item.includes(props.partialMention))
+		.filter(item => item.username.includes(props.partialMention))
 		.map(item => (
-			<div key={item} className="item" onClick={() => selectSuggestion("@" + item)}>
-				@{item}
+			<div
+				key={item}
+				className="item"
+				onClick={() => {
+					selectSuggestion(item);
+				}}>
+				@{item.username}
 			</div>
 		));
 
@@ -82,5 +110,11 @@ Suggestions.propTypes = {
 	partialMention: PropTypes.string,
 	applyMention: PropTypes.string,
 	focusInput: PropTypes.string,
-	suggestionList: PropTypes.string
+	suggestionList: PropTypes.string,
+	selectedItem: PropTypes.object
+};
+
+MiRedFriendRequest.propTypes = {
+	usersList: PropTypes.array,
+	addFriend: PropTypes.func
 };

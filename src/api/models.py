@@ -131,36 +131,45 @@ class Friend(db.Model,BaseModel,UserId):
         return '<Friend %r>' % self.username
     
       #metodo de instancia que obliga a que haya datos siempre que se llama       
-    def __init__(self,user_id, username,url_image):
+    def __init__(self,userfriend_id,user_id, username,url_image):
+        self.userfriend_id=userfriend_id
         self.user_id=user_id
         self.username=username
         self.url_image=url_image
 
-    def serialize(self):
-        return {
-            "id": self.id,
-            "username": self.username,
-            "url_image":self.url_image,
-            # do not serialize the password, its a security breach
-        }
+    # def serialize(self):
+    #     return {
+    #         "id": self.id,
+    #         # "userfriend_id":self.userfriend_id,
+    #         # "user_id":self.user_id,
+    #         # "username": self.username,
+    #         # "url_image":self.url_image,
+    #         # do not serialize the password, its a security breach
+    #     }
 
     @classmethod
-    def add_register(cls, request_json):
+    def create_user(cls,userfriend_id,user_id,username,url_image):
+        user= cls(userfriend_id,user_id,username,url_image)
         
-        register=cls(request_json["user_id"],request_json["username"],request_json["url_image"])
-        register.body(request_json)
-        return register
-    
-    #get body
-    def body(self, request_json):
-        self.user_id=request_json["user_id"]
-        self.username=request_json["username"]
-        self.url_image=request_json["url_image"]
-        
+        db.session.add(user)
+        db.session.commit()
+
+    def ser(self):
+        return {
+            "id": self.id,
+            "userfriend_id":self.userfriend_id,
+            "user_id":self.user_id,
+            "username": self.username,
+            "url_image":self.url_image,
+        }
+
     # save data in the database
     def save(self):
         db.session.add(self)
         return db.session.commit()
+    
+
+        
     
 
 

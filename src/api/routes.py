@@ -158,10 +158,16 @@ def getfriends_byuserid(user_id):
 def register_new_friend():
 
     body=request.get_json()
-    new_friend=Friend.add_register(body)
+    userfriend=User.query.get(body["userfriend_id"])  
+    url_image=userfriend.url_image
+    username=userfriend.username
+    userfriend_id=body["userfriend_id"]
+    user_id=body["user_id"]
+    new_friend=Friend(userfriend_id=userfriend_id,user_id=user_id,username=username,url_image=url_image)
     new_friend.save()
+    # new_friend=Friend.create_user(body["userfriend_id"],body["user_id"],username,url_image)
 
-    return jsonify(new_friend.serialize()),200
+    return jsonify(new_friend.ser()), 200
 
 
 
@@ -209,7 +215,6 @@ def register_new_post():
     local_date=datetime.datetime.now()
     username=User.get_id(user_id).username
     user_url_image=User.get_id(user_id).url_image
-    print ("USER_URL ",user_url_image)
     if user_url_image=="":
        user_url_image="https://www.w3schools.com/w3images/avatar2.png"
     try:
@@ -354,13 +359,6 @@ def delete_like(like_id):
     like.delete()    
 
     return jsonify({}), 200
-
-
-
-
-
-
-
 
 # SPORT CENTER REGISTRATION
 
