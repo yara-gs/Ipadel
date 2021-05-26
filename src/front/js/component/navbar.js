@@ -69,12 +69,18 @@ export default function Mynavbar() {
 						<Link to="/newcenter">
 							<Nav.Link href="#features">Alta Centros Deportivos</Nav.Link>
 						</Link>
+						<Nav.Link href="#features" style={{ opacity: "0" }}>
+							Alta Centros Deportivos
+						</Nav.Link>
+						<Nav.Link href="#features" style={{ opacity: "0" }}>
+							Alta Centros deporti
+						</Nav.Link>
 
-						<div className="collapse navbar-collapse" id="navbar-list-4">
-							<ul className="navbar-nav">
-								<li className="nav-item dropdown">
+						<div className="avatar collapse navbar-collapse " id="navbar-list-4">
+							<ul className="avatar1 navbar-nav">
+								<li className="avatar2 nav-item dropdown">
 									<a
-										className="nav-link dropdown-toggle"
+										className="nav-link dropdown-toggle "
 										href="#"
 										id="navbarDropdownMenuLink"
 										role="button"
@@ -85,8 +91,8 @@ export default function Mynavbar() {
 											className="user-image"
 											style={{
 												backgroundImage: `url(${userImage})`,
-												width: "40px",
-												height: "40px"
+												width: "50px",
+												height: "50px"
 											}}
 										/>
 									</a>

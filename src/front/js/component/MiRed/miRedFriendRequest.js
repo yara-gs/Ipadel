@@ -1,31 +1,120 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Context } from "../../store/appContext";
 import "../../../styles/mired.scss";
 import "w3-css/w3.css";
+import "../../../styles/miRedFriendRequest.scss";
+import PropTypes from "prop-types";
+import Button from "react-bootstrap/Button";
 
-export default function MiRedFriendRequest() {
+export default function MiRedFriendRequest(props) {
+	const inputRef = React.useRef(null);
+	const [inputValue, setInputValue] = React.useState("");
+	const [partialMention, setPartialMention] = React.useState(null);
+	const [showSuggestions, setShowSuggestions] = React.useState(false);
+	const [suggestionList, setSuggestionList] = useState(null);
+	const [selectedFriend, setSelectedFriend] = useState(null);
+
+	if ((props.usersList != null) & (suggestionList === null)) {
+		let arrayCopy = [];
+		for (let i = 0; i < props.usersList.length; i++) {
+			let obj = props.usersList[i];
+			obj.username = props.usersList[i].username.toLowerCase();
+			arrayCopy.push(obj);
+		}
+		setSuggestionList(arrayCopy);
+	}
+
+	function onChange(event) {
+		const regexp = /@[a-zA-Z0-9]*$/;
+		let username_lowerCase = event.target.value.toLowerCase();
+
+		if (regexp.test(username_lowerCase) & (suggestionList != null)) {
+			setPartialMention(username_lowerCase.split("@").pop());
+			setShowSuggestions(true);
+		} else {
+			setShowSuggestions(false);
+		}
+
+		setInputValue(username_lowerCase);
+	}
+
+	function focusInput() {
+		inputRef.current.focus();
+	}
+
+	function addFriend() {
+		props.addFriend(selectedFriend);
+	}
+
+	function selectedItem(item) {
+		setSelectedFriend(item);
+	}
+
 	return (
-		<div className="w3-col w3-margin-top">
-			<div className="w3-card w3-round w3-white w3-center">
-				<div className="w3-container">
-					<p>Solicitud Amistad</p>
-					<img src="https://www.w3schools.com/w3images/avatar6.png" alt="Avatar" id="image13" />
-					<br />
-					<span>Ruth Gomez</span>
-					<div className="w3-row w3-opacity">
-						<div className="w3-half">
-							<button className="w3-button w3-block w3-green w3-section" title="Accept">
-								<i className="fa fa-check" />
-							</button>
-						</div>
-						<div className="w3-half">
-							<button className="w3-button w3-block w3-red w3-section" title="Decline">
-								<i className="fa fa-remove" />
-							</button>
-						</div>
+		<React.Fragment>
+			<div className="w3-col">
+				<div className="w3-card w3-round w3-white w3-center">
+					<div className="w3-container">
+						<h3>Añadir amigos </h3>
+						<p />
+						<input ref={inputRef} type="text" value={inputValue} onChange={onChange} />
+						{showSuggestions && (
+							<Suggestions
+								inputValue={inputValue}
+								suggestionList={suggestionList}
+								applyMention={onChange}
+								focusInput={focusInput}
+								partialMention={partialMention}
+								selectedItem={selectedItem}
+							/>
+						)}
+						<p>
+							<Button variant="primary" onClick={() => addFriend()}>
+								Seguir
+							</Button>
+						</p>
 					</div>
 				</div>
 			</div>
-		</div>
+		</React.Fragment>
 	);
 }
+
+function Suggestions(props) {
+	function selectSuggestion(item) {
+		const regexp = /@[a-zA-Z0-9]*$/;
+		const newValue = props.inputValue.replace(regexp, item.username + " ");
+		props.applyMention({ target: { value: newValue } }); // THIS MIMICS AN ONCHANGE EVENT
+		props.focusInput();
+		props.selectedItem(item);
+	}
+
+	const suggestionItems = props.suggestionList
+		.filter(item => item.username.includes(props.partialMention))
+		.map(item => (
+			<div
+				key={item}
+				className="item"
+				onClick={() => {
+					selectSuggestion(item);
+				}}>
+				@{item.username}
+			</div>
+		));
+
+	return <div className="container">{suggestionItems}</div>;
+}
+
+Suggestions.propTypes = {
+	inputValue: PropTypes.string,
+	partialMention: PropTypes.string,
+	applyMention: PropTypes.string,
+	focusInput: PropTypes.string,
+	suggestionList: PropTypes.string,
+	selectedItem: PropTypes.object
+};
+
+MiRedFriendRequest.propTypes = {
+	usersList: PropTypes.array,
+	addFriend: PropTypes.func
+};
