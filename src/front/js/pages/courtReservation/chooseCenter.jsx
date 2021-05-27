@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../../store/appContext";
 import { useHistory } from "react-router-dom";
 import { Alert } from "reactstrap";
+import Geocode from "react-geocode";
 
 import CenterAvailable from "../../component/courtReservation/centerAvailable.jsx";
 import "../../../styles/court-reservation.scss";
@@ -21,6 +22,9 @@ export default function ChooseCenter() {
 	const [playersFilter, setPlayersFilter] = useState(1);
 	const [centersbyCity, setCentersbyCity] = useState(null);
 	const [Profile, setProfile] = useState(null);
+	//geolocalization
+	const [latitude, setLatitude] = useState(null);
+	const [longitude, setLongitude] = useState(null);
 
 	let today = new Date();
 	let today_string = today.toISOString().slice(0, 10);
@@ -35,23 +39,6 @@ export default function ChooseCenter() {
 
 	// Get the DIV with overlay effect
 	var overlayBg = document.getElementById("myOverlay");
-
-	useEffect(() => {
-		user = actions.getUser();
-		if (user) {
-			fetch(process.env.BACKEND_URL + "/api/profile/" + user.id, {
-				method: "GET",
-				headers: { "Content-Type": "application/json" }
-			})
-				.then(response => response.json())
-				.then(resultJson => {
-					setProfile(resultJson);
-					setLocationFilter(resultJson.city);
-					setDateFilter(today_string);
-					get_sportcenters(resultJson.city);
-				});
-		}
-	}, []);
 
 	useEffect(() => {
 		if (dateCorrect) {
@@ -97,6 +84,70 @@ export default function ChooseCenter() {
 
 	//call funcion setTimeout
 	setTimeout_useEffect(message, setMessage, 2000);
+
+	//GEOLOCALIZACION
+
+	var options = {
+		enableHighAccuracy: true,
+		timeout: 5000,
+		maximumAge: 0
+	};
+
+	function success(pos) {
+		var crd = pos.coords;
+		setLatitude(crd.latitude.toString());
+		setLongitude(crd.longitude.toString());
+	}
+
+	useEffect(() => {
+		Geocode.fromLatLng(latitude, longitude).then(
+			response => {
+				let city;
+				for (let i = 0; i < response.results[0].address_components.length; i++) {
+					for (let j = 0; j < response.results[0].address_components[i].types.length; j++) {
+						switch (response.results[0].address_components[i].types[j]) {
+							case "locality":
+								city = response.results[0].address_components[i].long_name;
+								setDateFilter(today_string);
+								setLocationFilter(city.toLowerCase());
+								get_sportcenters(city.toLowerCase());
+						}
+					}
+				}
+			},
+			error => {
+				// setMessage(error);
+				setDateFilter(today_string);
+			}
+		);
+	}, [latitude, longitude]);
+
+	function error(err) {
+		console.warn("ERROR(" + err.code + "): " + err.message);
+	}
+
+	navigator.geolocation.getCurrentPosition(success, error, options);
+
+	// set Google Maps Geocoding API for purposes of quota management. Its optional but recommended.
+	Geocode.setApiKey("AIzaSyCK0cv0J3jEzXPKeHQx_QOg9HDYxOm5-i0");
+
+	// set response language. Defaults to english.
+	Geocode.setLanguage("es");
+
+	//set response region. Its optional.
+	// A Geocoding request with region=es (Spain) will return the Spanish city.
+	Geocode.setRegion("es");
+
+	// set location_type filter . Its optional.
+	// google geocoder returns more that one address for given lat/lng.
+	// In some case we need one address as response for which google itself provides a location_type filter.
+	// So we can easily parse the result for fetching address components
+	// ROOFTOP, RANGE_INTERPOLATED, GEOMETRIC_CENTER, APPROXIMATE are the accepted values.
+	// And according to the below google docs in description, ROOFTOP param returns the most accurate result.
+	Geocode.setLocationType("ROOFTOP");
+
+	// Enable or disable logs. Its optional.
+	Geocode.enableDebug();
 
 	return (
 		<div className="body">
