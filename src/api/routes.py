@@ -400,9 +400,16 @@ def get_centers_bycity(state):
 def get_centers_by_user_id(user_id):
     
     centers=SportCenter.items_by_user_id(user_id)
+    
     centers_list = []
     for center in centers:
-        centers_list.append(center.serialize(with_courts=False))
+        sportcenter_id=center.id
+        courts= db.session.query(func.count(Court.id).label("number")).filter(Court.sportcenter_id==sportcenter_id).all()
+        for court in courts:
+            court_number=court.number
+        center_serialize=center.serialize()
+        center_serialize["court_number"]=court_number
+        centers_list.append(center_serialize)
     
     return jsonify(centers_list), 200
 
@@ -460,16 +467,6 @@ def register_new_court():
     
   
     return jsonify(court.serialize()),200
-
-#COURTS:  courts by sportcenter_id
-@api.route ('/courts/<int:sportcenter_id>', methods=['GET'])
-def get_court(sportcenter_id):
-
-    courts= db.session.query(func.count(Court.id).label("number")).filter(Court.sportcenter_id==sportcenter_id).all()
-    for court in courts:
-        court_number=court.number
-    
-    return jsonify(court_number), 200
 
 
 #COURTS:  Update court by id

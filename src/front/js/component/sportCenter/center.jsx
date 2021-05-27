@@ -104,9 +104,9 @@ export default function Center(props) {
 						<tr>
 							<td className="first-column">
 								<i className=" w3-large fas fa-bookmark w3-text-green " />
-								Pistas
+								Nº Pistas
 							</td>
-							<td />
+							<td>{props.center.court_number}</td>
 							<td>
 								<button className="fas fa-pen center-edit-btn" onClick={() => editSportCenter()} />
 							</td>
