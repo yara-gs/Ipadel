@@ -11,8 +11,6 @@ import MiRedPosts from "../component/MiRed/miRedPosts";
 import MiRedEvents from "../component/MiRed/miRedEvents";
 import MiRedFriendRequest from "../component/MiRed/miRedFriendRequest";
 
-import pushSignPage from "../pushSignPage";
-
 export default function MiRedComponentes() {
 	const { actions } = useContext(Context);
 	const history = useHistory();
@@ -25,15 +23,11 @@ export default function MiRedComponentes() {
 	const [profile, setProfile] = useState(null);
 	const [friends, setFriends] = useState([]);
 	const [usersList, setUsersList] = useState(null);
-
-	let user = actions.getUser();
+	const [user, setUser] = useState(null);
 
 	useEffect(() => {
+		// setUser(actions.getUser());
 		let acessToken = actions.getAccessToken();
-		if (!acessToken) {
-			history.push("/login");
-			return;
-		}
 		fetch(process.env.BACKEND_URL + "/api/getuser", {
 			method: "GET",
 			headers: {
@@ -44,17 +38,16 @@ export default function MiRedComponentes() {
 			.then(response => response.json())
 			.then(responseJson => {
 				actions.saveUser(responseJson);
+				setUser(responseJson);
+				getProfile(responseJson);
+				console.log(responseJson);
 			});
 	}, []);
 
 	useEffect(() => {
-		if (user) {
-			fetch(process.env.BACKEND_URL + "/api/profile/" + user.id, {
-				method: "GET",
-				headers: { "Content-Type": "application/json" }
-			})
-				.then(response => response.json())
-				.then(resultJson => setProfile(resultJson));
+		if (user !== null) {
+			console.log("hola");
+			getProfile(user);
 
 			fetch(process.env.BACKEND_URL + "/api/users/", {
 				method: "GET",
@@ -83,6 +76,17 @@ export default function MiRedComponentes() {
 				});
 		}
 	}, [user]);
+
+	function getProfile(user) {
+		if (user) {
+			fetch(process.env.BACKEND_URL + "/api/profile/" + user.id, {
+				method: "GET",
+				headers: { "Content-Type": "application/json" }
+			})
+				.then(response => response.json())
+				.then(resultJson => setProfile(resultJson));
+		}
+	}
 
 	function createPost() {
 		const formData = new FormData();
@@ -152,13 +156,10 @@ export default function MiRedComponentes() {
 			});
 	}
 
-	//funcion que lleva a sign si no hay usario logueado
-	pushSignPage();
-
 	return (
 		<div className="body-mired ">
 			<div className="w3-col m3">
-				<MiRedPerfil />
+				<MiRedPerfil profile={profile} />
 				<MiRedInterests />
 			</div>
 

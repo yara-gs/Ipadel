@@ -154,7 +154,7 @@ class Friend(db.Model,BaseModel,UserId):
         db.session.add(user)
         db.session.commit()
 
-    def ser(self):
+    def serialize(self):
         return {
             "id": self.id,
             "userfriend_id":self.userfriend_id,

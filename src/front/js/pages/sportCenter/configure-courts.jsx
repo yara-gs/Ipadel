@@ -8,7 +8,6 @@ import { Alert } from "reactstrap";
 
 import Court from "../../component/sportCenter/court.jsx";
 import setTimeout_useEffect from "../../setTimeout";
-import pushSignPage from "../../pushSignPage";
 
 export default function ConfigureCourts() {
 	const { actions, store } = useContext(Context);
@@ -35,9 +34,6 @@ export default function ConfigureCourts() {
 	if (sportCenter) {
 		court_aux.sportcenter_id = sportCenter.id;
 	}
-
-	//funcion que lleva a sign si no hay usario logueado
-	pushSignPage();
 
 	if (user != null && sportCenter != null) {
 		useEffect(() => {

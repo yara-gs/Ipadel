@@ -23,8 +23,8 @@ export default function Mynavbar() {
 	let show_userImage = false;
 	let user_urlImage_bck = "https://www.w3schools.com/w3images/avatar2.png";
 
-	// // funcion que lleva a sign si no hay usario logueado
-	// pushSignPage();
+	// funcion que lleva a sign si no hay usario logueado
+	pushSignPage();
 
 	if (user === null || user.msg != "") {
 		loginDone = false;

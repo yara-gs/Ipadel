@@ -5,8 +5,6 @@ import Center from "../../component/sportCenter/center.jsx";
 
 import "../../../styles/court-reservation.scss";
 
-import pushSignPage from "../../pushSignPage";
-
 export default function Centers() {
 	const { actions, store } = useContext(Context);
 	let user = actions.getUser();
@@ -23,9 +21,6 @@ export default function Centers() {
 				.then(resultJson => setCenters(resultJson));
 		}, []);
 	}
-
-	//funcion que lleva a sign si no hay usario logueado
-	pushSignPage();
 
 	return (
 		<div className="body-centers">

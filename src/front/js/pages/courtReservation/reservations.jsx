@@ -5,8 +5,6 @@ import Reservation from "../../component/courtReservation/reservation.jsx";
 
 import "../../../styles/court-reservation.scss";
 
-import pushSignPage from "../../pushSignPage";
-
 export default function Reservations() {
 	const { actions, store } = useContext(Context);
 	let user = actions.getUser();
@@ -23,9 +21,6 @@ export default function Reservations() {
 				.then(resultJson => setReservations(resultJson));
 		}, []);
 	}
-
-	//funcion que lleva a sign si no hay usario logueado
-	pushSignPage();
 
 	return (
 		<div className="body ">

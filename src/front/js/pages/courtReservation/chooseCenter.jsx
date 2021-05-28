@@ -7,7 +7,6 @@ import Geocode from "react-geocode";
 import CenterAvailable from "../../component/courtReservation/centerAvailable.jsx";
 import "../../../styles/court-reservation.scss";
 
-import pushSignPage from "../../pushSignPage";
 import setTimeout_useEffect from "../../setTimeout";
 
 export default function ChooseCenter() {
@@ -28,9 +27,6 @@ export default function ChooseCenter() {
 	let today_string = today.toISOString().slice(0, 10);
 	let inputdate = new Date(dateFilter);
 	let dateCorrect = true;
-
-	//funcion que lleva a sign si no hay usario logueado
-	pushSignPage();
 
 	// Get the Sidebar
 	var mySidebar = document.getElementById("mySidebar");

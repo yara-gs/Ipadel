@@ -165,9 +165,8 @@ def register_new_friend():
     user_id=body["user_id"]
     new_friend=Friend(userfriend_id=userfriend_id,user_id=user_id,username=username,url_image=url_image)
     new_friend.save()
-    # new_friend=Friend.create_user(body["userfriend_id"],body["user_id"],username,url_image)
 
-    return jsonify(new_friend.ser()), 200
+    return jsonify(new_friend.serialize()), 200
 
 
 

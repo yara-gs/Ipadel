@@ -1,11 +1,13 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
 import { Context } from "../../store/appContext";
+import PropTypes from "prop-types";
 import "../../../styles/mired.scss";
 import "w3-css/w3.css";
 
-export default function MiRedPerfil() {
+export default function MiRedPerfil(props) {
 	const { actions, store } = useContext(Context);
-	const [profile, setProfile] = useState(null);
+	let profile = props.profile;
+
 	const [inputuserImage, setInputUserImage] = useState(null);
 	const [userImage, setUserImage] = useState("https://www.w3schools.com/w3images/avatar2.png");
 	const [message, setMessage] = useState("");
@@ -21,19 +23,6 @@ export default function MiRedPerfil() {
 			if (user.url_image !== "") {
 				setUserImage(user.url_image);
 			}
-
-			fetch(process.env.BACKEND_URL + "/api/profile/" + user.id, {
-				method: "GET",
-				headers: {
-					"Content-Type": "application/json"
-				}
-			})
-				.then(response => {
-					return response.json();
-				})
-				.then(responseJson => {
-					setProfile(responseJson);
-				});
 		}
 	}, []);
 
@@ -130,3 +119,7 @@ export default function MiRedPerfil() {
 		</div>
 	);
 }
+
+MiRedPerfil.propTypes = {
+	profile: PropTypes.object
+};

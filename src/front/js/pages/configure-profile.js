@@ -5,7 +5,6 @@ import { useHistory } from "react-router-dom";
 import { Button } from "bootstrap";
 import { Link } from "react-router-dom";
 import MiRedPostText from "../component/MiRed/miRedPostText";
-import pushSignPage from "../pushSignPage";
 
 export default function ConfigureProfile() {
 	const { actions, store } = useContext(Context);
@@ -30,9 +29,6 @@ export default function ConfigureProfile() {
 
 	//variables likes
 	const [likes, setLikes] = useState(null);
-
-	//funcion que lleva a sign si no hay usario logueado
-	pushSignPage();
 
 	//PROFILE
 	//GET PROFILE
