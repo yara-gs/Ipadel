@@ -11,6 +11,8 @@ import MiRedPosts from "../component/MiRed/miRedPosts";
 import MiRedEvents from "../component/MiRed/miRedEvents";
 import MiRedFriendRequest from "../component/MiRed/miRedFriendRequest";
 
+import pushSignPage from "../pushSignPage";
+
 export default function MiRedComponentes() {
 	const { actions } = useContext(Context);
 	const history = useHistory();
@@ -149,6 +151,9 @@ export default function MiRedComponentes() {
 				setMessage(selectedFriend.username + " añadido correctamente");
 			});
 	}
+
+	//funcion que lleva a sign si no hay usario logueado
+	pushSignPage();
 
 	return (
 		<div className="body-mired ">

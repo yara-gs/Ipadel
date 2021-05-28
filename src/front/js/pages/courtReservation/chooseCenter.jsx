@@ -9,12 +9,10 @@ import "../../../styles/court-reservation.scss";
 
 import pushSignPage from "../../pushSignPage";
 import setTimeout_useEffect from "../../setTimeout";
-import Profile from "../profile";
 
 export default function ChooseCenter() {
 	const { actions, store } = useContext(Context);
 	let user = null;
-	const history = useHistory();
 
 	const [message, setMessage] = useState("");
 	const [locationFilter, setLocationFilter] = useState("");

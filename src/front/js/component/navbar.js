@@ -1,5 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
+import { useHistory } from "react-router-dom";
+
 import { Link } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
@@ -10,6 +12,8 @@ import LinkContainer from "react-bootstrap/Nav";
 import "../../styles/navbar.scss";
 import LogoiPadel from "../component/logoiPadel.jsx";
 
+import pushSignPage from "../pushSignPage";
+
 export default function Mynavbar() {
 	const { actions, store } = useContext(Context);
 	const [userImage, setUserImage] = useState("");
@@ -18,6 +22,9 @@ export default function Mynavbar() {
 	let loginDone = false;
 	let show_userImage = false;
 	let user_urlImage_bck = "https://www.w3schools.com/w3images/avatar2.png";
+
+	// // funcion que lleva a sign si no hay usario logueado
+	// pushSignPage();
 
 	if (user === null || user.msg != "") {
 		loginDone = false;
@@ -102,9 +109,14 @@ export default function Mynavbar() {
 												Edit Profile
 											</a>
 										</Link>
-										<a className="dropdown-item" href="#">
+										<button
+											className="dropdown-item"
+											onClick={() => {
+												actions.logOut();
+												// history.push("/login");
+											}}>
 											Log Out
-										</a>
+										</button>
 									</div>
 								</li>
 							</ul>

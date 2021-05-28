@@ -1,15 +1,17 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
+import { useHistory } from "react-router-dom";
+
 import { Button } from "bootstrap";
 import { Link } from "react-router-dom";
 import MiRedPostText from "../component/MiRed/miRedPostText";
+import pushSignPage from "../pushSignPage";
 
 export default function ConfigureProfile() {
-	const [todos, setTodos] = useState([]);
-	const [newTodo, SetNewTodo] = useState("");
-
 	const { actions, store } = useContext(Context);
 	let user = actions.getUser();
+	const history = useHistory();
+
 	const [profile, setProfile] = useState("");
 	const [birth, setBirth] = useState("");
 	const [country, setCountry] = useState("");
@@ -28,6 +30,9 @@ export default function ConfigureProfile() {
 
 	//variables likes
 	const [likes, setLikes] = useState(null);
+
+	//funcion que lleva a sign si no hay usario logueado
+	pushSignPage();
 
 	//PROFILE
 	//GET PROFILE

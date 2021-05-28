@@ -15,13 +15,11 @@ import CenterImages from "./pages/sportCenter/centerImages.jsx";
 import ChooseCenter from "./pages/courtReservation/chooseCenter.jsx";
 import Reservations from "./pages/courtReservation/reservations.jsx";
 
-import Profile from "./pages/profile";
 import ConfigureProfile from "./pages/configure-profile";
 
 import Footer from "./component/footer";
 import { Forgot } from "./pages/forgot";
 import { NewPassword } from "./pages/new_password";
-import { LogOut } from "./pages/logOut";
 //create your first component
 const Layout = () => {
 	//the basename is used when your project is published in a subdirectory and not in the root of the domain
@@ -41,9 +39,6 @@ const Layout = () => {
 						</Route>
 						<Route exact path="/login">
 							<SignAndLogin sign={false} />
-						</Route>
-						<Route exact path="/profile">
-							<Profile />
 						</Route>
 						<Route exact path="/configure-profile">
 							<ConfigureProfile />
@@ -71,9 +66,6 @@ const Layout = () => {
 						</Route>
 						<Route exact path="/new_password">
 							<NewPassword />
-						</Route>
-						<Route exact path="/logOut">
-							<LogOut />
 						</Route>
 						<Route exact path="/choose-center">
 							<ChooseCenter />

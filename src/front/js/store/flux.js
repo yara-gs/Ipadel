@@ -38,6 +38,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				return user;
 			},
+			logOut: () => {
+				localStorage.clear();
+				setStore({ accessToken: "" });
+				setStore({ user: null });
+				setStore({ sportCenter: null });
+				setStore({ sportCenterImages: [] });
+			},
 
 			saveSportCenter(sportCenter) {
 				setStore({ sportCenter: sportCenter });
