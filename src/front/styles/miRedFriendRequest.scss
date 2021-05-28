@@ -1,0 +1,16 @@
+.container {
+  border: 1px solid silver;
+  width: 100%;
+}
+
+.item {
+  cursor: pointer;
+}
+
+.item:hover {
+  color: blue;
+}
+
+input {
+  width: 100%;
+}
