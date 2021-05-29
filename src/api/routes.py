@@ -254,6 +254,39 @@ def get_posts(user_id):
     return jsonify(posts_list), 200
 
 
+# POST: Actulizar cada 'x' tiempo los posts, solo pide por los posts nuevos
+@api.route ('/posts/<int:user_id>/<lastpost_datestr>', methods=['GET'])
+def get_posts_by_lastdate(user_id,lastpost_datestr):
+
+    with_comments=False
+    user=User.get_id(user_id)
+    posts=Post.items_by_user_id(user_id)
+    friends=Friend.items_by_user_id(user_id)
+    posts_list = []
+    lastpost_date=datetime.datetime.strptime(lastpost_datestr, '%Y-%m-%d %H:%M:%S')
+    print(lastpost_date)
+
+    for friend in friends:
+        posts_friend=Post.items_by_user_id(friend.userfriend_id)
+        friend_data=User.get_id(friend.userfriend_id)
+        # print(posts_friend)
+        
+        for post_friend in posts_friend:
+            post_friend.user_url_image=friend_data.url_image
+            post_friend_date=str(post_friend.datetime)
+            post_friend_date=post_friend.datetime
+            print(post_friend_date,lastpost_date)
+            
+            if post_friend_date>=lastpost_date:
+                print("POST ENCONTRADO")
+                posts_list.append(post_friend.serialize(with_comments))
+
+    posts_list.sort(key=itemgetter('datetime'), reverse=True)
+    
+
+    return jsonify(posts_list), 200
+
+
 #POST:  Delete post by post_id
 @api.route ('/postdelete/<int:post_id>', methods=['GET'])
 def delete_post(post_id):
