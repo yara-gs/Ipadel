@@ -7,24 +7,46 @@ import "w3-css/w3.css";
 export default function MiRedPerfil(props) {
 	const { actions, store } = useContext(Context);
 	let profile = props.profile;
+	let user = props.user;
 
 	const [inputuserImage, setInputUserImage] = useState(null);
 	const [userImage, setUserImage] = useState("https://www.w3schools.com/w3images/avatar2.png");
 	const [message, setMessage] = useState("");
 	const [error, setError] = useState("");
 	const [show_SaveImage, setShow_SaveImage] = useState(false);
-	let user = actions.getUser();
+	// let user = actions.getUser();
 	const fileInput = useRef(null);
 	let city = "";
 	let country = "";
 
 	useEffect(() => {
-		if (user) {
-			if (user.url_image !== "") {
-				setUserImage(user.url_image);
+		get_userimage();
+	}, []);
+
+	useEffect(() => {
+		get_userimage();
+	}, [user]);
+
+	function get_userimage() {
+		if (props.user !== null) {
+			setUserImage("https://www.w3schools.com/w3images/avatar2.png");
+			if (props.user.url_image !== "") {
+				setUserImage(props.user.url_image);
 			}
 		}
-	}, []);
+	}
+
+	useEffect(() => {
+		set_userimage();
+	}, [userImage]);
+
+	function set_userimage() {
+		if (props.user !== null) {
+			let user_with_image = user;
+			user_with_image.url_image = userImage;
+			actions.saveUser(user_with_image);
+		}
+	}
 
 	function upload_userImage() {
 		const formData = new FormData();
@@ -48,14 +70,6 @@ export default function MiRedPerfil(props) {
 				});
 		}
 	}
-
-	useEffect(() => {
-		if (user) {
-			let user_with_image = user;
-			user_with_image.url_image = userImage;
-			actions.saveUser(user_with_image);
-		}
-	}, [userImage]);
 
 	const onBtnClick = () => {
 		/*Collecting node-element and performing click*/
@@ -121,5 +135,6 @@ export default function MiRedPerfil(props) {
 }
 
 MiRedPerfil.propTypes = {
-	profile: PropTypes.object
+	profile: PropTypes.object,
+	user: PropTypes.object
 };

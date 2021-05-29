@@ -40,13 +40,11 @@ export default function MiRedComponentes() {
 				actions.saveUser(responseJson);
 				setUser(responseJson);
 				getProfile(responseJson);
-				console.log(responseJson);
 			});
 	}, []);
 
 	useEffect(() => {
 		if (user !== null) {
-			console.log("hola");
 			getProfile(user);
 
 			fetch(process.env.BACKEND_URL + "/api/users/", {
@@ -159,7 +157,7 @@ export default function MiRedComponentes() {
 	return (
 		<div className="body-mired ">
 			<div className="w3-col m3">
-				<MiRedPerfil profile={profile} />
+				<MiRedPerfil profile={profile} user={user} />
 				<MiRedInterests />
 			</div>
 
