@@ -147,6 +147,9 @@ def getfriends_byuserid(user_id):
     friends_list = []
 
     for friend in friends:
+        # center_capacity=SportCenter.get_id(sportcenter_id).capacity
+        friend_url_image=User.get_id(friend.userfriend_id).url_image
+        friend.url_image=friend_url_image
         friends_list.append(friend.serialize())
 
     return jsonify(friends_list), 200
