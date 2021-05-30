@@ -6,13 +6,8 @@ import MiRedComments from "./miRedComments";
 import "w3-css/w3.css";
 
 export default function MiRedPosts(props) {
-	const [postsList, setPostsList] = useState([]);
-	const [postText, setPostText] = useState("Mi post");
-	const [image, setImage] = React.useState("");
-	const [message, setMessage] = useState("");
 	const [commentsList, setCommentsList] = useState(props.post.comments);
 	const [comment, setComment] = useState("");
-	const [commentText, setCommentText] = useState("");
 
 	//variables likes
 	const [likes, setLikes] = useState(null);
@@ -23,47 +18,12 @@ export default function MiRedPosts(props) {
 	let today = new Date();
 	let today_string = today.toISOString().slice(0, 10);
 	let postdate = new Date(props.post.datetime);
-	let dateCorrect = true;
 	let postTime = "";
 	let dif_min = (today - postdate) / 60000;
 
-	useEffect(() => {
-		if (user !== null) {
-			fetch(process.env.BACKEND_URL + "/api/posts/" + user.id, {
-				method: "GET",
-				headers: { "Content-Type": "application/json" }
-			})
-				.then(response => response.json())
-				.then(resultJson => {
-					setPostsList(resultJson);
-				});
-		}
-	}, []);
-
-	//COMMENTS
-	//GET ALL COMMENTS+LIKES by user_id
-	useEffect(() => {
-		if (user && comment !== null) {
-			fetch(process.env.BACKEND_URL + "/api/comments/" + user.id, {
-				method: "GET",
-				headers: { "Content-Type": "application/json" }
-			})
-				.then(response => response.json())
-				.then(resultJson => {
-					setCommentsList(resultJson);
-				});
-
-			fetch(process.env.BACKEND_URL + "/api/likes/" + user.id, {
-				method: "GET",
-				headers: { "Content-Type": "application/json" }
-			})
-				.then(response => response.json())
-				.then(resultJson => {
-					setLikes(resultJson);
-					setLikes("");
-				});
-		}
-	}, []);
+	if (commentsList != props.post.comments) {
+		setCommentsList(props.post.comments);
+	}
 
 	//CREATE COMMENT OF A POST
 	function createComment(post_id, commentText) {
@@ -73,7 +33,6 @@ export default function MiRedPosts(props) {
 			text: commentText
 		};
 
-		setMessage("");
 		fetch(process.env.BACKEND_URL + "/api/comment", {
 			method: "POST",
 			body: JSON.stringify(body_comment),
@@ -83,44 +42,29 @@ export default function MiRedPosts(props) {
 		})
 			.then(response => response.json())
 			.then(responseJson => {
-				let arrayCopy = [...commentsList, responseJson];
+				props.createComment(body_comment, post_id);
+				let arrayCopy = [...commentsList, body_comment];
 				setCommentsList(arrayCopy);
-			});
-	}
-
-	//COMMENT
-	//DELETE COMMENT
-
-	function deleteComment(comment_id) {
-		fetch(process.env.BACKEND_URL + "/api/commentdelete/" + comment_id, {
-			method: "GET",
-			headers: { "Content-Type": "application/json" }
-		})
-			.then(response => response.json())
-			.then(resultJson => {
-				let arrayCopy = [...commentsList];
-				let arrayPos = arrayCopy.findIndex(item => item.id === comment_id);
-				arrayCopy.splice(arrayPos, 1);
-				setCommentsList(arrayCopy);
+				setComment("");
 			});
 	}
 
 	//LIKES
 	//GET ALL LIKES by user_id
-	useEffect(() => {
-		if (user !== null) {
-			fetch(process.env.BACKEND_URL + "/api/comments/" + user.id, {
-				method: "GET",
-				headers: { "Content-Type": "application/json" }
-			})
-				.then(response => response.json())
-				.then(resultJson => {
-					setCommentsList(resultJson);
-				});
-		}
-	}, []);
+	// useEffect(() => {
+	// 	if (user !== null) {
+	// 		fetch(process.env.BACKEND_URL + "/api/comments/" + user.id, {
+	// 			method: "GET",
+	// 			headers: { "Content-Type": "application/json" }
+	// 		})
+	// 			.then(response => response.json())
+	// 			.then(resultJson => {
+	// 				setCommentsList(resultJson);
+	// 			});
+	// 	}
+	// }, []);
 
-	//Tiempo desde que se realizo el Post
+	// TIEMPO QUE LLEVA EL POST ACTIVO
 
 	dif_min = Math.round(dif_min);
 	if (dif_min <= 59) {
@@ -146,20 +90,17 @@ export default function MiRedPosts(props) {
 				{user ? <h4>{props.post.username}</h4> : ""}
 				<br />
 				<hr className="w3-clear" />
-				{postsList ? <p>{props.post.text}</p> : ""}
+				<p>{props.post.text}</p>
 				<div className="w3-row-padding" id="container2">
-					{postsList ? (
-						<div className="w3-border w3-padding w3-image">
-							<img
-								src={props.post.url_image}
-								id="image8"
-								alt="Northern Lights"
-								className="w3-margin-bottom imagePosts w3-hover-grayscale"
-							/>
-						</div>
-					) : (
-						""
-					)}
+					<div className="w3-border w3-padding w3-image">
+						<img
+							src={props.post.url_image}
+							id="image8"
+							alt="Northern Lights"
+							className="w3-margin-bottom imagePosts w3-hover-grayscale"
+						/>
+					</div>
+
 					<br />
 					<input
 						className="w3-border w3-padding w3-col m12"
@@ -185,15 +126,12 @@ export default function MiRedPosts(props) {
 				{commentsList.map(comment => {
 					return <MiRedComments key={comment.id} comment_text={comment.text} />;
 				})}
-				{/* 
-				{commentsList.map(comment => {
-					return <ul key={comment.id}>{comment.text}</ul>;
-				})} */}
 			</div>
 		</div>
 	);
 }
 
 MiRedPosts.propTypes = {
-	post: PropTypes.object
+	post: PropTypes.object,
+	createComment: PropTypes.func
 };
