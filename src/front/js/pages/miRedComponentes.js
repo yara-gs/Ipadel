@@ -11,29 +11,28 @@ import MiRedPosts from "../component/MiRed/miRedPosts";
 import MiRedEvents from "../component/MiRed/miRedEvents";
 import MiRedFriendRequest from "../component/MiRed/miRedFriendRequest";
 
-import pushSignPage from "../pushSignPage";
-
 export default function MiRedComponentes() {
 	const { actions } = useContext(Context);
 	const history = useHistory();
 	const fileInput = useRef(null);
 
-	const [postsList, setPostsList] = useState([]);
-	const [post, setPost] = useState("");
-	const [message, setMessage] = useState("");
-	const [image, setImage] = useState("");
-	const [profile, setProfile] = useState(null);
-	const [friends, setFriends] = useState([]);
-	const [usersList, setUsersList] = useState(null);
+	let [postsList, setPostsList] = useState([]);
+	let [post, setPost] = useState("");
+	let [message, setMessage] = useState("");
+	let [image, setImage] = useState("");
+	let [profile, setProfile] = useState(null);
+	let [friends, setFriends] = useState([]);
+	let [usersList, setUsersList] = useState(null);
+	let [user, setUser] = useState(actions.getUser());
 
-	let user = actions.getUser();
+	let postUpdateTime = 10000;
+	let last_postupdate = new Date().toISOString().replace(/([^T]+)T([^\.]+).*/g, "$1 $2");
+	let PostsList_aux;
 
+	//GET USER DATA FIRST SCAN
 	useEffect(() => {
 		let acessToken = actions.getAccessToken();
-		if (!acessToken) {
-			history.push("/login");
-			return;
-		}
+
 		fetch(process.env.BACKEND_URL + "/api/getuser", {
 			method: "GET",
 			headers: {
@@ -44,17 +43,20 @@ export default function MiRedComponentes() {
 			.then(response => response.json())
 			.then(responseJson => {
 				actions.saveUser(responseJson);
+				setUser(responseJson);
+				getProfile(responseJson);
 			});
+		//INTERVALO PARA ACTUALIZAR INFORMACION DE LOS POSTS NUEVOS
+		const interval = setInterval(() => {
+			// get_lastpost_bydate(last_postupdate);
+			get_all_posts();
+		}, postUpdateTime);
+		return () => clearInterval(interval);
 	}, []);
 
 	useEffect(() => {
-		if (user) {
-			fetch(process.env.BACKEND_URL + "/api/profile/" + user.id, {
-				method: "GET",
-				headers: { "Content-Type": "application/json" }
-			})
-				.then(response => response.json())
-				.then(resultJson => setProfile(resultJson));
+		if (user !== null) {
+			getProfile(user);
 
 			fetch(process.env.BACKEND_URL + "/api/users/", {
 				method: "GET",
@@ -64,15 +66,6 @@ export default function MiRedComponentes() {
 				.then(resultJson => {
 					setUsersList(resultJson);
 				});
-			fetch(process.env.BACKEND_URL + "/api/posts/" + user.id, {
-				method: "GET",
-				headers: { "Content-Type": "application/json" }
-			})
-				.then(response => response.json())
-				.then(resultJson => {
-					setPostsList(resultJson);
-				});
-
 			fetch(process.env.BACKEND_URL + "/api/friends/" + user.id, {
 				method: "GET",
 				headers: { "Content-Type": "application/json" }
@@ -81,9 +74,63 @@ export default function MiRedComponentes() {
 				.then(resultJson => {
 					setFriends(resultJson);
 				});
+			get_all_posts();
 		}
 	}, [user]);
 
+	//OBTENER DATOS PERFIL USUARIO
+
+	function getProfile(user) {
+		if (user) {
+			fetch(process.env.BACKEND_URL + "/api/profile/" + user.id, {
+				method: "GET",
+				headers: { "Content-Type": "application/json" }
+			})
+				.then(response => response.json())
+				.then(resultJson => setProfile(resultJson));
+		}
+	}
+
+	function get_all_posts() {
+		if (user) {
+			fetch(process.env.BACKEND_URL + "/api/posts/" + user.id, {
+				method: "GET",
+				headers: { "Content-Type": "application/json" }
+			})
+				.then(response => response.json())
+				.then(resultJson => {
+					setPostsList(resultJson);
+					PostsList_aux = resultJson;
+					last_postupdate = new Date().toISOString().replace(/([^T]+)T([^\.]+).*/g, "$1 $2");
+				});
+		}
+	}
+
+	//OBTENERE DATOS NUEVOS POSTS DE AMIGOS
+	function get_lastpost_bydate(date) {
+		if (user != null) {
+			fetch(process.env.BACKEND_URL + "/api/posts/" + user.id + "/" + date, {
+				method: "GET",
+				headers: { "Content-Type": "application/json" }
+			})
+				.then(response => response.json())
+				.then(resultJson => {
+					if (resultJson.length > 0) {
+						let arrayCopy = [...PostsList_aux];
+						let responseList = resultJson;
+						for (let i = responseList.length - 1; i >= 0; i--) {
+							arrayCopy.unshift(responseList[i]);
+						}
+
+						setPostsList(arrayCopy);
+					}
+					console.log(date);
+					last_postupdate = new Date().toISOString().replace(/([^T]+)T([^\.]+).*/g, "$1 $2");
+				});
+		}
+	}
+
+	//CREAR UN POST NUEVO
 	function createPost() {
 		const formData = new FormData();
 		formData.append("user_id", user.id);
@@ -152,13 +199,10 @@ export default function MiRedComponentes() {
 			});
 	}
 
-	//funcion que lleva a sign si no hay usario logueado
-	pushSignPage();
-
 	return (
 		<div className="body-mired ">
 			<div className="w3-col m3">
-				<MiRedPerfil />
+				<MiRedPerfil profile={profile} user={user} />
 				<MiRedInterests />
 			</div>
 

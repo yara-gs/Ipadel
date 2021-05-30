@@ -1,19 +1,14 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../../store/appContext";
 import { useHistory } from "react-router-dom";
-//test
 
 import CenterRegister from "../../component/sportCenter/centerRegister.jsx";
 import "../../../styles/center.scss";
-
-import pushSignPage from "../../pushSignPage";
 
 export default function CenterForm() {
 	const { actions, store } = useContext(Context);
 	const history = useHistory();
 
-	//funcion que lleva a sign si no hay usario logueado
-	pushSignPage();
 	return (
 		<div className="body-center">
 			{/* <!-- multistep form --> */}

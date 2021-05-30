@@ -165,9 +165,8 @@ def register_new_friend():
     user_id=body["user_id"]
     new_friend=Friend(userfriend_id=userfriend_id,user_id=user_id,username=username,url_image=url_image)
     new_friend.save()
-    # new_friend=Friend.create_user(body["userfriend_id"],body["user_id"],username,url_image)
 
-    return jsonify(new_friend.ser()), 200
+    return jsonify(new_friend.serialize()), 200
 
 
 
@@ -248,6 +247,39 @@ def get_posts(user_id):
     for post in posts:
         post.user_url_image=user.url_image
         posts_list.append(post.serialize(with_comments))   
+
+    posts_list.sort(key=itemgetter('datetime'), reverse=True)
+    
+
+    return jsonify(posts_list), 200
+
+
+# POST: Actulizar cada 'x' tiempo los posts, solo pide por los posts nuevos
+@api.route ('/posts/<int:user_id>/<lastpost_datestr>', methods=['GET'])
+def get_posts_by_lastdate(user_id,lastpost_datestr):
+
+    with_comments=False
+    user=User.get_id(user_id)
+    posts=Post.items_by_user_id(user_id)
+    friends=Friend.items_by_user_id(user_id)
+    posts_list = []
+    lastpost_date=datetime.datetime.strptime(lastpost_datestr, '%Y-%m-%d %H:%M:%S')
+    print(lastpost_date)
+
+    for friend in friends:
+        posts_friend=Post.items_by_user_id(friend.userfriend_id)
+        friend_data=User.get_id(friend.userfriend_id)
+        # print(posts_friend)
+        
+        for post_friend in posts_friend:
+            post_friend.user_url_image=friend_data.url_image
+            post_friend_date=str(post_friend.datetime)
+            post_friend_date=post_friend.datetime
+            print(post_friend_date,lastpost_date)
+            
+            if post_friend_date>=lastpost_date:
+                print("POST ENCONTRADO")
+                posts_list.append(post_friend.serialize(with_comments))
 
     posts_list.sort(key=itemgetter('datetime'), reverse=True)
     

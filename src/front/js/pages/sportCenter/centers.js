@@ -5,8 +5,6 @@ import Center from "../../component/sportCenter/center.jsx";
 
 import "../../../styles/court-reservation.scss";
 
-import pushSignPage from "../../pushSignPage";
-
 export default function Centers() {
 	const { actions, store } = useContext(Context);
 	let user = actions.getUser();
@@ -24,15 +22,12 @@ export default function Centers() {
 		}, []);
 	}
 
-	//funcion que lleva a sign si no hay usario logueado
-	pushSignPage();
-
 	return (
-		<div className="body-centers">
+		<div className="body ">
 			{/* <!-- !PAGE CONTENT! --> */}
-			<div className="w3-main">
+			<div className="w3-main ">
 				{/* <!-- Header --> */}
-				<header className="header ">
+				<header className="w3-container ">
 					<h5 className="mt-4">
 						<div className="text_xlarge pl-4">Centros deportivos</div>
 					</h5>
@@ -48,6 +43,9 @@ export default function Centers() {
 					"Loading"
 				)}
 			</div>
+			<br />
+			<br />
+			<br />
 		</div>
 	);
 }
