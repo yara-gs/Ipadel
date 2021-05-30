@@ -119,8 +119,8 @@ class User(db.Model,BaseModel):
 
 class Friend(db.Model,BaseModel,UserId):
     id = db.Column(db.Integer, primary_key=True)
-    userfriend_id=db.Column(db.Integer, unique=True, nullable=False)
-    username = db.Column(db.String(120), unique=True, nullable=False)
+    userfriend_id=db.Column(db.Integer, unique=False, nullable=False)
+    username = db.Column(db.String(120), unique=False, nullable=False)
     url_image=db.Column(db.String(120), unique=False, nullable=True)
 
     # relacion one to many con tabla User (un usuario puede tener muchos centros)
@@ -136,16 +136,6 @@ class Friend(db.Model,BaseModel,UserId):
         self.user_id=user_id
         self.username=username
         self.url_image=url_image
-
-    # def serialize(self):
-    #     return {
-    #         "id": self.id,
-    #         # "userfriend_id":self.userfriend_id,
-    #         # "user_id":self.user_id,
-    #         # "username": self.username,
-    #         # "url_image":self.url_image,
-    #         # do not serialize the password, its a security breach
-    #     }
 
     @classmethod
     def create_user(cls,userfriend_id,user_id,username,url_image):

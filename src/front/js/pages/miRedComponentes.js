@@ -10,6 +10,7 @@ import MiRedPostText from "../component/MiRed/miRedPostText";
 import MiRedPosts from "../component/MiRed/miRedPosts";
 import MiRedEvents from "../component/MiRed/miRedEvents";
 import MiRedFriendRequest from "../component/MiRed/miRedFriendRequest";
+import MiRedFriends from "../component/MiRed/miRedFriends";
 
 export default function MiRedComponentes() {
 	const { actions } = useContext(Context);
@@ -204,6 +205,7 @@ export default function MiRedComponentes() {
 			<div className="w3-col m3">
 				<MiRedPerfil profile={profile} user={user} />
 				<MiRedInterests />
+				<MiRedFriends friends={friends} />
 			</div>
 
 			<div className="w3-col m7">
