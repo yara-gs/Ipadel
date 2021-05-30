@@ -125,7 +125,6 @@ export default function MiRedComponentes() {
 
 						setPostsList(arrayCopy);
 					}
-					console.log(date);
 					last_postupdate = new Date().toISOString().replace(/([^T]+)T([^\.]+).*/g, "$1 $2");
 				});
 		}
@@ -171,6 +170,16 @@ export default function MiRedComponentes() {
 		//COMMENTS
 		//GET ALL COMMENTS+LIKES by user_id
 	}
+
+	//CREATE COMMENT OF A POST
+	function createComment(comment, post_id) {
+		let arrayCopy = [...postsList];
+		let arrayPos = arrayCopy.findIndex(item => item.id === post_id);
+		console.log(arrayPos);
+		arrayCopy[arrayPos].comments.push(comment);
+		setPostsList(arrayCopy);
+	}
+
 	const onBtnClick = () => {
 		/*Collecting node-element and performing click*/
 		fileInput.current.click();
@@ -265,7 +274,7 @@ export default function MiRedComponentes() {
 					</div>
 				</div>
 				{postsList.map((post, index) => {
-					return <MiRedPosts key={index} post={post} />;
+					return <MiRedPosts key={index} post={post} createComment={createComment} />;
 				})}
 			</div>
 			<div className="w3-col m2">
