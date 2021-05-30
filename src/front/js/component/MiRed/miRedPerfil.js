@@ -108,7 +108,7 @@ export default function MiRedPerfil(props) {
 						<p />
 					</p>
 					{show_SaveImage ? (
-						<p className="w3-center d-flex justify-content-center">
+						<p className="w3-center d-flex justify-content-center post-btn ">
 							<button onClick={() => upload_userImage()} className=" w3-btn w3-green">
 								Guardar imagen
 							</button>

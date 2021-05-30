@@ -49,6 +49,16 @@ export default function Mynavbar() {
 
 	return (
 		<Navbar className="fixed-top" collapseOnSelect expand="lg" bg="dark" variant="dark">
+			{/* <Navbar.Brand className="navbar-brand" href="ipadelBrand">
+				<Link to="/">
+					<Nav.Link href="#home" className="iPadel ">
+						<LogoiPadel />
+
+						<p className="slogan">padel social network </p>
+					</Nav.Link>
+				</Link>
+			</Navbar.Brand> */}
+
 			<Link className="navbar-brand" to="/">
 				<span className="iPadel ">
 					<LogoiPadel />
@@ -57,78 +67,63 @@ export default function Mynavbar() {
 			</Link>
 
 			{loginDone ? (
-				<div className="userExists">
+				<Navbar.Collapse id="responsive-navbar-nav">
 					<Navbar.Toggle aria-controls="responsive-navbar-nav" />
-					<Navbar.Collapse id="responsive-navbar-nav">
+					<Nav className="userExists mr-auto">
 						<Link to="/mired">
-							<Nav.Link href="#features">Mi Red</Nav.Link>
+							<Nav.Link href="#mired">Mi Red</Nav.Link>
+						</Link>
+						<Link to="/choose-center">
+							<Nav.Link href="#reservecourt">Reservar Pista</Nav.Link>
 						</Link>
 
 						<Link to="/my-reservations">
-							<Nav.Link href="#features">Mis Reservas</Nav.Link>
+							<Nav.Link href="#misreservations">Mis Reservas</Nav.Link>
 						</Link>
-						<Link to="/choose-center">
-							<Nav.Link href="#features">Reservar Pista</Nav.Link>
-						</Link>
+
 						<Link to="/centers">
-							<Nav.Link href="#features">Mis Centros</Nav.Link>
+							<Nav.Link href="#centers">Mis Centros</Nav.Link>
 						</Link>
 						<Link to="/newcenter">
-							<Nav.Link href="#features">Alta Centros Deportivos</Nav.Link>
+							<Nav.Link href="#newcenter">Alta Nuevo Centro</Nav.Link>
 						</Link>
-						<Nav.Link href="#features" style={{ opacity: "0" }}>
-							Alta Centros Deportivos
-						</Nav.Link>
-						<Nav.Link href="#features" style={{ opacity: "0" }}>
-							Alta Centros deporti
-						</Nav.Link>
+					</Nav>
 
-						<div className="avatar collapse navbar-collapse " id="navbar-list-4">
-							<ul className="avatar1 navbar-nav">
-								<li className="avatar2 nav-item dropdown">
-									<a
-										className="nav-link dropdown-toggle "
-										href="#"
-										id="navbarDropdownMenuLink"
-										role="button"
-										data-toggle="dropdown"
-										aria-haspopup="true"
-										aria-expanded="false">
-										<div
-											className="user-image"
-											style={{
-												backgroundImage: `url(${userImage})`,
-												width: "50px",
-												height: "50px"
-											}}
-										/>
-									</a>
-									<div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-										<Link to="/configure-profile">
-											<a className="dropdown-item" href="#">
-												Edit Profile
-											</a>
-										</Link>
-										<button
-											className="dropdown-item"
-											onClick={() => {
-												actions.logOut();
-												// history.push("/login");
-											}}>
-											Log Out
-										</button>
-									</div>
-								</li>
-							</ul>
-						</div>
-					</Navbar.Collapse>
-				</div>
+					<Nav className="userExists ml-auto mr-2">
+						<NavDropdown className=" navbar-collapse " id="navbar-list-4">
+							<NavDropdown.Item>
+								<Link to="/configure-profile">Edit Profile</Link>
+							</NavDropdown.Item>
+							<NavDropdown.Item>
+								<Link
+									to="/sign"
+									onClick={() => {
+										actions.logOut();
+									}}>
+									Cerrar Sesión
+								</Link>
+							</NavDropdown.Item>
+						</NavDropdown>
+						<Navbar.Brand className="mr-2" href="useravatar">
+							<div
+								className="user-image"
+								style={{
+									backgroundImage: `url(${userImage})`,
+									width: "50px",
+									height: "50px"
+								}}
+							/>
+						</Navbar.Brand>
+					</Nav>
+				</Navbar.Collapse>
 			) : (
 				<Nav className="ml-auto">
 					<Link to="/sign">
-						<Nav.Link href="#pricing">Sign Up</Nav.Link>
+						<Nav.Link href="#sign">Crear Cuenta</Nav.Link>
 					</Link>
-					<Nav.Link href="/login">login</Nav.Link>
+					<Link to="/login">
+						<Nav.Link href="#login">Login</Nav.Link>
+					</Link>
 				</Nav>
 			)}
 		</Navbar>

@@ -23,11 +23,11 @@ export default function Centers() {
 	}
 
 	return (
-		<div className="body-centers">
+		<div className="body ">
 			{/* <!-- !PAGE CONTENT! --> */}
-			<div className="w3-main">
+			<div className="w3-main ">
 				{/* <!-- Header --> */}
-				<header className="header ">
+				<header className="w3-container ">
 					<h5 className="mt-4">
 						<div className="text_xlarge pl-4">Centros deportivos</div>
 					</h5>
@@ -43,6 +43,9 @@ export default function Centers() {
 					"Loading"
 				)}
 			</div>
+			<br />
+			<br />
+			<br />
 		</div>
 	);
 }

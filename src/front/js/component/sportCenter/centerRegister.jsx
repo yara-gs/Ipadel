@@ -67,7 +67,9 @@ export default function CenterRegister() {
 	}
 
 	return (
-		<div className="container col-12 col-xl-8 col-md-9 d-flex d-flex justify-content-center ">
+		<div
+			className="container col-12 col-xl-8 col-md-9 d-flex d-flex justify-content-center "
+			style={{ border: "none" }}>
 			<Form
 				className="registerForm  w3-container w3-card-4 w3-light-grey  w3-margin"
 				onSubmit={event => createCenter(event)}>

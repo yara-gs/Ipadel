@@ -16,18 +16,20 @@ export default function MiRedComponentes() {
 	const history = useHistory();
 	const fileInput = useRef(null);
 
-	const [postsList, setPostsList] = useState([]);
-	const [post, setPost] = useState("");
-	const [message, setMessage] = useState("");
-	const [image, setImage] = useState("");
-	const [profile, setProfile] = useState(null);
-	const [friends, setFriends] = useState([]);
-	const [usersList, setUsersList] = useState(null);
-	const [user, setUser] = useState(actions.getUser());
-	const [lastpost_update, setLastpost_update] = useState(null);
-	const [currentCount, setCount] = useState(10);
-	const timer = () => setCount(currentCount - 1);
+	let [postsList, setPostsList] = useState([]);
+	let [post, setPost] = useState("");
+	let [message, setMessage] = useState("");
+	let [image, setImage] = useState("");
+	let [profile, setProfile] = useState(null);
+	let [friends, setFriends] = useState([]);
+	let [usersList, setUsersList] = useState(null);
+	let [user, setUser] = useState(actions.getUser());
 
+	let postUpdateTime = 10000;
+	let last_postupdate = new Date().toISOString().replace(/([^T]+)T([^\.]+).*/g, "$1 $2");
+	let PostsList_aux;
+
+	//GET USER DATA FIRST SCAN
 	useEffect(() => {
 		let acessToken = actions.getAccessToken();
 
@@ -43,17 +45,16 @@ export default function MiRedComponentes() {
 				actions.saveUser(responseJson);
 				setUser(responseJson);
 				getProfile(responseJson);
-				const interval = setInterval(() => {
-					// get_lastpost_bydate();
-				}, 10000);
-				return () => clearInterval(interval);
 			});
+		//INTERVALO PARA ACTUALIZAR INFORMACION DE LOS POSTS NUEVOS
+		const interval = setInterval(() => {
+			// get_lastpost_bydate(last_postupdate);
+			get_all_posts();
+		}, postUpdateTime);
+		return () => clearInterval(interval);
 	}, []);
 
 	useEffect(() => {
-		//GET DATE (yy-mm-dd hh:mm:ss)
-		let today = new Date();
-		let today_string = today.toISOString().replace(/([^T]+)T([^\.]+).*/g, "$1 $2");
 		if (user !== null) {
 			getProfile(user);
 
@@ -65,17 +66,6 @@ export default function MiRedComponentes() {
 				.then(resultJson => {
 					setUsersList(resultJson);
 				});
-
-			fetch(process.env.BACKEND_URL + "/api/posts/" + user.id, {
-				method: "GET",
-				headers: { "Content-Type": "application/json" }
-			})
-				.then(response => response.json())
-				.then(resultJson => {
-					setPostsList(resultJson);
-					setLastpost_update(today_string);
-				});
-
 			fetch(process.env.BACKEND_URL + "/api/friends/" + user.id, {
 				method: "GET",
 				headers: { "Content-Type": "application/json" }
@@ -84,8 +74,11 @@ export default function MiRedComponentes() {
 				.then(resultJson => {
 					setFriends(resultJson);
 				});
+			get_all_posts();
 		}
 	}, [user]);
+
+	//OBTENER DATOS PERFIL USUARIO
 
 	function getProfile(user) {
 		if (user) {
@@ -98,38 +91,46 @@ export default function MiRedComponentes() {
 		}
 	}
 
-	function get_lastpost_bydate() {
-		//GET DATE (yy-mm-dd hh:mm:ss)
-		let today = new Date();
-		let today_string = today.toISOString().replace(/([^T]+)T([^\.]+).*/g, "$1 $2");
-		if (user != null) {
-			fetch(process.env.BACKEND_URL + "/api/posts/" + user.id + "/" + today_string, {
+	function get_all_posts() {
+		if (user) {
+			fetch(process.env.BACKEND_URL + "/api/posts/" + user.id, {
 				method: "GET",
 				headers: { "Content-Type": "application/json" }
 			})
 				.then(response => response.json())
 				.then(resultJson => {
-					let arrayCopy = [...postsList];
-					let responseList = resultJson;
-					for (let i = responseList.length - 1; i >= 0; i--) {
-						arrayCopy.unshift(responseList[i]);
-					}
-					setPostsList(arrayCopy);
-					setLastpost_update(today_string);
+					setPostsList(resultJson);
+					PostsList_aux = resultJson;
+					last_postupdate = new Date().toISOString().replace(/([^T]+)T([^\.]+).*/g, "$1 $2");
 				});
 		}
 	}
 
-	// useEffect(() => {
-	// 	const interval = setInterval(() => {
-	// 		console.log("This will run every second!");
-	// 		// setUser(actions.getUser());
-	// 		console.log(user);
-	// 		get_lastpost_bydate();
-	// 	}, 10000);
-	// 	return () => clearInterval(interval);
-	// }, []);
+	//OBTENERE DATOS NUEVOS POSTS DE AMIGOS
+	function get_lastpost_bydate(date) {
+		if (user != null) {
+			fetch(process.env.BACKEND_URL + "/api/posts/" + user.id + "/" + date, {
+				method: "GET",
+				headers: { "Content-Type": "application/json" }
+			})
+				.then(response => response.json())
+				.then(resultJson => {
+					if (resultJson.length > 0) {
+						let arrayCopy = [...PostsList_aux];
+						let responseList = resultJson;
+						for (let i = responseList.length - 1; i >= 0; i--) {
+							arrayCopy.unshift(responseList[i]);
+						}
 
+						setPostsList(arrayCopy);
+					}
+					console.log(date);
+					last_postupdate = new Date().toISOString().replace(/([^T]+)T([^\.]+).*/g, "$1 $2");
+				});
+		}
+	}
+
+	//CREAR UN POST NUEVO
 	function createPost() {
 		const formData = new FormData();
 		formData.append("user_id", user.id);
@@ -250,12 +251,6 @@ export default function MiRedComponentes() {
 													className="w3-btn w3-green"
 													style={{ width: "60px" }}>
 													Post
-												</button>
-												<button
-													onClick={() => get_lastpost_bydate()}
-													className="w3-btn w3-green"
-													style={{ width: "60px" }}>
-													Update Post
 												</button>
 											</div>
 										</div>
