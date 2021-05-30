@@ -21,6 +21,8 @@ flask-jwt-extended = "*"
 boto3="*"
 pytz = "*"
 tzlocal = "*"
+flask-mail = "*"
+virtualenv = "*"
 
 [requires]
 python_version = "3.8"

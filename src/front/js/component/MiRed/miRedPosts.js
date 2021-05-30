@@ -8,11 +8,9 @@ import "w3-css/w3.css";
 export default function MiRedPosts(props) {
 	const [postsList, setPostsList] = useState([]);
 	const [postText, setPostText] = useState("Mi post");
-
 	const [image, setImage] = React.useState("");
-
 	const [message, setMessage] = useState("");
-	const [commentsList, setCommentsList] = useState([]);
+	const [commentsList, setCommentsList] = useState(props.post.comments);
 	const [comment, setComment] = useState("");
 	const [commentText, setCommentText] = useState("");
 
@@ -132,7 +130,6 @@ export default function MiRedPosts(props) {
 	} else if ((dif_min >= 1440) & (dif_min < 525600)) {
 		postTime = Math.round(dif_min / 1440) + " días";
 	}
-
 	return (
 		<div className="w3-col">
 			<div className="w3-container w3-card w3-white w3-round w3-margin">
@@ -184,9 +181,14 @@ export default function MiRedPosts(props) {
 					className="w3-button w3-theme-d2 w3-margin-bottom">
 					<i className="fa fa-comment" />  Comment
 				</button>
-				{commentsList.map((comment, index) => {
-					<MiRedComments key={index} comments={comment.text} />;
+
+				{commentsList.map(comment => {
+					return <MiRedComments key={comment.id} comment_text={comment.text} />;
 				})}
+				{/* 
+				{commentsList.map(comment => {
+					return <ul key={comment.id}>{comment.text}</ul>;
+				})} */}
 			</div>
 		</div>
 	);
