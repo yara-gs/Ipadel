@@ -18,13 +18,20 @@ import pytz
 from tzlocal import get_localzone # $ pip install tzlocal
 from operator import itemgetter
 
+
 # from sqlalchemy import create_engine
 
 # engine = create_engine("sql://u:p@host/db", pool_size=10, max_overflow=20)
 
-
+from send import index
 
 api = Blueprint('api', __name__)
+
+@api.route('/email')
+def email():
+
+    return jsonify({}), 200
+
 
 # USER- LOGIN/SIGNUP CONFIGURATION
 
@@ -233,7 +240,7 @@ def register_new_post():
 # POST: Get posts by user Id
 @api.route ('/posts/<int:user_id>', methods=['GET'])
 def get_posts(user_id):
-    with_comments=False
+    with_comments=True
     user=User.get_id(user_id)
     posts=Post.items_by_user_id(user_id)
     friends=Friend.items_by_user_id(user_id)

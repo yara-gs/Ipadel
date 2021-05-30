@@ -46,6 +46,9 @@ export default function Reservations() {
 			<br />
 			<br />
 			<br />
+			<br />
+			<br />
+			<br />
 		</div>
 	);
 }

@@ -33,30 +33,39 @@ const Layout = () => {
 					<Switch>
 						<Route exact path="/">
 							<Home />
+							<Footer />
 						</Route>
 						<Route exact path="/sign">
 							<SignAndLogin sign={true} />
+							<Footer />
 						</Route>
 						<Route exact path="/login">
 							<SignAndLogin sign={false} />
+							<Footer />
 						</Route>
 						<Route exact path="/configure-profile">
 							<ConfigureProfile />
+							<Footer />
 						</Route>
 						<Route exact path="/home">
 							<Home />
+							<Footer />
 						</Route>
 						<Route exact path="/mired">
 							<MiRedComponentes />
+							<Footer />
 						</Route>
 						<Route exact path="/newcenter">
 							<CenterForm />
+							<Footer />
 						</Route>
 						<Route exact path="/configure-courts">
 							<ConfigureCourts />
+							<Footer />
 						</Route>
 						<Route exact path="/uploadCenterImages">
 							<CenterImages />
+							<Footer />
 						</Route>
 						<Route exact path="/centers">
 							<Centers />
@@ -69,6 +78,7 @@ const Layout = () => {
 						</Route>
 						<Route exact path="/choose-center">
 							<ChooseCenter />
+							<Footer />
 						</Route>
 						<Route exact path="/my-reservations">
 							<Reservations />
@@ -77,7 +87,6 @@ const Layout = () => {
 							<h1>Not found!</h1>
 						</Route>
 					</Switch>
-					<Footer />
 				</ScrollToTop>
 			</BrowserRouter>
 		</div>

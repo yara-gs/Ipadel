@@ -8,12 +8,11 @@ import "w3-css/w3.css";
 export default function MiRedComments(props) {
 	return (
 		<div className="w3-col">
-			<h1>{props.text}</h1>
-			<h2>Hola que tla</h2>
+			<span> {props.comment_text}</span>
 		</div>
 	);
 }
 
 MiRedComments.propTypes = {
-	text: PropTypes.string
+	comment_text: PropTypes.string
 };

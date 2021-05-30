@@ -118,7 +118,7 @@ export default function Center(props) {
 							</td>
 							<td />
 							<td>
-								<button className="fas fa-pen center-edit-btn" onClick={() => editSportCenter()} />
+								<button className="fas fa-pen center-edit-btn" />
 							</td>
 						</tr>
 					</table>
