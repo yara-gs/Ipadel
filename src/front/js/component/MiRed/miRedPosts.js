@@ -124,7 +124,7 @@ export default function MiRedPosts(props) {
 				</button>
 
 				{commentsList.map(comment => {
-					return <MiRedComments key={comment.id} comment_text={comment.text} />;
+					return <MiRedComments key={comment.id} comment={comment} />;
 				})}
 			</div>
 		</div>

@@ -7,12 +7,16 @@ import "w3-css/w3.css";
 
 export default function MiRedComments(props) {
 	return (
-		<div className="w3-col">
-			<span> {props.comment_text}</span>
+		<div className="w3-col d-flex justify-content-between">
+			<div> {props.comment.text}</div>{" "}
+			<div className=" text_xs">
+				{" "}
+				{props.comment.username} / {props.comment.datetime}{" "}
+			</div>
 		</div>
 	);
 }
 
 MiRedComments.propTypes = {
-	comment_text: PropTypes.string
+	comment: PropTypes.obj
 };

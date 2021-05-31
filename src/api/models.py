@@ -319,6 +319,8 @@ class Comment(db.Model,BaseModel,UserId):
 
     id=db.Column(db.Integer, primary_key=True)
     text=db.Column(db.String(120), unique=False, nullable=True)
+    username=db.Column(db.String(120), unique=False, nullable=True)
+    datetime=db.Column(db.DateTime,unique=False,nullable=True)
 
 
    # relacion one to many con tabla User(un user puede tener muchos comentarios)
@@ -333,10 +335,12 @@ class Comment(db.Model,BaseModel,UserId):
         return '<Comment %r>' % self.id
 
      #metodo de instancia que obliga a que haya datos siempre que se llama       
-    def __init__(self,user_id,post_id,text):
+    def __init__(self,user_id,post_id,text,username,datetime):
         self.user_id=user_id
         self.post_id=post_id
         self.text=text
+        self.username=username
+        self.datetime=datetime
 
     #metodo de instancia serializa el diccionario
     def serialize(self):
@@ -344,13 +348,15 @@ class Comment(db.Model,BaseModel,UserId):
             "id": self.id,
             "user_id":self.user_id,
             "post_id": self.post_id,
-            "text": self.text,     
+            "text": self.text,  
+            "username":self.username,
+            "datetime":self.datetime   
         }
     
     @classmethod
     def add_register(cls, request_json):
         
-        register=cls(request_json["user_id"],request_json["post_id"],request_json["text"])
+        register=cls(request_json["user_id"],request_json["post_id"],request_json["text"],request_json["username"],request_json["datetime"])
         register.body(request_json)
         return register
     

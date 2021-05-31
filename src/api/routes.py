@@ -337,7 +337,17 @@ def get_comments_post(post_id):
 def register_new_comment():
 
     body=request.get_json()
-    new_comment=Comment.add_register(body)
+    user_id=body["user_id"]
+    post_id=body["post_id"]
+    text=body["text"]
+    username=User.get_id(user_id).username
+    utc_date = datetime.datetime.now()
+    local_date=utc_date+datetime.timedelta(hours=2)
+
+   
+    # new_comment=Comment.add_register(body)
+    new_comment=Comment(user_id=user_id,post_id=post_id,text=text,username=username,datetime=local_date)
+    
     new_comment.save()
   
     return jsonify(new_comment.serialize()),200
