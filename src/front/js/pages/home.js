@@ -47,7 +47,7 @@ export const Home = () => {
 						<p className="w3-large">Interactivo</p>
 						<p>
 							Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-							labore et dolore.
+							labore et dolores.
 						</p>
 					</div>
 					<div className="w3-quarter">
