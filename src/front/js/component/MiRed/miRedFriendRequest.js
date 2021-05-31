@@ -44,6 +44,7 @@ export default function MiRedFriendRequest(props) {
 
 	function addFriend() {
 		props.addFriend(selectedFriend);
+		setInputValue("");
 	}
 
 	function selectedItem(item) {
