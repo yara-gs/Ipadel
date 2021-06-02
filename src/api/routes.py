@@ -341,12 +341,13 @@ def register_new_comment():
     post_id=body["post_id"]
     text=body["text"]
     username=User.get_id(user_id).username
+    user_url_image=User.get_id(user_id).url_image
     utc_date = datetime.datetime.now()
     local_date=utc_date+datetime.timedelta(hours=2)
 
    
     # new_comment=Comment.add_register(body)
-    new_comment=Comment(user_id=user_id,post_id=post_id,text=text,username=username,datetime=local_date)
+    new_comment=Comment(user_id=user_id,post_id=post_id,text=text,username=username,datetime=local_date,user_url_image=user_url_image)
     
     new_comment.save()
   

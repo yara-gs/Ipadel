@@ -26,7 +26,7 @@ export default function MiRedComponentes() {
 	let [usersList, setUsersList] = useState(null);
 	let [user, setUser] = useState(actions.getUser());
 
-	let postUpdateTime = 10000;
+	let postUpdateTime = 3000;
 	let last_postupdate = new Date().toISOString().replace(/([^T]+)T([^\.]+).*/g, "$1 $2");
 	let PostsList_aux;
 

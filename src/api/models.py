@@ -321,6 +321,7 @@ class Comment(db.Model,BaseModel,UserId):
     text=db.Column(db.String(120), unique=False, nullable=True)
     username=db.Column(db.String(120), unique=False, nullable=True)
     datetime=db.Column(db.DateTime,unique=False,nullable=True)
+    user_url_image=db.Column(db.String(120), unique=False, nullable=False)
 
 
    # relacion one to many con tabla User(un user puede tener muchos comentarios)
@@ -335,12 +336,13 @@ class Comment(db.Model,BaseModel,UserId):
         return '<Comment %r>' % self.id
 
      #metodo de instancia que obliga a que haya datos siempre que se llama       
-    def __init__(self,user_id,post_id,text,username,datetime):
+    def __init__(self,user_id,post_id,text,username,datetime,user_url_image):
         self.user_id=user_id
         self.post_id=post_id
         self.text=text
         self.username=username
         self.datetime=datetime
+        self.user_url_image=user_url_image
 
     #metodo de instancia serializa el diccionario
     def serialize(self):
@@ -350,13 +352,14 @@ class Comment(db.Model,BaseModel,UserId):
             "post_id": self.post_id,
             "text": self.text,  
             "username":self.username,
-            "datetime":self.datetime   
+            "datetime":self.datetime,
+            "user_url_image":self.user_url_image,
         }
     
     @classmethod
     def add_register(cls, request_json):
         
-        register=cls(request_json["user_id"],request_json["post_id"],request_json["text"],request_json["username"],request_json["datetime"])
+        register=cls(request_json["user_id"],request_json["post_id"],request_json["text"],request_json["username"],request_json["datetime"],request_json["user_url_image"])
         register.body(request_json)
         return register
     
@@ -365,7 +368,7 @@ class Comment(db.Model,BaseModel,UserId):
         self.user_id=request_json["user_id"]
         self.post_id=request_json["post_id"]
         self.text=request_json["text"]
-      
+        self.user_url_image=request_json["user_url_image"]
     # save data in the database
     def save(self):
         db.session.add(self)
@@ -380,6 +383,7 @@ class Comment(db.Model,BaseModel,UserId):
     def items_by_post_id(cls, post_id):
         return cls.query.filter_by(post_id=post_id).all()
         
+
 
 
 
