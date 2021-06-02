@@ -36,7 +36,7 @@ export const Home = () => {
 
 			<div className="w3-container" style={{ padding: "100px 16px" }} id="about">
 				<h3 className="w3-center" style={{ marginBottom: "50px" }}>
-					ABOUT iPadel
+					Acerca de iPadel
 				</h3>
 				<p className="w3-center w3-large" />
 				<p className="w3-center w3-large" />
@@ -46,32 +46,32 @@ export const Home = () => {
 						<i className="fa fa-desktop w3-margin-bottom w3-jumbo w3-center" />
 						<p className="w3-large">Interactivo</p>
 						<p>
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-							labore et dolores.
+							Hemos creado iPadel de forma interactiva e intuitiva para que a través de nuestra plataforma
+							puedas acceder de forma fácil y reservar pistas para jugar.
 						</p>
 					</div>
 					<div className="w3-quarter">
 						<i className="fa fa-heart w3-margin-bottom w3-jumbo" />
-						<p className="w3-large">Pasion</p>
+						<p className="w3-large">Pasión</p>
 						<p>
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-							labore et dolore.
+							A través de iPadel podrás conseguir personas que compartan tu misma pasión. En iPadel
+							trabajamos en pro para que tengas una buena experiencia.
 						</p>
 					</div>
 					<div className="w3-quarter">
 						<i className="fa fa-male w3-margin-bottom w3-jumbo" />
 						<p className="w3-large">Personas</p>
 						<p>
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-							labore et dolore.
+							Queremos que conozcas personas que al igual que tú tenga la misma pasión por este deporte.
+							Podrás evaluar el nivel de juego de tus compañeros de equipo.
 						</p>
 					</div>
 					<div className="w3-quarter">
 						<i className="fa fa-cog w3-margin-bottom w3-jumbo" />
 						<p className="w3-large">Soporte</p>
 						<p>
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-							labore et dolore.
+							Encontrarás un formulario al final de esta página en el que podrás acceder a nuestro
+							servicio de soporte de Lunes a Viernes de 9:00 a 17:00 horas.
 						</p>
 					</div>
 				</div>
@@ -82,8 +82,8 @@ export const Home = () => {
 					<div className="w3-col m6">
 						<h3>Colaboramos con tu gimnasio</h3>
 						<p>
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-							labore et dolore.
+							En iPadel también tendrás la posibilidad de registrarte tanto como centro deportivo ó
+							gimnasio y podrás agregar todas las cualidades de tu establecimiento deportivo.
 						</p>
 						<p>
 							<a href="#work" className="w3-button w3-black">
@@ -105,25 +105,22 @@ export const Home = () => {
 
 			<div className="w3-container" style={{ padding: "128px 16px" }} id="team">
 				<h3 className="w3-center">Equipo iPadel</h3>
-				<p className="w3-center w3-large">Los que hacen esto</p>
+				<p className="w3-center w3-large">Los que hacemos esto</p>
 				<div className="w3-row-padding w3-grayscale" style={{ margin_top: "64px" }}>
 					<div className="w3-col l3 m6 w3-margin-bottom">
 						<div className="w3-card">
 							<img
 								src="http://ipadel.s3.amazonaws.com/perfil_fullstack.jpg"
 								alt="Yara"
-								style={{ width: "100%", height: "234px" }}
+								style={{ width: "100%", height: "299px" }}
 							/>
 							<div className="w3-container">
 								<h3>Yara Gomez</h3>
 								<p className="w3-opacity">Full Stack Developer</p>
-								<p>
-									Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque
-									elementum.
-								</p>
+								<p>Soy ingeniera. Jugar al pádel es mi forma de desconectarme de todo.</p>
 								<p>
 									<button className="w3-button w3-light-grey w3-block">
-										<i className="fa fa-envelope" /> Contacta
+										<i className="fa fa-envelope" /> Contáctanos
 									</button>
 								</p>
 							</div>
@@ -132,17 +129,14 @@ export const Home = () => {
 					<div className="w3-col l3 m6 w3-margin-bottom">
 						<div className="w3-card">
 							<img
-								src="https://www.w3schools.com/w3images/team1.jpg"
+								src="https://pbs.twimg.com/media/E24OVFQXoAMztws?format=jpg&name=small"
 								alt="Ysamar"
-								style={{ width: "100%", height: "234px" }}
+								style={{ width: "100%", height: "299px" }}
 							/>
 							<div className="w3-container">
-								<h3>Ysamar Alcantara</h3>
+								<h3>Ysamar Alcântara</h3>
 								<p className="w3-opacity">Full Stack Developer</p>
-								<p>
-									Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque
-									elementum.
-								</p>
+								<p>Especializada en marketing, escritura creativa y redes sociales.</p>
 								<p>
 									<button className="w3-button w3-light-grey w3-block">
 										<i className="fa fa-envelope" /> Contacta
@@ -154,17 +148,14 @@ export const Home = () => {
 					<div className="w3-col l3 m6 w3-margin-bottom">
 						<div className="w3-card">
 							<img
-								src="https://www.w3schools.com/w3images/team3.jpg"
+								src="https://pbs.twimg.com/profile_images/1400074888296243209/r57r6StK_400x400.jpg"
 								alt="Nicolas"
-								style={{ width: "100%", height: "234px" }}
+								style={{ width: "100%", height: "299px" }}
 							/>
 							<div className="w3-container">
 								<h3>Nicolas Balcells</h3>
 								<p className="w3-opacity">Full Stack Developer</p>
-								<p>
-									Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque
-									elementum.
-								</p>
+								<p>Director de proyecto. Afición a las criptomonedas.</p>
 								<p>
 									<button className="w3-button w3-light-grey w3-block">
 										<i className="fa fa-envelope" /> Contacta
@@ -177,14 +168,14 @@ export const Home = () => {
 						<div className="w3-card">
 							<img
 								src="https://coursereport-s3-production.global.ssl.fastly.net/uploads/school/logo/260/original/4g-logo-negro-01.png"
-								style={{ width: "100%", height: "234px" }}
+								style={{ width: "100%", height: "233px" }}
 							/>
 							<div className="w3-container">
 								<h3>4Geeks Academy</h3>
 								<p className="w3-opacity">Sempai</p>
 								<p>
-									Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque
-									elementum.
+									Todo comenzó como un proyecto interno para entrenar a más desarrolladores, y de a
+									poco se convirtió en nuestra pasión a tiempo completo.
 								</p>
 								<p>
 									<button className="w3-button w3-light-grey w3-block">
@@ -217,7 +208,7 @@ export const Home = () => {
 			</div>
 
 			<div className="w3-container" style={{ padding: "128px 16px" }} id="work">
-				<h3 className="w3-center">Nuestros GYM</h3>
+				<h3 className="w3-center">Nuestros gimnasios</h3>
 				<p className="w3-center w3-large">Siempre cerca de ti</p>
 
 				<div className="w3-row-padding" style={{ margin_top: "64px" }}>
@@ -304,7 +295,7 @@ export const Home = () => {
 			</div>
 
 			<div className="w3-container w3-light-grey" style={{ padding: "128px 16px" }} id="contact">
-				<h3 className="w3-center">CONTACTO</h3>
+				<h3 className="w3-center">Contacto</h3>
 				<p className="w3-center w3-large">Ponte en contacto con nosotros</p>
 				<div style={{ margin_top: "48px" }}>
 					<form action="/action_page.php">

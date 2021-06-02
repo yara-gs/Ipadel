@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 11195300431f
+Revision ID: ba40424b97a5
 Revises: 
-Create Date: 2021-05-19 15:23:46.763393
+Create Date: 2021-06-02 13:21:33.704244
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '11195300431f'
+revision = 'ba40424b97a5'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -31,16 +31,25 @@ def upgrade():
     sa.Column('url_image', sa.String(length=120), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email'),
-    sa.UniqueConstraint('email'),
     sa.UniqueConstraint('token'),
-    sa.UniqueConstraint('token'),
-    sa.UniqueConstraint('username'),
     sa.UniqueConstraint('username')
+    )
+    op.create_table('friend',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('userfriend_id', sa.Integer(), nullable=False),
+    sa.Column('username', sa.String(length=120), nullable=False),
+    sa.Column('url_image', sa.String(length=120), nullable=True),
+    sa.Column('user_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('post',
     sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('username', sa.String(length=120), nullable=True),
+    sa.Column('user_url_image', sa.String(length=120), nullable=True),
     sa.Column('text', sa.String(length=120), nullable=True),
     sa.Column('url_image', sa.String(length=120), nullable=False),
+    sa.Column('datetime', sa.DateTime(), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id')
@@ -71,15 +80,15 @@ def upgrade():
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('center_name'),
-    sa.UniqueConstraint('center_name'),
     sa.UniqueConstraint('nif'),
-    sa.UniqueConstraint('nif'),
-    sa.UniqueConstraint('phone'),
     sa.UniqueConstraint('phone')
     )
     op.create_table('comment',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('text', sa.String(length=120), nullable=True),
+    sa.Column('username', sa.String(length=120), nullable=True),
+    sa.Column('datetime', sa.DateTime(), nullable=True),
+    sa.Column('user_url_image', sa.String(length=120), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('post_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['post_id'], ['post.id'], ),
@@ -151,5 +160,6 @@ def downgrade():
     op.drop_table('sportcenter')
     op.drop_table('profile')
     op.drop_table('post')
+    op.drop_table('friend')
     op.drop_table('user')
     # ### end Alembic commands ###
